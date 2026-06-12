@@ -237,6 +237,14 @@
   .ia-stats li:last-child{border-bottom:none}
   .ia-stats li::before{content:"▸";position:absolute;left:2px;color:var(--amber)}
   .tag-real{color:var(--green);font-weight:700}
+  .selo{
+    display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;border-radius:4px;
+    padding:2px 7px;margin-left:7px;vertical-align:1px;white-space:nowrap;
+  }
+  .selo.verde{color:#4ADE80;background:rgba(39,174,96,.14);border:1px solid rgba(39,174,96,.45)}
+  .selo.amarelo{color:#F2D060;background:rgba(232,197,71,.12);border:1px solid rgba(232,197,71,.45)}
+  .selo.vermelho{color:#FF8A75;background:rgba(224,86,63,.13);border:1px solid rgba(224,86,63,.5)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -747,7 +755,7 @@ function renderHoje(){
     <button class="btn-ia bb-btn" data-ia="${x.id}">✦ Ver Análise IA</button>
   </div>`).join('');
 
-  html += `<div class="promo" style="margin-bottom:14px"><span class="tagp">Painel do dia</span><b>${totalJogos} jogo${totalJogos>1?'s':''} ainda por vir</b>Jogos já disputados saem da lista automaticamente. Toque em ✦ Ver Análise IA para ver estatísticas, probabilidades, indicação de vencedor e combinadas de cada confronto.</div>`;
+  html += `<div class="promo" style="margin-bottom:14px"><span class="tagp">Painel do dia</span><b>${totalJogos} jogo${totalJogos>1?'s':''} ainda por vir</b>Toque em ✦ Ver Análise IA para ver estatísticas, probabilidades, indicação de vencedor e mercados de cada confronto.</div>`;
   alvo.forEach(b => {
     html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
     b.jogos.forEach(x => { html += jogoHTML(x.jg, `${b.id}-${b.di}-${x.ji}`); });
@@ -861,6 +869,15 @@ const notas = {
   "Colômbia × Portugal":"Nota do editor: deve decidir o 1º lugar do Grupo K, em Miami com clima de casa para a Colômbia."
 };
 
+// Selo de risco pela probabilidade implícita da odd (p ≈ 1/odd)
+// 🟢 Provável: odd ≤ 1.60 (≥62%) · 🟡 Moderada: 1.61–2.20 (45–62%) · 🔴 Ousada: > 2.20 (<45%)
+function seloRisco(odd){
+  const p = Math.round(100/odd);
+  if(odd <= 1.60) return `<span class="selo verde">🟢 Provável · ${p}%</span>`;
+  if(odd <= 2.20) return `<span class="selo amarelo">🟡 Moderada · ${p}%</span>`;
+  return `<span class="selo vermelho">🔴 Ousada · ${p}%</span>`;
+}
+
 function abrirAnalise(idJogo){
   const jg = registro[idJogo];
   if(!jg) return;
@@ -892,7 +909,7 @@ function abrirAnalise(idJogo){
       <div class="ia-bloco">
         <div class="ia-rotulo">Indicação de vencedor</div>
         <div class="ia-linha">
-          <span class="desc">${fav.n} vencem o ${jg.g}<small>Odd de referência estimada pela probabilidade</small></span>
+          <span class="desc">${fav.n} vencem o ${jg.g}${seloRisco(fav.o)}<small>Odd de referência estimada pela probabilidade</small></span>
           <span class="ov">${fav.o.toFixed(2)}</span>
         </div>
       </div>
@@ -929,24 +946,44 @@ function abrirAnalise(idJogo){
   const bmSim = {e:"Ambos marcam: Sim", o:ex.sim};
   const bmNao = {e:"Ambos marcam: Não", o:ex.nao};
 
-  let combos;
+  // ----- Motor de mercados indicados (variados por perfil de jogo) -----
+  const clamp = (v,a,b) => Math.min(Math.max(v,a),b);
+  const rodadaId = idJogo.split('-')[0];
+  const decisiva = rodadaId === 'r3'; // 3ª rodada = jogos de vida ou morte
+  const mercados = [];
+
   if(fav.o <= 1.40){
-    combos = [
-      {nome:`${fav.n} vence + Mais de 2.5 gols`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-tg",e:golsMais.e}], odd:fav.o*golsMais.o},
-      {nome:`${fav.n} vence + Ambos marcam: Não`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:bmNao.e}], odd:fav.o*bmNao.o}
-    ];
+    // Favoritismo pesado: handicap, escanteios e jogo limpo
+    mercados.push({n:`${fav.n} handicap -1.5`, o:clamp(fav.o*1.9, 1.60, 3.40),
+      j:"Paga muito melhor que o 1×2 seco em favoritismo pesado"});
+    mercados.push({n:"Mais de 8.5 escanteios", o:clamp(1.50 + (fav.o-1.05)*0.6, 1.50, 2.10),
+      j:"Favorito pressionando bloco baixo gera escanteio em série"});
+    mercados.push({n:"Menos de 4.5 cartões", o:1.52,
+      j:"Jogo de domínio de um lado só tende a ser limpo"});
+    mercados.push({n:`${fav.n} vence + Mais de 2.5 gols`, o:fav.o*golsMais.o,
+      j:"A combinada clássica quando se espera goleada"});
   } else if(fav.o <= 2.10){
+    // Favorito claro: proteção e leitura de gols
     const g = ex.under < ex.over ? golsMenos : golsMais;
-    const b = ex.sim < ex.nao ? bmSim : bmNao;
-    combos = [
-      {nome:`${fav.n} vence + ${g.e}`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-tg",e:g.e}], odd:fav.o*g.o},
-      {nome:`${fav.n} vence + ${b.e}`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:b.e}], odd:fav.o*b.o}
-    ];
+    mercados.push({n:`${fav.n} — empate anula aposta (DNB)`, o:clamp(fav.o*0.78, 1.18, 1.95),
+      j:"Proteção contra o empate, cenário vivo neste perfil"});
+    mercados.push({n:g.e, o:g.o,
+      j:"A leitura de gols mais provável segundo as odds"});
+    mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.70 : 1.88,
+      j:decisiva ? "Rodada decisiva esquenta a disputa" : "Jogo disputado no meio-campo costuma puxar cartões"});
+    mercados.push({n:`${fav.n} vence + ${(ex.sim < ex.nao ? bmSim : bmNao).e}`, o:fav.o*(ex.sim < ex.nao ? bmSim : bmNao).o,
+      j:"Combinada para quem confia no favorito"});
   } else {
-    combos = [
-      {nome:`Mais de 2.5 gols + Ambos marcam: Sim`, itens:[{j:idJogo+"-tg",e:golsMais.e},{j:idJogo+"-bm",e:bmSim.e}], odd:golsMais.o*bmSim.o},
-      {nome:`${fav.n} vence + Ambos marcam: Sim`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:bmSim.e}], odd:fav.o*bmSim.o}
-    ];
+    // Jogo equilibrado: proteção, físico e 1º tempo travado
+    const pDupla = 1/oX + 1/zeb.o;
+    mercados.push({n:`Dupla chance: ${zeb.n} ou empate`, o:clamp((1/pDupla)*0.93, 1.25, 2.20),
+      j:"Jogo aberto — a zebra protegida tem valor real"});
+    mercados.push({n:"Ambos marcam: Sim", o:ex.sim,
+      j:"Equilíbrio costuma significar chances dos dois lados"});
+    mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.65 : 1.80,
+      j:"Jogo parelho vira disputa física"});
+    mercados.push({n:"1º tempo: menos de 1.5 gols", o:1.44,
+      j:"Confrontos estudados começam travados"});
   }
 
   // Probabilidade implícita e margem da casa (calculadas das odds 1X2)
@@ -988,16 +1025,17 @@ function abrirAnalise(idJogo){
     <div class="ia-bloco">
       <div class="ia-rotulo">Indicação de vencedor</div>
       <div class="ia-linha">
-        <span class="desc">${fav.n} vence<small>${conf}</small></span>
+        <span class="desc">${fav.n} vence${seloRisco(fav.o)}<small>${conf}</small></span>
         <span class="ov">${fav.o.toFixed(2)}</span>
       </div>
     </div>
     <div class="ia-bloco">
-      <div class="ia-rotulo">Combinadas sugeridas</div>
-      ${combos.map(c => `<div class="ia-linha">
-        <span class="desc">${c.nome}<small>Odd combinada estimada da dupla</small></span>
-        <span class="ov">${c.odd.toFixed(2)}</span>
+      <div class="ia-rotulo">Mercados indicados pela IA</div>
+      ${mercados.map(m => `<div class="ia-linha">
+        <span class="desc">${m.n}${seloRisco(m.o)}<small>${m.j}</small></span>
+        <span class="ov">${m.o.toFixed(2)}</span>
       </div>`).join('')}
+      <div class="pl-margem">🟢 Provável (≥62%) · 🟡 Moderada (45–62%) · 🔴 Ousada (&lt;45%) — pela probabilidade implícita da odd. Odds de referência estimadas pelo perfil do jogo; confirme os valores na sua casa.</div>
     </div>
     ${casasHTML}`;
   modalIA.hidden = false;
