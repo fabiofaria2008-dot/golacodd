@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GolaçODD — Copa do Mundo 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D1117;
+    --panel:#161D26;
+    --panel-2:#1D2631;
+    --panel-3:#242F3D;
+    --line:#2B3645;
+    --txt:#E8ECF1;
+    --txt-dim:#8B97A5;
+    --amber:#F0A92E;
+    --amber-dark:#C8880F;
+    --green:#27AE60;
+    --red:#E0563F;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--txt);padding-bottom:64px}
+
+  /* ============ Barra superior ============ */
+  .topo{
+    background:linear-gradient(180deg,#11161D,#0D1117);
+    border-bottom:1px solid var(--line);
+    padding:20px 22px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  }
+  .logo{display:flex;align-items:center;gap:14px}
+  .logo .bola{
+    width:52px;height:52px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#fff 0 18%,transparent 19%),conic-gradient(var(--amber) 0 25%,#fff 0 50%,var(--amber) 0 75%,#fff 0);
+    border:3px solid var(--amber);
+  }
+  .logo h1{font-family:'Anton',sans-serif;font-size:clamp(30px,6vw,44px);letter-spacing:.04em;text-transform:uppercase}
+  .logo h1 span{color:var(--amber)}
+  .topo .sim{
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--bg);background:var(--amber);padding:7px 14px;border-radius:4px;font-weight:600;
+  }
+
+  /* ============ Faixa de aviso ============ */
+  .faixa{
+    background:#1A1206;border-bottom:1px solid #3D2E10;color:#E9C886;
+    font-family:var(--mono);font-size:12px;line-height:1.5;padding:9px 20px;text-align:center;
+  }
+
+  /* ============ Navegação de abas ============ */
+  .navjogos{
+    position:sticky;top:0;z-index:50;
+    background:var(--panel);border-bottom:1px solid var(--line);
+    display:flex;gap:2px;overflow-x:auto;padding:0 12px;
+  }
+  .tab{
+    font-family:'Inter',sans-serif;font-weight:700;font-size:13.5px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--txt-dim);background:none;border:none;border-bottom:3px solid transparent;
+    padding:14px 18px 11px;cursor:pointer;white-space:nowrap;transition:color .12s;
+  }
+  .tab:hover{color:var(--txt)}
+  .tab:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+  .tab.ativa{color:var(--amber);border-bottom-color:var(--amber)}
+  .tab-hoje{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--amber);color:var(--bg);border-radius:7px;
+    margin:7px 8px 7px 0;padding:9px 18px;border-bottom:none;
+  }
+  .tab-hoje:hover{color:var(--bg);filter:brightness(1.08)}
+  .tab-hoje.ativa{color:var(--bg);border-bottom:none;box-shadow:0 0 16px rgba(240,169,46,.45)}
+  .tab-hoje:not(.ativa){opacity:.78}
+  .tab-hoje .dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulsa 1.4s ease-in-out infinite}
+  @keyframes pulsa{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.78)}}
+  @media (prefers-reduced-motion:reduce){.tab-hoje .dot{animation:none}}
+  .painel{display:none;max-width:880px;margin:0 auto;padding:18px 14px 30px}
+  .painel.ativa{display:block}
+
+  /* ============ Sub-abas (fases da Copa) ============ */
+  .subnav{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 20px}
+  .subtab{
+    font-family:'Inter',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--txt-dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:9px 18px;cursor:pointer;transition:all .12s;
+  }
+  .subtab:hover{color:var(--txt);border-color:var(--amber)}
+  .subtab:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .subtab.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
+  .subpainel{display:none}
+  .subpainel.ativa{display:block}
+
+  /* ============ Destaques (promo) ============ */
+  .promo-titulo{
+    font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--amber);margin:10px 4px 10px;display:flex;align-items:center;gap:8px;
+  }
+  .promo-titulo::before{content:"⚡";font-size:14px}
+  .promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:22px}
+  .promo{
+    background:linear-gradient(135deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-top:3px solid var(--amber);
+    border-radius:8px;padding:13px 15px;font-size:13px;line-height:1.55;color:var(--txt-dim);
+  }
+  .promo b{display:block;color:var(--txt);font-size:13.5px;margin-bottom:4px}
+  .promo .tagp{font-family:var(--mono);font-size:10.5px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase}
+
+  /* ============ Lista de jogos ============ */
+  .dia{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--txt-dim);background:var(--panel);border:1px solid var(--line);border-bottom:none;
+    border-radius:8px 8px 0 0;padding:9px 16px;margin-top:14px;
+    display:flex;justify-content:space-between;
+  }
+  .dia .h2h{display:none}
+  .bloco{border:1px solid var(--line);border-radius:0 0 8px 8px;overflow:hidden}
+  .jogo{
+    display:grid;grid-template-columns:1fr auto 130px;gap:14px;align-items:center;
+    background:var(--panel);padding:12px 16px;border-bottom:1px solid var(--line);
+    transition:background .12s;
+  }
+  .jogo:last-child{border-bottom:none}
+  .jogo:hover{background:var(--panel-2)}
+  .jogo.br{box-shadow:inset 3px 0 0 var(--amber)}
+  .favchip{display:flex;flex-direction:column;align-items:flex-end;gap:2px;min-width:110px}
+  .fc-rotulo{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--txt-dim)}
+  .fc-nome{font-weight:700;font-size:13.5px;text-align:right;line-height:1.2}
+  .fc-prob{font-family:var(--mono);font-size:11.5px;color:var(--amber);font-weight:600}
+  .info .meta{font-family:var(--mono);font-size:10.5px;color:var(--txt-dim);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;display:flex;gap:8px;flex-wrap:wrap}
+  .info .meta .g{color:var(--amber)}
+  .times{display:flex;flex-direction:column;gap:3px}
+  .times span{font-weight:600;font-size:14.5px;line-height:1.2}
+  .times .estrela{color:var(--amber)}
+  .odds3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .odd{
+    background:var(--panel-3);border:1px solid var(--line);border-radius:6px;
+    padding:7px 4px 6px;text-align:center;cursor:pointer;transition:all .12s;color:var(--txt);
+    font-family:'Inter',sans-serif;
+  }
+  .odd:hover{border-color:var(--amber);background:#2B3848}
+  .odd:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+  .odd .r{display:block;font-size:10px;font-weight:700;color:var(--txt-dim);letter-spacing:.08em;margin-bottom:2px}
+  .odd .v{display:block;font-family:var(--mono);font-size:14.5px;font-weight:600;color:var(--amber)}
+  .odd.sel{background:var(--amber);border-color:var(--amber)}
+  .odd.sel .r{color:rgba(13,17,23,.7)}
+  .odd.sel .v{color:var(--bg)}
+
+  /* ============ Mercados extras ============ */
+  .btn-exp{
+    background:none;border:1px solid var(--line);border-radius:6px;color:var(--txt-dim);
+    font-size:11px;font-weight:700;cursor:pointer;padding:6px 4px;height:100%;min-height:44px;
+    transition:all .12s;font-family:'Inter',sans-serif;
+  }
+  .btn-exp:hover,.btn-exp.aberto{border-color:var(--amber);color:var(--amber)}
+  .btn-exp:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+  .acoes{display:flex;flex-direction:column;gap:5px;height:100%}
+  .btn-ia{
+    background:linear-gradient(135deg,#2A3A52,#1D2A3D);border:1px solid #3D5273;border-radius:6px;
+    color:#9FC2F5;font-size:10.5px;font-weight:800;cursor:pointer;padding:6px 5px;min-height:36px;
+    transition:all .12s;font-family:'Inter',sans-serif;letter-spacing:.03em;line-height:1.25;
+  }
+  .btn-ia:hover{border-color:#6FA8FF;color:#CFE3FF;box-shadow:0 0 10px rgba(111,168,255,.25)}
+  .btn-ia:focus-visible{outline:2px solid #6FA8FF;outline-offset:1px}
+
+  /* ============ Banner do Brasil ============ */
+  .banner-brasil{
+    background:linear-gradient(135deg,#0C7A3E,#0E4929 55%,#093520);
+    border:1px solid var(--amber);border-radius:10px;
+    padding:16px 18px;margin-bottom:14px;
+    display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+    box-shadow:0 0 26px rgba(240,169,46,.22), inset 0 0 40px rgba(240,169,46,.06);
+  }
+  .bb-chamada{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+  .bb-jogo{font-family:'Anton',sans-serif;font-size:clamp(20px,4.5vw,27px);text-transform:uppercase;letter-spacing:.02em;color:#fff;line-height:1.1}
+  .bb-meta{font-family:var(--mono);font-size:11px;color:#BFE3CC;margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+  .bb-btn{min-height:44px;padding:10px 18px;font-size:12px;flex-shrink:0}
+
+  /* ============ Modal Análise IA ============ */
+  .modal-fundo{
+    position:fixed;inset:0;z-index:200;background:rgba(5,8,12,.78);
+    display:flex;align-items:center;justify-content:center;padding:18px;
+  }
+  .modal-fundo[hidden]{display:none}
+  .modal{
+    background:var(--panel-2);border:1px solid #3D5273;border-radius:12px;
+    width:100%;max-width:440px;max-height:84vh;overflow-y:auto;
+    box-shadow:0 24px 70px rgba(0,0,0,.7);
+  }
+  .modal-head{
+    position:sticky;top:0;background:linear-gradient(135deg,#2A3A52,#1D2A3D);
+    border-bottom:1px solid #3D5273;padding:13px 18px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-weight:800;font-size:14px;color:#CFE3FF;letter-spacing:.03em;
+  }
+  .modal-head button{background:none;border:none;color:#9FC2F5;font-size:18px;cursor:pointer;line-height:1}
+  .modal-head button:hover{color:#fff}
+  .modal-corpo{padding:16px 18px 6px}
+  .ia-tier{
+    display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:#9FC2F5;
+    border:1px solid #3D5273;border-radius:4px;padding:3px 9px;margin-bottom:9px;
+  }
+  .modal-corpo h3{font-family:'Anton',sans-serif;font-size:21px;letter-spacing:.02em;text-transform:uppercase;margin-bottom:4px}
+  .ia-meta{font-family:var(--mono);font-size:11px;color:var(--txt-dim);letter-spacing:.06em;text-transform:uppercase;margin-bottom:11px}
+  .ia-txt{font-size:13.5px;line-height:1.65;color:var(--txt-dim);margin-bottom:14px}
+  .ia-txt strong{color:var(--txt)}
+  .ia-bloco{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:11px}
+  .ia-rotulo{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
+  .ia-linha{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;
+  }
+  .ia-linha:last-child{border-bottom:none}
+  .ia-linha .desc{flex:1;font-weight:600;line-height:1.4}
+  .ia-linha .desc small{display:block;font-weight:400;font-size:11.5px;color:var(--txt-dim);margin-top:1px}
+  .ia-linha .ov{font-family:var(--mono);font-weight:600;color:var(--amber);white-space:nowrap}
+  .mini{
+    background:var(--green);border:none;border-radius:6px;color:#fff;
+    font-size:11px;font-weight:800;padding:7px 11px;cursor:pointer;white-space:nowrap;
+    transition:filter .12s;
+  }
+  .mini:hover{filter:brightness(1.12)}
+  .mini.ok{background:var(--panel-3);color:var(--green);cursor:default}
+  .ia-aviso{
+    font-family:var(--mono);font-size:10.5px;color:var(--txt-dim);line-height:1.6;
+    text-align:center;padding:4px 18px 16px;
+  }
+  .prob-linha{display:grid;grid-template-columns:96px 1fr 42px;gap:8px;align-items:center;padding:4px 0;font-size:12.5px}
+  .pl-nome{color:var(--txt-dim);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pl-barra{height:8px;background:var(--panel-3);border-radius:4px;overflow:hidden}
+  .pl-fill{height:100%;background:linear-gradient(90deg,var(--amber),#F7C465);border-radius:4px}
+  .pl-num{font-family:var(--mono);font-size:12px;color:var(--amber);text-align:right}
+  .pl-margem{font-family:var(--mono);font-size:10.5px;color:var(--txt-dim);margin-top:8px;line-height:1.5}
+  .ia-stats{list-style:none;font-size:13px;line-height:1.55;color:var(--txt-dim)}
+  .ia-stats li{padding:6px 0 6px 18px;position:relative;border-bottom:1px solid var(--line)}
+  .ia-stats li:last-child{border-bottom:none}
+  .ia-stats li::before{content:"▸";position:absolute;left:2px;color:var(--amber)}
+  .tag-real{color:var(--green);font-weight:700}
+  .extras{
+    background:var(--bg);border-bottom:1px solid var(--line);
+    padding:11px 16px 13px;display:grid;gap:9px;
+  }
+  .extras[hidden]{display:none}
+  .mercado{display:grid;grid-template-columns:150px 1fr 1fr;gap:6px;align-items:center}
+  .mercado .ml{font-size:12px;color:var(--txt-dim);font-weight:600;letter-spacing:.02em}
+
+  /* ============ Grupos ============ */
+  .grade-grupos{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
+  .gcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .gcard h3{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
+  .gcard li{list-style:none;font-size:13.5px;padding:5px 0;border-bottom:1px solid var(--line);color:var(--txt-dim)}
+  .gcard li:last-child{border-bottom:none}
+  .gcard li.forte{color:var(--txt);font-weight:600}
+  .regras{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-top:16px;font-size:13.5px;line-height:1.7;color:var(--txt-dim)}
+
+  /* ============ Cupom (bet slip) ============ */
+  .cupom{
+    position:fixed;right:16px;bottom:16px;z-index:100;width:330px;max-width:calc(100vw - 32px);
+    background:var(--panel-2);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 18px 50px rgba(0,0,0,.6);overflow:hidden;
+  }
+  .cupom-head{
+    background:var(--amber);color:var(--bg);font-weight:800;font-size:13.5px;text-transform:uppercase;letter-spacing:.06em;
+    padding:11px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+  }
+  .cupom-head .n{
+    background:var(--bg);color:var(--amber);border-radius:50%;width:22px;height:22px;
+    display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;margin-left:8px;
+  }
+  .cupom-corpo{max-height:46vh;overflow-y:auto}
+  .cupom.fechado .cupom-corpo,.cupom.fechado .cupom-pe{display:none}
+  .sel-item{padding:11px 16px;border-bottom:1px solid var(--line);position:relative}
+  .sel-item .partida{font-size:12px;color:var(--txt-dim);margin-bottom:2px}
+  .sel-item .escolha{font-size:13.5px;font-weight:700;display:flex;justify-content:space-between;gap:10px}
+  .sel-item .escolha .ov{font-family:var(--mono);color:var(--amber)}
+  .sel-item .tirar{
+    position:absolute;top:8px;right:10px;background:none;border:none;color:var(--txt-dim);
+    font-size:15px;cursor:pointer;line-height:1;
+  }
+  .sel-item .tirar:hover{color:var(--red)}
+  .cupom-vazio{padding:20px 16px;font-size:13px;color:var(--txt-dim);text-align:center;line-height:1.6}
+  .cupom-pe{padding:13px 16px;border-top:1px solid var(--line);background:var(--panel)}
+  .linha-calc{display:flex;justify-content:space-between;font-size:13px;color:var(--txt-dim);margin-bottom:7px}
+  .linha-calc .num{font-family:var(--mono);color:var(--txt);font-weight:600}
+  .linha-calc.total .num{color:var(--green);font-size:16px}
+  .aposta-input{display:flex;align-items:center;gap:8px;margin:9px 0 11px}
+  .aposta-input label{font-size:12.5px;color:var(--txt-dim);white-space:nowrap}
+  .aposta-input input{
+    flex:1;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--txt);
+    font-family:var(--mono);font-size:14px;padding:8px 10px;width:100%;
+  }
+  .aposta-input input:focus{outline:none;border-color:var(--amber)}
+  .btn-sim{
+    width:100%;background:var(--green);border:none;border-radius:8px;color:#fff;
+    font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.05em;
+    padding:12px;cursor:pointer;transition:filter .12s;
+  }
+  .btn-sim:hover{filter:brightness(1.1)}
+  .btn-limpar{
+    width:100%;background:none;border:none;color:var(--txt-dim);font-size:12px;
+    padding:9px 0 2px;cursor:pointer;text-decoration:underline;
+  }
+  .nota-sim{font-family:var(--mono);font-size:10.5px;color:var(--txt-dim);text-align:center;margin-top:8px;line-height:1.5}
+
+  /* ============ Rodapé ============ */
+  footer{
+    max-width:880px;margin:36px auto 0;padding:20px 22px;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    color:var(--txt-dim);font-size:13px;line-height:1.7;
+  }
+  footer h2{font-family:'Anton',sans-serif;font-size:16px;text-transform:uppercase;color:var(--amber);letter-spacing:.05em;margin-bottom:8px}
+  .selo18{
+    display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+    border:2px solid var(--red);color:var(--red);font-weight:800;font-size:13px;margin-right:10px;vertical-align:middle;
+  }
+
+  @media (max-width:620px){
+    .jogo{grid-template-columns:1fr;gap:10px}
+    .favchip{flex-direction:row;align-items:baseline;gap:8px}
+    .fc-nome{text-align:left}
+    .btn-ia{width:100%}
+    .modal{max-height:88vh}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .odd,.tab,.jogo{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="logo"><div class="bola" aria-hidden="true"></div><h1>Golaç<span>ODD</span></h1></div>
+  <div class="sim">Análises &amp; Palpites · Copa 2026</div>
+</div>
+
+<div class="faixa">⚠ Conteúdo de análise para fins informativos e de entretenimento — o GolaçODD não aceita apostas. Odds citadas flutuam e podem estar desatualizadas; confirme sempre na sua casa licenciada. 18+</div>
+
+<nav class="navjogos" role="tablist" aria-label="Esportes">
+  <button class="tab tab-hoje ativa" role="tab" aria-selected="true" data-alvo="hoje"><span class="dot" aria-hidden="true"></span>Hoje</button>
+  <button class="tab" role="tab" aria-selected="false" data-alvo="futebol">⚽ Copa do Mundo</button>
+  <button class="tab" role="tab" aria-selected="false" data-alvo="nba">🏀 NBA</button>
+</nav>
+
+<section id="hoje" class="painel ativa" role="tabpanel"></section>
+
+<section id="futebol" class="painel" role="tabpanel">
+  <nav class="subnav" aria-label="Fases da Copa do Mundo">
+    <button class="subtab ativa" data-sub="r1">1ª Rodada</button>
+    <button class="subtab" data-sub="r2">2ª Rodada</button>
+    <button class="subtab" data-sub="r3">3ª Rodada</button>
+    <button class="subtab" data-sub="grupos">Grupos</button>
+  </nav>
+  <div id="r1" class="subpainel ativa"></div>
+  <div id="r2" class="subpainel"></div>
+  <div id="r3" class="subpainel"></div>
+  <div id="grupos" class="subpainel">
+  <div class="promo-titulo">Os 12 grupos</div>
+  <div class="grade-grupos">
+    <div class="gcard"><h3>Grupo A</h3><ul><li class="forte">México (sede)</li><li>África do Sul</li><li>Coreia do Sul</li><li>República Tcheca</li></ul></div>
+    <div class="gcard"><h3>Grupo B</h3><ul><li class="forte">Canadá (sede)</li><li>Suíça</li><li>Catar</li><li>Bósnia e Herzegovina</li></ul></div>
+    <div class="gcard"><h3>Grupo C</h3><ul><li class="forte">Brasil ★</li><li>Marrocos</li><li>Escócia</li><li>Haiti</li></ul></div>
+    <div class="gcard"><h3>Grupo D</h3><ul><li class="forte">Estados Unidos (sede)</li><li>Paraguai</li><li>Austrália</li><li>Turquia</li></ul></div>
+    <div class="gcard"><h3>Grupo E</h3><ul><li class="forte">Alemanha</li><li>Equador</li><li>Costa do Marfim</li><li>Curaçao</li></ul></div>
+    <div class="gcard"><h3>Grupo F</h3><ul><li class="forte">Holanda</li><li>Japão</li><li>Suécia</li><li>Tunísia</li></ul></div>
+    <div class="gcard"><h3>Grupo G</h3><ul><li class="forte">Bélgica</li><li>Irã</li><li>Egito</li><li>Nova Zelândia</li></ul></div>
+    <div class="gcard"><h3>Grupo H</h3><ul><li class="forte">Espanha</li><li>Uruguai</li><li>Arábia Saudita</li><li>Cabo Verde</li></ul></div>
+    <div class="gcard"><h3>Grupo I</h3><ul><li class="forte">França</li><li>Senegal</li><li>Noruega</li><li>Iraque</li></ul></div>
+    <div class="gcard"><h3>Grupo J</h3><ul><li class="forte">Argentina</li><li>Áustria</li><li>Argélia</li><li>Jordânia</li></ul></div>
+    <div class="gcard"><h3>Grupo K</h3><ul><li class="forte">Portugal</li><li>Colômbia</li><li>Uzbequistão</li><li>RD Congo</li></ul></div>
+    <div class="gcard"><h3>Grupo L</h3><ul><li class="forte">Inglaterra</li><li>Croácia</li><li>Gana</li><li>Panamá</li></ul></div>
+  </div>
+  <div class="regras">
+    <strong style="color:var(--txt)">Classificação:</strong> avançam ao mata-mata 32 seleções — os dois primeiros de cada grupo e os oito melhores terceiros no geral. A fase eliminatória começa em 29 de junho, e a final será em 19 de julho no MetLife Stadium, em Nova Jersey. Para apostas de "passa de fase", lembre que até um terceiro lugar com uma só vitória pode se classificar.
+  </div>
+  </div>
+</section>
+
+<section id="nba" class="painel" role="tabpanel"></section>
+
+<!-- ============ Modal Análise IA ============ -->
+<div class="modal-fundo" id="modalIA" hidden>
+  <div class="modal" role="dialog" aria-label="Análise IA do jogo">
+    <div class="modal-head"><span>✦ Análise GolaçODD IA</span><button id="fecharModal" aria-label="Fechar">✕</button></div>
+    <div class="modal-corpo" id="modalCorpo"></div>
+    <div class="ia-aviso">Análise gerada automaticamente a partir das odds ilustrativas desta página.<br>Não é recomendação financeira nem garantia de resultado. 18+</div>
+  </div>
+</div>
+
+<footer>
+  <h2><span class="selo18">18+</span>Jogue com responsabilidade</h2>
+  <p>O GolaçODD é um site de análises e palpites para fins informativos e de entretenimento — não é uma casa de apostas, não aceita apostas e não movimenta dinheiro. Apostas esportivas são entretenimento para maiores de 18 anos, não fonte de renda. Defina um limite de gasto antes da rodada e não tente recuperar perdas. As odds citadas flutuam e podem estar desatualizadas — confirme sempre os valores na sua casa de apostas licenciada antes de apostar. Se o jogo deixou de ser diversão, procure ajuda: o CVV atende no telefone 188, e o programa Jogadores Anônimos tem grupos em todo o Brasil.</p>
+</footer>
+
+<script>
+// ---------- Dados (odds ilustrativas) ----------
+const rodadas = {
+  r1:{destaques:[
+    {t:"Abertura no Azteca",d:"México em casa, na altitude, com estádio lotado — anfitriões não perdem aberturas de Copa. Risco: pressão travar o 1º tempo. Estude vitória do México e menos de 2.5 gols."},
+    {t:"Brasil × Marrocos",d:"A estreia mais dura entre os cabeças de chave. Marrocos defende muito bem; espere bloco baixo e contra-ataques. Estude ambos marcam \"não\"."},
+    {t:"Holanda × Japão",d:"O jogo mais equilibrado da rodada. Japão derrubou Alemanha e Espanha em 2022. Estude ambos marcam \"sim\" e dupla chance no Japão."}
+  ],dias:[
+    {l:"Quinta · 11 de junho",j:[
+      {h:"16h",a:"México",b:"África do Sul",g:"A",c:"Cidade do México",o:[1.65,3.60,5.50],
+       det:{
+         stats:[
+           "O México nunca venceu um jogo de abertura de Copa em 5 tentativas — é o recordista de aberturas disputadas",
+           "Na abertura de 2010, contra esta mesma África do Sul, o placar foi empate em 1 a 1",
+           "O México ficou no menos de 2.5 gols em 4 dos últimos 5 jogos; a África do Sul tem padrão parecido",
+           "Trio de arbitragem brasileiro apita a partida no Azteca"
+         ],
+         mercados:[
+           {casa:"Betano",m:"México handicap -1 (Super Odd)",o:"1.75"},
+           {casa:"Betboom",m:"Menos de 2.5 gols",o:"1.73"},
+           {casa:"Betboom",m:"México vence o 1º tempo",o:"2.00"},
+           {casa:"Estrelabet",m:"Ambas marcam: Não",o:"1.50"},
+           {casa:"Betboom",m:"Mais de 3.5 cartões",o:"1.61"}
+         ],
+         fonte:"Odds reais compiladas de sites especializados entre 02 e 11/06/2026 — cotações flutuam, confirme na casa"
+       }},
+      {h:"23h",a:"Coreia do Sul",b:"Rep. Tcheca",g:"A",c:"Guadalajara",o:[2.60,3.10,2.80],
+       det:{
+         stats:[
+           "Primeiro duelo oficial entre as seleções — nos amistosos, a Coreia venceu por 2 a 1 em 2016 e houve 2 a 2 em 1998",
+           "A República Tcheca volta a disputar uma Copa do Mundo depois de 20 anos",
+           "A Tcheca marcou 2 ou mais gols nos últimos 5 jogos e fez o 1º gol em 4 deles; a Coreia sofreu o 1º gol em 3 das últimas 4 partidas",
+           "Son Heung-min é a referência coreana; na Betfair, a Coreia paga 2.88 para terminar em 2º do grupo"
+         ],
+         mercados:[
+           {casa:"F12.bet",m:"Empate (1×2)",o:"3.16"},
+           {casa:"Hiperbet",m:"Ambos marcam: Sim",o:"1.94"},
+           {casa:"Betsson",m:"Coreia do Sul — empate anula",o:"1.90"},
+           {casa:"Betsson",m:"Rep. Tcheca mais de 1.5 gols (Super Odd)",o:"2.95"},
+           {casa:"Superbet",m:"Mais de 7.5 chutes a gol",o:"1.60"},
+           {casa:"Esportes da Sorte",m:"Son marca a qualquer momento",o:"2.62"}
+         ],
+         fonte:"Odds reais compiladas de sites especializados entre 09 e 11/06/2026 — cotações flutuam, confirme na casa"
+       }}]},
+    {l:"Sexta · 12 de junho",j:[
+      {h:"16h",a:"Canadá",b:"Bósnia e Herzegovina",g:"B",c:"Toronto",o:[1.85,3.40,4.20],
+       det:{
+         stats:[
+           "A Bósnia chegou à Copa eliminando a Itália na repescagem europeia — não é freguesia para ninguém",
+           "O Canadá estreia em casa, em Toronto, embalado pela geração de Alphonso Davies",
+           "O mercado vê o Grupo B liderado pela Suíça, com Canadá e Bósnia brigando logo atrás pela 2ª vaga direta",
+           "Analistas internacionais apontam o menos de 2.5 gols como o mercado mais provável para este confronto truncado"
+         ],
+         fonte:"Informações compiladas de sites especializados em 11/06/2026"
+       }},
+      {h:"22h",a:"Estados Unidos",b:"Paraguai",g:"D",c:"Los Angeles",o:[1.95,3.30,4.10],
+       real:"1×2 real · bet365 · 10/06",
+       det:{
+         stats:[
+           "Os EUA venceram 5 dos 7 confrontos diretos e estão invictos nos últimos 3 contra o Paraguai (dois 1 a 0 e um 2 a 1)",
+           "EUA e Paraguai se reencontram em Copas do Mundo depois de 96 anos",
+           "O Paraguai volta ao Mundial após 16 anos e perdeu Julio Enciso, lesionado, para os primeiros jogos",
+           "Sob Pochettino, os EUA fecharam 2025 batendo Paraguai (2 a 1) e Uruguai (5 a 1), mas levaram 5 a 2 da Bélgica em março"
+         ],
+         mercados:[
+           {casa:"bet365",m:"Estados Unidos vencem (1×2)",o:"1.95"},
+           {casa:"Bet da Sorte",m:"1 a 4 gols no jogo + Pulisic finaliza no alvo",o:"1.83"}
+         ],
+         fonte:"Odds reais compiladas de sites especializados entre 08 e 11/06/2026 — cotações flutuam, confirme na casa"
+       }}]},
+    {l:"Sábado · 13 de junho",j:[
+      {h:"1h",a:"Austrália",b:"Turquia",g:"D",c:"Vancouver",o:[3.40,3.30,2.10]},
+      {h:"16h",a:"Catar",b:"Suíça",g:"B",c:"San Francisco",o:[5.00,3.60,1.70]},
+      {h:"19h",a:"Brasil",b:"Marrocos",g:"C",c:"Nova York/Nova Jersey",o:[1.65,3.75,5.00],br:1,
+       real:"1×2 real · Betfair · 10/06",
+       det:{
+         stats:[
+           "Marrocos é o 7º do ranking FIFA, foi semifinalista em 2022 e finalista da CAN 2025/26",
+           "No retrospecto direto, o Brasil venceu 2 de 3 — mas Marrocos levou o último encontro, em 2023",
+           "Movimento de mercado: o Brasil abriu a 1.44 e subiu para a faixa de 1.65; o handicap caiu de -1.25 para -0.75 — sinal de respeito crescente ao Marrocos",
+           "Sob Ancelotti, o Brasil somou 7 chutes certos nos amistosos contra França e Croácia"
+         ],
+         mercados:[
+           {casa:"Betfair",m:"Brasil vence (1×2)",o:"1.65"},
+           {casa:"Betfair",m:"Mais de 2.5 gols",o:"1.95"},
+           {casa:"VBet",m:"Ambos marcam: Sim",o:"1.91"},
+           {casa:"KTO",m:"Brasil: mais de 5.5 chutes a gol",o:"2.32"}
+         ],
+         fonte:"Odds reais compiladas de sites especializados entre 03 e 10/06/2026 — cotações flutuam, confirme na casa"
+       }},
+      {h:"22h",a:"Haiti",b:"Escócia",g:"C",c:"Boston",o:[5.00,3.50,1.70]}]},
+    {l:"Domingo · 14 de junho",j:[
+      {h:"14h",a:"Alemanha",b:"Curaçao",g:"E",c:"Houston",o:[1.20,6.50,14.0]},
+      {h:"17h",a:"Holanda",b:"Japão",g:"F",c:"Dallas",o:[2.10,3.40,3.60]},
+      {h:"20h",a:"Costa do Marfim",b:"Equador",g:"E",c:"Filadélfia",o:[2.90,3.10,2.50]},
+      {h:"23h",a:"Suécia",b:"Tunísia",g:"F",c:"Monterrey",o:[1.75,3.50,4.80]}]},
+    {l:"Segunda · 15 de junho",j:[
+      {h:"13h",a:"Espanha",b:"Cabo Verde",g:"H",c:"Atlanta",o:[1.12,8.50,21.0]},
+      {h:"16h",a:"Bélgica",b:"Egito",g:"G",c:"Seattle",o:[1.60,3.80,5.75]},
+      {h:"19h",a:"Arábia Saudita",b:"Uruguai",g:"H",c:"Miami",o:[6.00,3.80,1.57]},
+      {h:"22h",a:"Irã",b:"Nova Zelândia",g:"G",c:"Los Angeles",o:[1.95,3.20,4.20]}]},
+    {l:"Terça · 16 de junho",j:[
+      {h:"14h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0]},
+      {h:"16h",a:"França",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[1.70,3.60,5.00]},
+      {h:"19h",a:"Iraque",b:"Noruega",g:"I",c:"Boston",o:[6.50,4.00,1.50]}]},
+    {l:"Quarta · 17 de junho",j:[
+      {h:"1h",a:"Áustria",b:"Jordânia",g:"J",c:"San Francisco",o:[1.45,4.20,7.50]},
+      {h:"14h",a:"Portugal",b:"RD Congo",g:"K",c:"Houston",o:[1.25,5.75,12.0]},
+      {h:"17h",a:"Inglaterra",b:"Croácia",g:"L",c:"Dallas",o:[1.90,3.40,4.00]},
+      {h:"20h",a:"Gana",b:"Panamá",g:"L",c:"Toronto",o:[2.20,3.20,3.40]},
+      {h:"23h",a:"Uzbequistão",b:"Colômbia",g:"K",c:"Cidade do México",o:[5.50,3.70,1.62]}]}
+  ]},
+  r2:{destaques:[
+    {t:"Brasil × Haiti",d:"Odd do 1×1 baixa demais para valer sozinha. Handicap de gols e mercados de jogador pagam melhor. Atenção a Escócia × Marrocos, 3h antes, que redefine o grupo."},
+    {t:"Holanda × Suécia",d:"A Suécia veio da repescagem, mas tem ataque de elite. Pode ser jogo de seis pontos no grupo mais embolado da Copa. Estude mais de 2.5 gols."},
+    {t:"Inglaterra × Gana",d:"Inglaterra domina fases de grupos, mas com placares magros. Estude vence sem sofrer gol e menos de 3.5 gols, em vez do 1×1 seco."}
+  ],dias:[
+    {l:"Quinta · 18 de junho",j:[
+      {h:"13h",a:"Rep. Tcheca",b:"África do Sul",g:"A",c:"Atlanta",o:[2.30,3.20,3.10]},
+      {h:"16h",a:"Suíça",b:"Bósnia e Herzegovina",g:"B",c:"Los Angeles",o:[1.85,3.40,4.30]},
+      {h:"19h",a:"Canadá",b:"Catar",g:"B",c:"Vancouver",o:[1.50,4.00,6.75]},
+      {h:"22h",a:"México",b:"Coreia do Sul",g:"A",c:"Guadalajara",o:[1.80,3.40,4.50]}]},
+    {l:"Sexta · 19 de junho",j:[
+      {h:"1h",a:"Turquia",b:"Paraguai",g:"D",c:"San Francisco",o:[2.40,3.10,3.10]},
+      {h:"16h",a:"Estados Unidos",b:"Austrália",g:"D",c:"Seattle",o:[1.70,3.60,5.00]},
+      {h:"19h",a:"Escócia",b:"Marrocos",g:"C",c:"Boston",o:[4.30,3.30,1.85]},
+      {h:"22h",a:"Brasil",b:"Haiti",g:"C",c:"Filadélfia",o:[1.18,7.00,16.0],br:1}]},
+    {l:"Sábado · 20 de junho",j:[
+      {h:"14h",a:"Holanda",b:"Suécia",g:"F",c:"Houston",o:[1.95,3.50,3.90]},
+      {h:"17h",a:"Alemanha",b:"Costa do Marfim",g:"E",c:"Toronto",o:[1.55,4.00,5.75]},
+      {h:"21h",a:"Equador",b:"Curaçao",g:"E",c:"Kansas City",o:[1.35,4.80,8.50]}]},
+    {l:"Domingo · 21 de junho",j:[
+      {h:"1h",a:"Tunísia",b:"Japão",g:"F",c:"Monterrey",o:[4.60,3.40,1.78]},
+      {h:"13h",a:"Espanha",b:"Arábia Saudita",g:"H",c:"Atlanta",o:[1.15,7.50,19.0]},
+      {h:"16h",a:"Bélgica",b:"Irã",g:"G",c:"Los Angeles",o:[1.65,3.70,5.25]},
+      {h:"19h",a:"Uruguai",b:"Cabo Verde",g:"H",c:"Miami",o:[1.28,5.50,10.5]},
+      {h:"22h",a:"Nova Zelândia",b:"Egito",g:"G",c:"Vancouver",o:[3.10,3.10,2.35]}]},
+    {l:"Segunda · 22 de junho",j:[
+      {h:"14h",a:"Argentina",b:"Áustria",g:"J",c:"Dallas",o:[1.55,3.90,6.00]},
+      {h:"18h",a:"França",b:"Iraque",g:"I",c:"Filadélfia",o:[1.16,7.50,18.0]},
+      {h:"21h",a:"Noruega",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[2.50,3.20,2.85]}]},
+    {l:"Terça · 23 de junho",j:[
+      {h:"0h",a:"Jordânia",b:"Argélia",g:"J",c:"San Francisco",o:[3.30,3.20,2.20]},
+      {h:"14h",a:"Portugal",b:"Uzbequistão",g:"K",c:"Houston",o:[1.30,5.25,9.50]},
+      {h:"17h",a:"Inglaterra",b:"Gana",g:"L",c:"Boston",o:[1.40,4.60,8.00]},
+      {h:"20h",a:"Panamá",b:"Croácia",g:"L",c:"Toronto",o:[4.80,3.50,1.72]},
+      {h:"23h",a:"Colômbia",b:"RD Congo",g:"K",c:"Guadalajara",o:[1.35,4.60,8.75]}]}
+  ]},
+  r3:{destaques:[
+    {t:"Escócia × Brasil",d:"Reedição da estreia de 1998, simultâneo a Marrocos × Haiti. Se o Brasil chegar classificado, espere rodízio — confirme a escalação antes de apostar. 3ª rodada com favorito garantido é armadilha clássica."},
+    {t:"Uruguai × Espanha",d:"Possivelmente o melhor jogo da fase de grupos: a favorita ao título contra a garra uruguaia, valendo a liderança. Estude ambos marcam e mercados de cartões."},
+    {t:"Colômbia × Portugal",d:"Deve decidir o 1º lugar do Grupo K, em Miami com clima de casa para a Colômbia. Estude mais de 2.5 gols e dupla chance colombiana."}
+  ],dias:[
+    {l:"Quarta · 24 de junho",j:[
+      {h:"16h",a:"Suíça",b:"Canadá",g:"B",c:"Vancouver",o:[2.70,3.20,2.60]},
+      {h:"16h",a:"Bósnia e Herzegovina",b:"Catar",g:"B",c:"Seattle",o:[1.90,3.40,4.10]},
+      {h:"19h",a:"Escócia",b:"Brasil",g:"C",c:"Miami",o:[5.50,4.00,1.55],br:1},
+      {h:"19h",a:"Marrocos",b:"Haiti",g:"C",c:"Atlanta",o:[1.30,5.00,10.0]},
+      {h:"22h",a:"Rep. Tcheca",b:"México",g:"A",c:"Cidade do México",o:[4.00,3.40,1.90]},
+      {h:"22h",a:"África do Sul",b:"Coreia do Sul",g:"A",c:"Monterrey",o:[2.60,3.10,2.80]}]},
+    {l:"Quinta · 25 de junho",j:[
+      {h:"17h",a:"Equador",b:"Alemanha",g:"E",c:"Nova York/Nova Jersey",o:[3.60,3.30,2.00]},
+      {h:"17h",a:"Curaçao",b:"Costa do Marfim",g:"E",c:"Filadélfia",o:[4.50,3.50,1.78]},
+      {h:"20h",a:"Japão",b:"Suécia",g:"F",c:"Dallas",o:[2.30,3.20,3.20]},
+      {h:"20h",a:"Tunísia",b:"Holanda",g:"F",c:"Kansas City",o:[6.50,4.00,1.50]},
+      {h:"23h",a:"Turquia",b:"Estados Unidos",g:"D",c:"Los Angeles",o:[3.20,3.30,2.20]},
+      {h:"23h",a:"Paraguai",b:"Austrália",g:"D",c:"San Francisco",o:[2.10,3.10,3.70]}]},
+    {l:"Sexta · 26 de junho",j:[
+      {h:"16h",a:"Noruega",b:"França",g:"I",c:"Boston",o:[3.80,3.50,1.95]},
+      {h:"16h",a:"Senegal",b:"Iraque",g:"I",c:"Toronto",o:[1.45,4.20,7.50]},
+      {h:"21h",a:"Cabo Verde",b:"Arábia Saudita",g:"H",c:"Houston",o:[2.80,3.10,2.60]},
+      {h:"21h",a:"Uruguai",b:"Espanha",g:"H",c:"Guadalajara",o:[3.80,3.40,2.00]}]},
+    {l:"Sábado · 27 de junho",j:[
+      {h:"0h",a:"Egito",b:"Irã",g:"G",c:"Seattle",o:[2.70,3.00,2.80]},
+      {h:"0h",a:"Nova Zelândia",b:"Bélgica",g:"G",c:"Vancouver",o:[7.00,4.20,1.45]},
+      {h:"18h",a:"Panamá",b:"Inglaterra",g:"L",c:"Nova York/Nova Jersey",o:[9.00,4.80,1.33]},
+      {h:"18h",a:"Croácia",b:"Gana",g:"L",c:"Filadélfia",o:[1.85,3.40,4.30]},
+      {h:"20h30",a:"Colômbia",b:"Portugal",g:"K",c:"Miami",o:[3.10,3.30,2.30]},
+      {h:"20h30",a:"RD Congo",b:"Uzbequistão",g:"K",c:"Atlanta",o:[2.60,3.00,2.90]},
+      {h:"23h",a:"Argélia",b:"Áustria",g:"J",c:"Kansas City",o:[3.40,3.20,2.15]},
+      {h:"23h",a:"Jordânia",b:"Argentina",g:"J",c:"Dallas",o:[11.0,5.50,1.25]}]}
+  ]}
+};
+
+// ---------- NBA Finals 2026 (dados reais · SportRadar) ----------
+const nbaSerie = {
+  status:"Knicks lideram a série por 3 a 1",
+  resultados:[
+    "Jogo 1 (03/06): Knicks 105 × 95 Spurs — em San Antonio",
+    "Jogo 2 (05/06): Knicks 105 × 104 Spurs — em San Antonio",
+    "Jogo 3 (08/06): Spurs 115 × 111 Knicks — em Nova York",
+    "Jogo 4 (10/06): Knicks 107 × 106 Spurs — em Nova York"
+  ],
+  dias:[
+    {l:"Sábado · 13 de junho", j:[
+      {h:"21h30", a:"San Antonio Spurs", b:"New York Knicks", g:"Jogo 5", c:"San Antonio", nba:1,
+       p:[64.5,35.5], oRef:[1.55,2.82], real:"prob. real · SportRadar",
+       det:{
+         stats:[
+           "Os Knicks lideram a série por 3 a 1 e podem ser campeões já no Jogo 5 — seria o primeiro título de NY desde 1973",
+           "Reedição das Finals de 1999, quando estes mesmos Spurs bateram os Knicks",
+           "Os dois últimos jogos foram decididos no detalhe: 115 a 111 e 107 a 106",
+           "Os Spurs eliminaram o favorito OKC vencendo o Jogo 7 fora de casa; os Knicks varreram Cleveland por 4 a 0 na final do Leste",
+           "Modelo SportRadar para o Jogo 5: Spurs 64,5% (fator casa + eliminação) × Knicks 35,5%"
+         ],
+         fonte:"Probabilidades reais do modelo SportRadar em 11/06/2026"
+       }}
+    ]},
+    {l:"Terça · 16 de junho", j:[
+      {h:"21h30", a:"New York Knicks", b:"San Antonio Spurs", g:"Jogo 6", c:"Nova York", nba:1, cond:1}
+    ]},
+    {l:"Sexta · 19 de junho", j:[
+      {h:"21h30", a:"San Antonio Spurs", b:"New York Knicks", g:"Jogo 7", c:"San Antonio", nba:1, cond:1}
+    ]}
+  ]
+};
+
+
+const registro = {}; // idJogo -> dados do jogo (para a análise IA)
+
+// Gera odds ilustrativas de mercados extras a partir do equilíbrio do 1X2
+function extras(o){
+  const m = Math.min(o[0], o[2]); // odd do favorito
+  let over = 1.30 + (m - 1.10) * 0.55;
+  over = Math.min(Math.max(over, 1.40), 2.30);
+  const under = 1 / (1.06 - 1/over);
+  let sim = 2.45 - m * 0.42;
+  sim = Math.min(Math.max(sim, 1.62), 2.30);
+  const nao = 1 / (1.06 - 1/sim);
+  return {over:+over.toFixed(2), under:+under.toFixed(2), sim:+sim.toFixed(2), nao:+nao.toFixed(2)};
+}
+
+function jogoHTML(jg, idJogo){
+  registro[idJogo] = jg;
+  // ----- NBA -----
+  if(jg.nba){
+    const meta = `<div class="meta"><span>${jg.h}</span><span class="g">🏀 ${jg.g}</span><span>${jg.c}</span>${jg.real ? '<span class="tag-real">● Dados reais</span>' : ''}</div>`;
+    const times = `<div class="times"><span>${jg.a}</span><span>${jg.b}</span></div>`;
+    if(jg.cond){
+      return `<div class="jogo">
+        <div class="info">${meta}${times}</div>
+        <div class="favchip"><span class="fc-rotulo">Status</span><span class="fc-nome">Se necessário</span><span class="fc-prob">depende da série</span></div>
+        <div></div>
+      </div>`;
+    }
+    const favCasa = jg.p[0] >= jg.p[1];
+    return `<div class="jogo">
+      <div class="info">${meta}${times}</div>
+      <div class="favchip">
+        <span class="fc-rotulo">Favorito</span>
+        <span class="fc-nome">${favCasa ? jg.a : jg.b}</span>
+        <span class="fc-prob">${(favCasa ? jg.p[0] : jg.p[1]).toFixed(1)}% prob.</span>
+      </div>
+      <button class="btn-ia" data-ia="${idJogo}">✦ Ver Análise IA</button>
+    </div>`;
+  }
+  // ----- Futebol -----
+  const favCasa = jg.o[0] <= jg.o[2];
+  const fav = favCasa ? jg.a : jg.b;
+  const inv = jg.o.map(o => 1/o);
+  const soma = inv.reduce((a,b) => a+b, 0);
+  const pFav = Math.round((favCasa ? inv[0] : inv[2]) / soma * 100);
+  return `<div class="jogo${jg.br?' br':''}">
+        <div class="info">
+          <div class="meta"><span>${jg.h}</span><span class="g">Grupo ${jg.g}</span><span>${jg.c}</span>${jg.real ? '<span class="tag-real">● Dados reais</span>' : ''}</div>
+          <div class="times"><span>${jg.a}${jg.br&&jg.a==='Brasil'?' <span class="estrela">★</span>':''}</span><span>${jg.b}${jg.br&&jg.b==='Brasil'?' <span class="estrela">★</span>':''}</span></div>
+        </div>
+        <div class="favchip">
+          <span class="fc-rotulo">Favorito</span>
+          <span class="fc-nome">${fav}</span>
+          <span class="fc-prob">${pFav}% implícito</span>
+        </div>
+        <button class="btn-ia" data-ia="${idJogo}">✦ Ver Análise IA</button>
+      </div>`;
+}
+
+// ---------- Filtro de jogos já disputados ----------
+const diaNum = l => { const m = l.match(/(\d+) de junho/); return m ? +m[1] : null; };
+function horaMin(h){ const m = h.match(/(\d+)h(\d+)?/); return {h:+m[1], m:+(m[2]||0)}; }
+function jogoEncerrado(diaN, jg){
+  if(diaN === null) return false;
+  const t = horaMin(jg.h);
+  const kickoff = Date.UTC(2026, 5, diaN, t.h + 3, t.m); // horários de Brasília (UTC-3)
+  return Date.now() > kickoff + 150*60*1000; // considera encerrado ~2h30 após o início
+}
+function jogosRestantes(dia){
+  const n = diaNum(dia.l);
+  return dia.j.map((jg,ji) => ({jg,ji})).filter(x => !jogoEncerrado(n, x.jg));
+}
+
+function renderRodada(id){
+  const r = rodadas[id];
+  const sec = document.getElementById(id);
+  let html = '<div class="promo-titulo">Análises da rodada</div><div class="promos">';
+  r.destaques.forEach(d => html += `<div class="promo"><span class="tagp">Destaque</span><b>${d.t}</b>${d.d}</div>`);
+  html += '</div>';
+  let temJogos = false;
+  r.dias.forEach((dia,di) => {
+    const restantes = jogosRestantes(dia);
+    if(restantes.length === 0) return; // dia inteiro já disputado
+    temJogos = true;
+    html += `<div class="dia"><span>${dia.l}</span><span>Análise IA</span></div><div class="bloco">`;
+    restantes.forEach(x => { html += jogoHTML(x.jg, `${id}-${di}-${x.ji}`); });
+    html += '</div>';
+  });
+  if(!temJogos) html += '<div class="promo" style="margin-top:8px"><b>✅ Rodada encerrada</b>Todos os jogos desta rodada já foram disputados e saíram da lista.</div>';
+  sec.innerHTML = html;
+}
+['r1','r2','r3'].forEach(renderRodada);
+
+// ---------- Aba HOJE ----------
+function renderHoje(){
+  const sec = document.getElementById('hoje');
+  const todos = [];
+  ['r1','r2','r3'].forEach(id => rodadas[id].dias.forEach((dia,di) => {
+    const restantes = jogosRestantes(dia);
+    if(restantes.length) todos.push({l:dia.l, jogos:restantes, id, di, num:diaNum(dia.l)});
+  }));
+
+  const agora = new Date();
+  const ehJunho2026 = agora.getFullYear() === 2026 && agora.getMonth() === 5;
+  const hojeNum = ehJunho2026 ? agora.getDate() : null;
+
+  let alvo = todos.filter(b => b.num === hojeNum);
+  let titulo = '🔥 Jogos de hoje', nota = '';
+
+  if(alvo.length === 0){
+    const prox = hojeNum !== null ? todos.find(b => b.num > hojeNum) : todos[0];
+    if(prox){
+      alvo = todos.filter(b => b.num === prox.num);
+      titulo = '⏭ Próximos jogos';
+      nota = '<div class="promo" style="margin-bottom:14px">Sem jogos restantes hoje — mostrando o próximo dia de partidas.</div>';
+    } else {
+      sec.innerHTML = '<div class="promo" style="margin-top:14px"><b>A fase de grupos terminou!</b> Confira todas as rodadas nas outras abas. Em breve: mata-mata.</div>';
+      return;
+    }
+  }
+
+  const ehHoje = alvo.length > 0 && titulo.includes('hoje');
+  const brJogos = [];
+  alvo.forEach(b => b.jogos.forEach(x => { if(x.jg.br) brJogos.push({jg:x.jg, id:`${b.id}-${b.di}-${x.ji}`}); }));
+
+  const totalJogos = alvo.reduce((s,b) => s + b.jogos.length, 0);
+  let html = `<div class="promo-titulo">${titulo}</div>${nota}`;
+
+  html += brJogos.map(x => `<div class="banner-brasil">
+    <div>
+      <div class="bb-chamada">★ ${ehHoje ? 'Hoje tem Brasil!' : 'Vem Brasil por aí!'}</div>
+      <div class="bb-jogo">${x.jg.a} × ${x.jg.b}</div>
+      <div class="bb-meta">${x.jg.h} · Grupo ${x.jg.g} · ${x.jg.c}</div>
+    </div>
+    <button class="btn-ia bb-btn" data-ia="${x.id}">✦ Ver Análise IA</button>
+  </div>`).join('');
+
+  html += `<div class="promo" style="margin-bottom:14px"><span class="tagp">Painel do dia</span><b>${totalJogos} jogo${totalJogos>1?'s':''} ainda por vir</b>Jogos já disputados saem da lista automaticamente. Toque em ✦ Ver Análise IA para ver estatísticas, probabilidades, indicação de vencedor e combinadas de cada confronto.</div>`;
+  alvo.forEach(b => {
+    html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
+    b.jogos.forEach(x => { html += jogoHTML(x.jg, `${b.id}-${b.di}-${x.ji}`); });
+    html += '</div>';
+  });
+
+  // ----- NBA do dia (ou próximo jogo da série) -----
+  const nbaDias = nbaRestantes();
+  if(nbaDias.length){
+    let nbaAlvo = nbaDias.filter(b => b.num === hojeNum);
+    let nbaTitulo = '🏀 NBA hoje';
+    if(nbaAlvo.length === 0){
+      nbaAlvo = [nbaDias[0]];
+      nbaTitulo = '🏀 Próximo jogo da NBA';
+    }
+    html += `<div class="promo-titulo" style="margin-top:30px">${nbaTitulo} — Finals · ${nbaSerie.status}</div>`;
+    html += blocoNBA(nbaAlvo, 'nba');
+  }
+
+  sec.innerHTML = html;
+}
+renderHoje();
+
+// ---------- Aba NBA ----------
+function blocoNBA(dias, prefixo){
+  let html = '';
+  dias.forEach(b => {
+    html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
+    b.jogos.forEach(x => { html += jogoHTML(x.jg, `${prefixo}-${b.di}-${x.ji}`); });
+    html += '</div>';
+  });
+  return html;
+}
+function nbaRestantes(){
+  const dias = [];
+  nbaSerie.dias.forEach((dia,di) => {
+    const restantes = jogosRestantes(dia);
+    if(restantes.length) dias.push({l:dia.l, jogos:restantes, di, num:diaNum(dia.l)});
+  });
+  return dias;
+}
+function renderNBA(){
+  const sec = document.getElementById('nba');
+  const dias = nbaRestantes();
+  let html = `<div class="promo-titulo">🏀 NBA Finals 2026 — Knicks × Spurs</div>
+    <div class="promos">
+      <div class="promo"><span class="tagp">Situação da série</span><b>${nbaSerie.status}</b>Reedição das Finals de 1999. Os Knicks buscam o primeiro título desde 1973; os Spurs tentam reagir em casa na era Wembanyama.</div>
+      <div class="promo"><span class="tagp">Resultados</span><b>Como chegamos até aqui</b>${nbaSerie.resultados.join('<br>')}</div>
+    </div>`;
+  if(dias.length === 0){
+    html += '<div class="promo"><b>🏆 Série encerrada!</b> As Finals da NBA terminaram. Em breve: análises da próxima temporada.</div>';
+  } else {
+    html += blocoNBA(dias, 'nba');
+  }
+  sec.innerHTML = html;
+}
+renderNBA();
+
+// ---------- Abas ----------
+const abas = document.querySelectorAll('.tab');
+const paineis = document.querySelectorAll('.painel');
+abas.forEach(aba => aba.addEventListener('click', () => {
+  abas.forEach(a => {a.classList.remove('ativa');a.setAttribute('aria-selected','false');});
+  paineis.forEach(p => p.classList.remove('ativa'));
+  aba.classList.add('ativa');
+  aba.setAttribute('aria-selected','true');
+  document.getElementById(aba.dataset.alvo).classList.add('ativa');
+  window.scrollTo({top:0});
+}));
+
+// ---------- Sub-abas (fases da Copa) ----------
+const subtabs = document.querySelectorAll('.subtab');
+const subpaineis = document.querySelectorAll('.subpainel');
+subtabs.forEach(st => st.addEventListener('click', () => {
+  subtabs.forEach(s => s.classList.remove('ativa'));
+  subpaineis.forEach(p => p.classList.remove('ativa'));
+  st.classList.add('ativa');
+  document.getElementById(st.dataset.sub).classList.add('ativa');
+}));
+
+// Abre automaticamente a primeira rodada que ainda tem jogos por disputar
+(function(){
+  const atual = ['r1','r2','r3'].find(id => rodadas[id].dias.some(d => jogosRestantes(d).length > 0)) || 'grupos';
+  if(atual !== 'r1'){
+    document.querySelector('.subtab.ativa')?.classList.remove('ativa');
+    document.getElementById('r1').classList.remove('ativa');
+    document.querySelector(`.subtab[data-sub="${atual}"]`)?.classList.add('ativa');
+    document.getElementById(atual).classList.add('ativa');
+  }
+})();
+
+// ---------- Interações ----------
+document.body.addEventListener('click', e => {
+  const ia = e.target.closest('.btn-ia');
+  if(ia) abrirAnalise(ia.dataset.ia);
+});
+
+// ---------- Análise IA ----------
+const modalIA = document.getElementById('modalIA');
+const modalCorpo = document.getElementById('modalCorpo');
+
+const notas = {
+  "México × África do Sul":"Nota do editor: anfitrião na altitude do Azteca com estádio lotado — times da casa historicamente não perdem aberturas de Copa. O risco é a pressão travar o 1º tempo.",
+  "Brasil × Marrocos":"Nota do editor: a estreia mais dura entre os cabeças de chave. Marrocos foi semifinalista em 2022 e defende muito bem — espere bloco baixo e contra-ataques.",
+  "Holanda × Japão":"Nota do editor: o Japão derrubou Alemanha e Espanha em 2022 e chega ainda mais maduro. Jogo de respeito mútuo, com potencial de gols dos dois lados.",
+  "Brasil × Haiti":"Nota do editor: atenção ao resultado de Escócia × Marrocos, 3 horas antes — ele redefine o cenário do grupo e pode mudar a postura do Brasil.",
+  "Holanda × Suécia":"Nota do editor: a Suécia veio da repescagem, mas tem ataque de elite. Pode ser jogo de seis pontos no grupo mais embolado da Copa.",
+  "Inglaterra × Gana":"Nota do editor: a Inglaterra costuma dominar fases de grupos com placares magros, e Gana é perigosa em transição.",
+  "Escócia × Brasil":"Nota do editor: reedição da estreia de 1998, simultâneo a Marrocos × Haiti. Se o Brasil chegar classificado, espere rodízio — confirme a escalação antes de qualquer aposta.",
+  "Uruguai × Espanha":"Nota do editor: possivelmente o melhor jogo da fase de grupos — a favorita ao título contra a garra uruguaia, valendo a liderança do Grupo H.",
+  "Colômbia × Portugal":"Nota do editor: deve decidir o 1º lugar do Grupo K, em Miami com clima de casa para a Colômbia."
+};
+
+function abrirAnalise(idJogo){
+  const jg = registro[idJogo];
+  if(!jg) return;
+
+  // ----- Análise NBA -----
+  if(jg.nba){
+    const favCasa = jg.p[0] >= jg.p[1];
+    const fav = favCasa ? {n:jg.a, p:jg.p[0], o:jg.oRef[0]} : {n:jg.b, p:jg.p[1], o:jg.oRef[1]};
+    const zeb = favCasa ? {n:jg.b, p:jg.p[1]} : {n:jg.a, p:jg.p[0]};
+    const statsHTML = jg.det ? `<div class="ia-bloco">
+        <div class="ia-rotulo">Estatísticas da série</div>
+        <ul class="ia-stats">${jg.det.stats.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>` : '';
+    modalCorpo.innerHTML = `
+      <span class="ia-tier">NBA Finals · ${jg.g}</span>
+      <h3>${jg.a} × ${jg.b}</h3>
+      <div class="ia-meta">${jg.h} · ${jg.c}${jg.real ? ` · <span class="tag-real">${jg.real}</span>` : ''}</div>
+      <p class="ia-txt">Os <strong>${fav.n}</strong> entram como favoritos para este jogo segundo o modelo estatístico, com <strong>${fav.p.toFixed(1)}%</strong> de probabilidade — mas a série tem sido decidida no detalhe, com dois jogos definidos por margem mínima. ${zeb.n} a ${zeb.p.toFixed(1)}% têm valor real se a pontaria de perímetro aparecer.</p>
+      ${statsHTML}
+      <div class="ia-bloco">
+        <div class="ia-rotulo">Probabilidade do modelo</div>
+        ${[ {n:jg.a,p:jg.p[0]}, {n:jg.b,p:jg.p[1]} ].map(x => `<div class="prob-linha">
+          <span class="pl-nome">${x.n.split(' ').pop()}</span>
+          <div class="pl-barra"><div class="pl-fill" style="width:${x.p}%"></div></div>
+          <span class="pl-num">${x.p.toFixed(1)}%</span>
+        </div>`).join('')}
+        <div class="pl-margem">${jg.det ? jg.det.fonte : 'Probabilidades do modelo SportRadar'}</div>
+      </div>
+      <div class="ia-bloco">
+        <div class="ia-rotulo">Indicação de vencedor</div>
+        <div class="ia-linha">
+          <span class="desc">${fav.n} vencem o ${jg.g}<small>Odd de referência estimada pela probabilidade</small></span>
+          <span class="ov">${fav.o.toFixed(2)}</span>
+        </div>
+      </div>
+      <div class="ia-bloco">
+        <div class="ia-rotulo">Leitura para apostas</div>
+        <p class="ia-txt" style="margin-bottom:0">Mercados a estudar: vitória dos Spurs no jogo isolado, mas título dos Knicks no mercado de campeão da série. Com dois dos últimos jogos decididos por 1 e 4 pontos, os mercados de pontos totais e margem de vitória apertada merecem atenção.</p>
+      </div>`;
+    modalIA.hidden = false;
+    return;
+  }
+
+  const [o1,oX,o2] = jg.o;
+  const favCasa = o1 <= o2;
+  const fav = favCasa ? {n:jg.a,o:o1} : {n:jg.b,o:o2};
+  const zeb = favCasa ? {n:jg.b,o:o2} : {n:jg.a,o:o1};
+  const ex = extras(jg.o);
+
+  let tier, conf, txt;
+  if(fav.o <= 1.40){
+    tier = "Favoritismo pesado"; conf = "Convicção alta · odd baixa";
+    txt = `<strong>${fav.n}</strong> chega com favoritismo pesado neste confronto. A odd seca paga pouco sozinha — o valor tende a estar em combiná-la com mercados de gols ou handicap. E cuidado: zebras de Copa adoram exatamente esse perfil de jogo.`;
+  } else if(fav.o <= 2.10){
+    tier = "Favorito claro"; conf = "Convicção média";
+    txt = `<strong>${fav.n}</strong> é o favorito, mas sem margem confortável. ${zeb.n} a ${zeb.o.toFixed(2)} pode ter valor se o jogo ficar truncado, e o empate a ${oX.toFixed(2)} é um cenário vivo que merece respeito.`;
+  } else {
+    tier = "Jogo equilibrado"; conf = "Convicção baixa · jogo aberto";
+    txt = `As odds mostram pouca distância entre <strong>${jg.a}</strong> e <strong>${jg.b}</strong>. O 1×2 seco é arriscado nesse perfil — os mercados de gols costumam oferecer uma leitura mais estável do que tentar cravar o vencedor.`;
+  }
+  const nota = notas[`${jg.a} × ${jg.b}`];
+  if(nota) txt += `<br><br>${nota}`;
+
+  const golsMais = {e:"Mais de 2.5 gols", o:ex.over};
+  const golsMenos = {e:"Menos de 2.5 gols", o:ex.under};
+  const bmSim = {e:"Ambos marcam: Sim", o:ex.sim};
+  const bmNao = {e:"Ambos marcam: Não", o:ex.nao};
+
+  let combos;
+  if(fav.o <= 1.40){
+    combos = [
+      {nome:`${fav.n} vence + Mais de 2.5 gols`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-tg",e:golsMais.e}], odd:fav.o*golsMais.o},
+      {nome:`${fav.n} vence + Ambos marcam: Não`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:bmNao.e}], odd:fav.o*bmNao.o}
+    ];
+  } else if(fav.o <= 2.10){
+    const g = ex.under < ex.over ? golsMenos : golsMais;
+    const b = ex.sim < ex.nao ? bmSim : bmNao;
+    combos = [
+      {nome:`${fav.n} vence + ${g.e}`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-tg",e:g.e}], odd:fav.o*g.o},
+      {nome:`${fav.n} vence + ${b.e}`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:b.e}], odd:fav.o*b.o}
+    ];
+  } else {
+    combos = [
+      {nome:`Mais de 2.5 gols + Ambos marcam: Sim`, itens:[{j:idJogo+"-tg",e:golsMais.e},{j:idJogo+"-bm",e:bmSim.e}], odd:golsMais.o*bmSim.o},
+      {nome:`${fav.n} vence + Ambos marcam: Sim`, itens:[{j:idJogo,e:fav.n},{j:idJogo+"-bm",e:bmSim.e}], odd:fav.o*bmSim.o}
+    ];
+  }
+
+  // Probabilidade implícita e margem da casa (calculadas das odds 1X2)
+  const inv = jg.o.map(o => 1/o);
+  const soma = inv.reduce((a,b) => a+b, 0);
+  const probs = inv.map(p => Math.round(p/soma*100));
+  const margem = ((soma - 1) * 100).toFixed(1);
+  const probHTML = `<div class="ia-bloco">
+      <div class="ia-rotulo">Probabilidade implícita nas odds</div>
+      ${[jg.a,'Empate',jg.b].map((n,i) => `<div class="prob-linha">
+        <span class="pl-nome">${n}</span>
+        <div class="pl-barra"><div class="pl-fill" style="width:${probs[i]}%"></div></div>
+        <span class="pl-num">${probs[i]}%</span>
+      </div>`).join('')}
+      <div class="pl-margem">Margem embutida da casa nestas odds: ${margem}% — quanto menor, melhor para o apostador.</div>
+    </div>`;
+
+  // Blocos de dados reais (estatísticas e comparação de casas), quando disponíveis
+  const statsHTML = jg.det ? `<div class="ia-bloco">
+      <div class="ia-rotulo">Estatísticas do confronto</div>
+      <ul class="ia-stats">${jg.det.stats.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>` : '';
+  const casasHTML = (jg.det && jg.det.mercados) ? `<div class="ia-bloco">
+      <div class="ia-rotulo">Melhores odds nas casas tradicionais</div>
+      ${jg.det.mercados.map(m => `<div class="ia-linha">
+        <span class="desc">${m.m}<small>${m.casa}</small></span>
+        <span class="ov">${m.o}</span>
+      </div>`).join('')}
+      <div class="pl-margem">${jg.det.fonte}</div>
+    </div>` : '';
+
+  modalCorpo.innerHTML = `
+    <span class="ia-tier">${tier}</span>
+    <h3>${jg.a} × ${jg.b}</h3>
+    <div class="ia-meta">${jg.h} · Grupo ${jg.g} · ${jg.c}${jg.real ? ` · <span class="tag-real">${jg.real}</span>` : ''}</div>
+    <p class="ia-txt">${txt}</p>
+    ${statsHTML}
+    ${probHTML}
+    <div class="ia-bloco">
+      <div class="ia-rotulo">Indicação de vencedor</div>
+      <div class="ia-linha">
+        <span class="desc">${fav.n} vence<small>${conf}</small></span>
+        <span class="ov">${fav.o.toFixed(2)}</span>
+      </div>
+    </div>
+    <div class="ia-bloco">
+      <div class="ia-rotulo">Combinadas sugeridas</div>
+      ${combos.map(c => `<div class="ia-linha">
+        <span class="desc">${c.nome}<small>Odd combinada estimada da dupla</small></span>
+        <span class="ov">${c.odd.toFixed(2)}</span>
+      </div>`).join('')}
+    </div>
+    ${casasHTML}`;
+  modalIA.hidden = false;
+}
+
+document.getElementById('fecharModal').addEventListener('click', () => modalIA.hidden = true);
+modalIA.addEventListener('click', e => { if(e.target === modalIA) modalIA.hidden = true; });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') modalIA.hidden = true; });
+</script>
+</body>
+</html>
