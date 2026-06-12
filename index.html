@@ -252,6 +252,31 @@
   .selo.verde{color:#4ADE80;background:rgba(39,174,96,.14);border:1px solid rgba(39,174,96,.45)}
   .selo.amarelo{color:#F2D060;background:rgba(232,197,71,.12);border:1px solid rgba(232,197,71,.45)}
   .selo.vermelho{color:#FF8A75;background:rgba(224,86,63,.13);border:1px solid rgba(224,86,63,.5)}
+
+  /* ============ Histórico (greens & reds) ============ */
+  .hist-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+  .hcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:15px 10px;text-align:center}
+  .hcard .hv{font-family:'Anton',sans-serif;font-size:27px;color:var(--amber);line-height:1}
+  .hcard .hv.g{color:#4ADE80}
+  .hcard .hv.r{color:#FF8A75}
+  .hcard .hl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-dim);margin-top:6px}
+  .hrow{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel);
+  }
+  .hrow:last-child{border-bottom:none}
+  .hrow .hinfo{flex:1}
+  .hrow .hind{font-weight:700;font-size:13.5px}
+  .hrow .hjogo{font-family:var(--mono);font-size:11px;color:var(--txt-dim);letter-spacing:.04em;margin-bottom:3px}
+  .hrow .hobs{font-size:11.5px;color:var(--txt-dim);margin-top:3px}
+  .hrow .hodd{font-family:var(--mono);font-weight:600;color:var(--amber);white-space:nowrap}
+  .badge-res{
+    font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    border-radius:5px;padding:4px 10px;white-space:nowrap;
+  }
+  .badge-res.g{color:#4ADE80;background:rgba(39,174,96,.14);border:1px solid rgba(39,174,96,.5)}
+  .badge-res.r{color:#FF8A75;background:rgba(224,86,63,.13);border:1px solid rgba(224,86,63,.55)}
+  .badge-res.p{color:#F2D060;background:rgba(232,197,71,.12);border:1px solid rgba(232,197,71,.45)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -356,9 +381,11 @@
   <button class="tab tab-hoje ativa" role="tab" aria-selected="true" data-alvo="hoje"><span class="dot" aria-hidden="true"></span>Hoje</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="futebol">⚽ Copa do Mundo</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="nba">🏀 NBA</button>
+  <button class="tab" role="tab" aria-selected="false" data-alvo="historico">📊 Histórico</button>
 </nav>
 
 <section id="hoje" class="painel ativa" role="tabpanel"></section>
+<section id="historico" class="painel" role="tabpanel"></section>
 
 <section id="futebol" class="painel" role="tabpanel">
   <nav class="subnav" aria-label="Fases da Copa do Mundo">
@@ -412,9 +439,12 @@
 // ---------- Dados (odds ilustrativas) ----------
 const rodadas = {
   r1:{destaques:[
-    {t:"Abertura no Azteca",d:"México em casa, na altitude, com estádio lotado — anfitriões não perdem aberturas de Copa. Risco: pressão travar o 1º tempo. Estude vitória do México e menos de 2.5 gols."},
-    {t:"Brasil × Marrocos",d:"A estreia mais dura entre os cabeças de chave. Marrocos defende muito bem; espere bloco baixo e contra-ataques. Estude ambos marcam \"não\"."},
-    {t:"Holanda × Japão",d:"O jogo mais equilibrado da rodada. Japão derrubou Alemanha e Espanha em 2022. Estude ambos marcam \"sim\" e dupla chance no Japão."}
+    {dia:11,h:"16h",t:"Abertura no Azteca",d:"México em casa, na altitude, com estádio lotado — anfitriões não perdem aberturas de Copa. Risco: pressão travar o 1º tempo. Estude vitória do México e menos de 2.5 gols."},
+    {dia:11,h:"23h",t:"Coreia do Sul × Rep. Tcheca",d:"A Tcheca volta a uma Copa após 20 anos e marcou 2+ gols nos últimos 5 jogos. Son Heung-min do outro lado. Os analistas apontam ambos marcam \"sim\"."},
+    {dia:12,h:"22h",t:"EUA × Paraguai",d:"Anfitrião jovem e veloz contra a defesa mais fechada das Eliminatórias. Os EUA venceram 5 dos 7 confrontos diretos. Cuidado com favoritismo exagerado: jogo de poucos gols."},
+    {dia:13,h:"19h",t:"Brasil × Marrocos",d:"A estreia mais dura entre os cabeças de chave. Marrocos defende muito bem; espere bloco baixo e contra-ataques. Estude ambos marcam \"não\"."},
+    {dia:14,h:"17h",t:"Holanda × Japão",d:"O jogo mais equilibrado da rodada. Japão derrubou Alemanha e Espanha em 2022. Estude ambos marcam \"sim\" e dupla chance no Japão."},
+    {dia:16,h:"16h",t:"França × Senegal",d:"Reedição da histórica abertura de 2002, quando o Senegal bateu os campeões mundiais por 1 a 0. A França favorita, mas com fantasma no retrovisor — e Senegal forte fisicamente."}
   ],dias:[
     {l:"Quinta · 11 de junho",j:[
       {h:"16h",a:"México",b:"África do Sul",g:"A",c:"Cidade do México",o:[1.65,3.60,5.50],
@@ -450,6 +480,7 @@ const rodadas = {
            {casa:"Superbet",m:"Mais de 7.5 chutes a gol",o:"1.60"},
            {casa:"Esportes da Sorte",m:"Son marca a qualquer momento",o:"2.62"}
          ],
+         tendencia:"mais",
          fonte:"Odds reais compiladas de sites especializados entre 09 e 11/06/2026 — cotações flutuam, confirme na casa"
        }}]},
     {l:"Sexta · 12 de junho",j:[
@@ -461,6 +492,7 @@ const rodadas = {
            "O mercado vê o Grupo B liderado pela Suíça, com Canadá e Bósnia brigando logo atrás pela 2ª vaga direta",
            "Analistas internacionais apontam o menos de 2.5 gols como o mercado mais provável para este confronto truncado"
          ],
+         tendencia:"menos",
          fonte:"Informações compiladas de sites especializados em 11/06/2026"
        }},
       {h:"22h",a:"Estados Unidos",b:"Paraguai",g:"D",c:"Los Angeles",o:[1.95,3.30,4.10],
@@ -521,9 +553,9 @@ const rodadas = {
       {h:"23h",a:"Uzbequistão",b:"Colômbia",g:"K",c:"Cidade do México",o:[5.50,3.70,1.62]}]}
   ]},
   r2:{destaques:[
-    {t:"Brasil × Haiti",d:"Odd do 1×1 baixa demais para valer sozinha. Handicap de gols e mercados de jogador pagam melhor. Atenção a Escócia × Marrocos, 3h antes, que redefine o grupo."},
-    {t:"Holanda × Suécia",d:"A Suécia veio da repescagem, mas tem ataque de elite. Pode ser jogo de seis pontos no grupo mais embolado da Copa. Estude mais de 2.5 gols."},
-    {t:"Inglaterra × Gana",d:"Inglaterra domina fases de grupos, mas com placares magros. Estude vence sem sofrer gol e menos de 3.5 gols, em vez do 1×1 seco."}
+    {dia:19,h:"22h",t:"Brasil × Haiti",d:"Odd do 1×1 baixa demais para valer sozinha. Handicap de gols e mercados de jogador pagam melhor. Atenção a Escócia × Marrocos, 3h antes, que redefine o grupo."},
+    {dia:20,h:"14h",t:"Holanda × Suécia",d:"A Suécia veio da repescagem, mas tem ataque de elite. Pode ser jogo de seis pontos no grupo mais embolado da Copa. Estude mais de 2.5 gols."},
+    {dia:23,h:"17h",t:"Inglaterra × Gana",d:"Inglaterra domina fases de grupos, mas com placares magros. Estude vence sem sofrer gol e menos de 3.5 gols, em vez do 1×1 seco."}
   ],dias:[
     {l:"Quinta · 18 de junho",j:[
       {h:"13h",a:"Rep. Tcheca",b:"África do Sul",g:"A",c:"Atlanta",o:[2.30,3.20,3.10]},
@@ -557,9 +589,9 @@ const rodadas = {
       {h:"23h",a:"Colômbia",b:"RD Congo",g:"K",c:"Guadalajara",o:[1.35,4.60,8.75]}]}
   ]},
   r3:{destaques:[
-    {t:"Escócia × Brasil",d:"Reedição da estreia de 1998, simultâneo a Marrocos × Haiti. Se o Brasil chegar classificado, espere rodízio — confirme a escalação antes de apostar. 3ª rodada com favorito garantido é armadilha clássica."},
-    {t:"Uruguai × Espanha",d:"Possivelmente o melhor jogo da fase de grupos: a favorita ao título contra a garra uruguaia, valendo a liderança. Estude ambos marcam e mercados de cartões."},
-    {t:"Colômbia × Portugal",d:"Deve decidir o 1º lugar do Grupo K, em Miami com clima de casa para a Colômbia. Estude mais de 2.5 gols e dupla chance colombiana."}
+    {dia:24,h:"19h",t:"Escócia × Brasil",d:"Reedição da estreia de 1998, simultâneo a Marrocos × Haiti. Se o Brasil chegar classificado, espere rodízio — confirme a escalação antes de apostar. 3ª rodada com favorito garantido é armadilha clássica."},
+    {dia:26,h:"21h",t:"Uruguai × Espanha",d:"Possivelmente o melhor jogo da fase de grupos: a favorita ao título contra a garra uruguaia, valendo a liderança. Estude ambos marcam e mercados de cartões."},
+    {dia:27,h:"20h30",t:"Colômbia × Portugal",d:"Deve decidir o 1º lugar do Grupo K, em Miami com clima de casa para a Colômbia. Estude mais de 2.5 gols e dupla chance colombiana."}
   ],dias:[
     {l:"Quarta · 24 de junho",j:[
       {h:"16h",a:"Suíça",b:"Canadá",g:"B",c:"Vancouver",o:[2.70,3.20,2.60]},
@@ -629,10 +661,12 @@ const nbaSerie = {
 const registro = {}; // idJogo -> dados do jogo (para a análise IA)
 
 // Gera odds ilustrativas de mercados extras a partir do equilíbrio do 1X2
+// Considera também a odd do empate: empate barato = jogo travado = menos gols
 function extras(o){
   const m = Math.min(o[0], o[2]); // odd do favorito
-  let over = 1.30 + (m - 1.10) * 0.55;
-  over = Math.min(Math.max(over, 1.40), 2.30);
+  const ajusteEmpate = (3.50 - o[1]) * 0.45; // empate barato encarece o "mais gols"
+  let over = 1.30 + (m - 1.10) * 0.55 + Math.max(-0.25, ajusteEmpate);
+  over = Math.min(Math.max(over, 1.38), 2.45);
   const under = 1 / (1.06 - 1/over);
   let sim = 2.45 - m * 0.42;
   sim = Math.min(Math.max(sim, 1.62), 2.30);
@@ -701,9 +735,14 @@ function jogosRestantes(dia){
 function renderRodada(id){
   const r = rodadas[id];
   const sec = document.getElementById(id);
-  let html = '<div class="promo-titulo">Análises da rodada</div><div class="promos">';
-  r.destaques.forEach(d => html += `<div class="promo"><span class="tagp">Destaque</span><b>${d.t}</b>${d.d}</div>`);
-  html += '</div>';
+  // Destaques: só os de jogos ainda não disputados (mostra os 3 próximos do banco)
+  const destaquesVivos = r.destaques.filter(d => !jogoEncerrado(d.dia, {h:d.h})).slice(0,3);
+  let html = '';
+  if(destaquesVivos.length){
+    html += '<div class="promo-titulo">Análises da rodada</div><div class="promos">';
+    destaquesVivos.forEach(d => html += `<div class="promo"><span class="tagp">Destaque</span><b>${d.t}</b>${d.d}</div>`);
+    html += '</div>';
+  }
   let temJogos = false;
   r.dias.forEach((dia,di) => {
     const restantes = jogosRestantes(dia);
@@ -820,6 +859,76 @@ function renderNBA(){
   sec.innerHTML = html;
 }
 renderNBA();
+
+// ---------- Histórico de indicações (greens & reds) ----------
+// res: 'g' = green, 'r' = red, 'p' = em aberto
+const historico = [
+  {data:"11/06",jogo:"México × África do Sul",ind:"México vence",odd:1.65,res:"g",obs:"México 2×0 — quebrou o tabu das aberturas"},
+  {data:"11/06",jogo:"México × África do Sul",ind:"Menos de 2.5 gols",odd:1.73,res:"g",obs:"2 gols no jogo — dado real (Betboom) confirmado"},
+  {data:"11/06",jogo:"México × África do Sul",ind:"Mais de 3.5 cartões",odd:1.61,res:"g",obs:"Jogo com 3 expulsões"},
+  {data:"11/06",jogo:"México × África do Sul",ind:"México vence + Ambos marcam: Sim",odd:2.90,res:"r",obs:"A África do Sul não marcou (2×0)"},
+  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Coreia do Sul vence",odd:2.60,res:"g",obs:"Coreia 2×1, de virada"},
+  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Ambos marcam: Sim",odd:1.94,res:"g",obs:"2×1 — dado real (Hiperbet) confirmado"},
+  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Dupla chance: Tcheca ou empate",odd:1.37,res:"r",obs:"A Coreia venceu — a proteção falhou"},
+  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"1º tempo: menos de 1.5 gols",odd:1.44,res:"g",obs:"0×0 no intervalo — gols só no 2º tempo"},
+  {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Canadá vence",odd:1.85,res:"p",obs:""},
+  {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Menos de 2.5 gols",odd:2.03,res:"p",obs:""},
+  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"p",obs:""}
+];
+
+function renderHistorico(){
+  const sec = document.getElementById('historico');
+  const resolvidas = historico.filter(x => x.res !== 'p');
+  const pendentes = historico.filter(x => x.res === 'p');
+  const greens = resolvidas.filter(x => x.res === 'g').length;
+  const reds = resolvidas.length - greens;
+  const taxa = resolvidas.length ? Math.round(greens / resolvidas.length * 100) : 0;
+  const saldo = resolvidas.reduce((s,x) => s + (x.res === 'g' ? x.odd - 1 : -1), 0);
+
+  // Acerto por selo de risco
+  const faixas = [
+    {nome:"🟢 Prováveis", f:x => x.odd <= 1.60},
+    {nome:"🟡 Moderadas", f:x => x.odd > 1.60 && x.odd <= 2.20},
+    {nome:"🔴 Ousadas",   f:x => x.odd > 2.20}
+  ];
+  const porSelo = faixas.map(fx => {
+    const itens = resolvidas.filter(fx.f);
+    const g = itens.filter(x => x.res === 'g').length;
+    return {nome:fx.nome, g, t:itens.length, pct:itens.length ? Math.round(g/itens.length*100) : 0};
+  });
+
+  const linha = x => `<div class="hrow">
+      <div class="hinfo">
+        <div class="hjogo">${x.data} · ${x.jogo}</div>
+        <div class="hind">${x.ind}${seloRisco(x.odd)}</div>
+        ${x.obs ? `<div class="hobs">${x.obs}</div>` : ''}
+      </div>
+      <span class="hodd">${x.odd.toFixed(2)}</span>
+      <span class="badge-res ${x.res}">${x.res === 'g' ? '🟢 Green' : x.res === 'r' ? '🔴 Red' : '⏳ Aberta'}</span>
+    </div>`;
+
+  sec.innerHTML = `
+    <div class="promo-titulo">📊 Histórico das indicações da IA</div>
+    <div class="hist-cards">
+      <div class="hcard"><div class="hv">${taxa}%</div><div class="hl">Taxa de acerto</div></div>
+      <div class="hcard"><div class="hv g">${greens}</div><div class="hl">Greens</div></div>
+      <div class="hcard"><div class="hv r">${reds}</div><div class="hl">Reds</div></div>
+      <div class="hcard"><div class="hv ${saldo >= 0 ? 'g' : 'r'}">${saldo >= 0 ? '+' : ''}${saldo.toFixed(2)}u</div><div class="hl">Saldo (1u por aposta)</div></div>
+    </div>
+    <div class="ia-bloco" style="margin-bottom:18px">
+      <div class="ia-rotulo">Acerto por nível de risco</div>
+      ${porSelo.map(s => `<div class="prob-linha">
+        <span class="pl-nome">${s.nome}</span>
+        <div class="pl-barra"><div class="pl-fill" style="width:${s.pct}%"></div></div>
+        <span class="pl-num">${s.t ? `${s.g}/${s.t} · ${s.pct}%` : '—'}</span>
+      </div>`).join('')}
+      <div class="pl-margem">Saldo simulado com aposta fixa de 1 unidade por indicação. Histórico auditado a cada atualização do site — resultados passados não garantem resultados futuros.</div>
+    </div>
+    ${pendentes.length ? `<div class="dia"><span>⏳ Em aberto</span><span>${pendentes.length}</span></div><div class="bloco" style="margin-bottom:18px">${pendentes.map(linha).join('')}</div>` : ''}
+    <div class="dia"><span>Resolvidas</span><span>${resolvidas.length}</span></div>
+    <div class="bloco">${resolvidas.map(linha).join('')}</div>`;
+}
+renderHistorico();
 
 // ---------- Abas ----------
 const abas = document.querySelectorAll('.tab');
@@ -953,6 +1062,22 @@ function abrirAnalise(idJogo){
   const bmSim = {e:"Ambos marcam: Sim", o:ex.sim};
   const bmNao = {e:"Ambos marcam: Não", o:ex.nao};
 
+  // ----- Reconciliação: tendência real (pesquisa) × modelo (odds) -----
+  const modeloG = ex.under < ex.over ? 'menos' : 'mais'; // o que o modelo cego enxerga
+  const tendReal = jg.det && jg.det.tendencia ? jg.det.tendencia : null;
+  const direcaoG = tendReal || modeloG; // dado real prevalece
+  const g = direcaoG === 'menos' ? golsMenos : golsMais;
+  let justG;
+  if(tendReal && tendReal === modeloG){
+    justG = "✅ Análise real e modelo estatístico convergem — o melhor dos cenários";
+    txt += `<br><br>✅ <strong>Convergência:</strong> a análise dos especialistas e o modelo estatístico das odds apontam na mesma direção (${direcaoG === 'menos' ? 'jogo de poucos gols' : 'jogo com gols'}) — quando os dois concordam, a leitura ganha força.`;
+  } else if(tendReal){
+    justG = "📋 Indicação dos analistas (dado real) — prevalece sobre o modelo";
+    txt += `<br><br>⚠️ <strong>Divergência:</strong> os analistas apontam ${tendReal === 'menos' ? 'um jogo de poucos gols' : 'um jogo com gols'}, enquanto o modelo cego das odds sugeria o contrário. Nesses casos, o dado real pesquisado prevalece na indicação.`;
+  } else {
+    justG = "A leitura de gols mais provável segundo as odds";
+  }
+
   // ----- Motor de mercados indicados (variados por perfil de jogo) -----
   const clamp = (v,a,b) => Math.min(Math.max(v,a),b);
   const rodadaId = idJogo.split('-')[0];
@@ -967,26 +1092,23 @@ function abrirAnalise(idJogo){
       j:"Favorito pressionando bloco baixo gera escanteio em série"});
     mercados.push({n:"Menos de 4.5 cartões", o:1.52,
       j:"Jogo de domínio de um lado só tende a ser limpo"});
-    mercados.push({n:`${fav.n} vence + Mais de 2.5 gols`, o:fav.o*golsMais.o,
-      j:"A combinada clássica quando se espera goleada"});
+    mercados.push({n:`${fav.n} vence + ${g.e}`, o:fav.o*g.o,
+      j:justG});
   } else if(fav.o <= 2.10){
     // Favorito claro: proteção e leitura de gols
-    const g = ex.under < ex.over ? golsMenos : golsMais;
     mercados.push({n:`${fav.n} — empate anula aposta (DNB)`, o:clamp(fav.o*0.78, 1.18, 1.95),
       j:"Proteção contra o empate, cenário vivo neste perfil"});
-    mercados.push({n:g.e, o:g.o,
-      j:"A leitura de gols mais provável segundo as odds"});
+    mercados.push({n:g.e, o:g.o, j:justG});
     mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.70 : 1.88,
       j:decisiva ? "Rodada decisiva esquenta a disputa" : "Jogo disputado no meio-campo costuma puxar cartões"});
     mercados.push({n:`${fav.n} vence + ${(ex.sim < ex.nao ? bmSim : bmNao).e}`, o:fav.o*(ex.sim < ex.nao ? bmSim : bmNao).o,
       j:"Combinada para quem confia no favorito"});
   } else {
-    // Jogo equilibrado: proteção, físico e 1º tempo travado
+    // Jogo equilibrado: proteção, físico e leitura de gols
     const pDupla = 1/oX + 1/zeb.o;
     mercados.push({n:`Dupla chance: ${zeb.n} ou empate`, o:clamp((1/pDupla)*0.93, 1.25, 2.20),
       j:"Jogo aberto — a zebra protegida tem valor real"});
-    mercados.push({n:"Ambos marcam: Sim", o:ex.sim,
-      j:"Equilíbrio costuma significar chances dos dois lados"});
+    mercados.push({n:g.e, o:g.o, j:justG});
     mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.65 : 1.80,
       j:"Jogo parelho vira disputa física"});
     mercados.push({n:"1º tempo: menos de 1.5 gols", o:1.44,
