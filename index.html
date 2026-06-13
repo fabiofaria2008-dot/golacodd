@@ -1116,18 +1116,16 @@ function abrirAnalise(idJogo){
 
   // ----- Motor de mercados indicados (variados por perfil de jogo) -----
   const clamp = (v,a,b) => Math.min(Math.max(v,a),b);
-  const rodadaId = idJogo.split('-')[0];
-  const decisiva = rodadaId === 'r3'; // 3ª rodada = jogos de vida ou morte
   const mercados = [];
 
   if(fav.o <= 1.40){
-    // Favoritismo pesado: handicap, escanteios e jogo limpo
+    // Favoritismo pesado: handicap, escanteios e ambos não
     mercados.push({n:`${fav.n} handicap -1.5`, o:clamp(fav.o*1.9, 1.60, 3.40),
       j:"Paga muito melhor que o 1×2 seco em favoritismo pesado"});
     mercados.push({n:"Mais de 8.5 escanteios", o:clamp(1.50 + (fav.o-1.05)*0.6, 1.50, 2.10),
       j:"Favorito pressionando bloco baixo gera escanteio em série"});
-    mercados.push({n:"Menos de 4.5 cartões", o:1.52,
-      j:"Jogo de domínio de um lado só tende a ser limpo"});
+    mercados.push({n:"Ambos marcam: Não", o:ex.nao,
+      j:"Domínio de um lado só costuma sufocar o adversário"});
     mercados.push({n:`${fav.n} vence + ${g.e}`, o:fav.o*g.o,
       j:justG});
   } else if(fav.o <= 2.10){
@@ -1135,18 +1133,18 @@ function abrirAnalise(idJogo){
     mercados.push({n:`${fav.n} — empate anula aposta (DNB)`, o:clamp(fav.o*0.78, 1.18, 1.95),
       j:"Proteção contra o empate, cenário vivo neste perfil"});
     mercados.push({n:g.e, o:g.o, j:justG});
-    mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.70 : 1.88,
-      j:decisiva ? "Rodada decisiva esquenta a disputa" : "Jogo disputado no meio-campo costuma puxar cartões"});
+    mercados.push({n:`${fav.n} vence o 1º tempo`, o:clamp(fav.o*1.35, 1.70, 4.00),
+      j:"Favorito que impõe ritmo tende a sair na frente cedo"});
     mercados.push({n:`${fav.n} vence + ${(ex.sim < ex.nao ? bmSim : bmNao).e}`, o:fav.o*(ex.sim < ex.nao ? bmSim : bmNao).o,
       j:"Combinada para quem confia no favorito"});
   } else {
-    // Jogo equilibrado: proteção, físico e leitura de gols
+    // Jogo equilibrado: proteção, leitura de gols e 1º tempo
     const pDupla = 1/oX + 1/zeb.o;
     mercados.push({n:`Dupla chance: ${zeb.n} ou empate`, o:clamp((1/pDupla)*0.93, 1.25, 2.20),
       j:"Jogo aberto — a zebra protegida tem valor real"});
     mercados.push({n:g.e, o:g.o, j:justG});
-    mercados.push({n:"Mais de 3.5 cartões", o:decisiva ? 1.65 : 1.80,
-      j:"Jogo parelho vira disputa física"});
+    mercados.push({n:"Empate anula aposta no favorito", o:clamp(fav.o*0.82, 1.30, 2.10),
+      j:"Em jogo parelho, proteger contra o empate faz sentido"});
     mercados.push({n:"1º tempo: menos de 1.5 gols", o:1.44,
       j:"Confrontos estudados começam travados"});
   }
