@@ -778,25 +778,31 @@ function renderRodada(id){
 ['r1','r2','r3'].forEach(renderRodada);
 
 // ---------- Aba HOJE ----------
+const rotuloDia = {11:"Quinta · 11 de junho",12:"Sexta · 12 de junho",13:"Sábado · 13 de junho",14:"Domingo · 14 de junho",15:"Segunda · 15 de junho",16:"Terça · 16 de junho",17:"Quarta · 17 de junho",18:"Quinta · 18 de junho",19:"Sexta · 19 de junho",20:"Sábado · 20 de junho",21:"Domingo · 21 de junho",22:"Segunda · 22 de junho",23:"Terça · 23 de junho",24:"Quarta · 24 de junho",25:"Quinta · 25 de junho",26:"Sexta · 26 de junho",27:"Sábado · 27 de junho"};
+
 function renderHoje(){
   const sec = document.getElementById('hoje');
-  const todos = [];
+  // Agrupa por DIA EFETIVO de cada jogo (respeitando diaReal das madrugadas)
+  const porDia = {};
   ['r1','r2','r3'].forEach(id => rodadas[id].dias.forEach((dia,di) => {
-    const restantes = jogosRestantes(dia);
-    if(restantes.length) todos.push({l:dia.l, jogos:restantes, id, di, num:diaNum(dia.l)});
+    jogosRestantes(dia).forEach(x => {
+      const d = x.jg.diaReal || diaNum(dia.l);
+      (porDia[d] = porDia[d] || []).push({jg:x.jg, id:`${id}-${di}-${x.ji}`});
+    });
   }));
+  const diasOrdenados = Object.keys(porDia).map(Number).sort((a,b) => a-b);
 
   const agora = new Date();
   const ehJunho2026 = agora.getFullYear() === 2026 && agora.getMonth() === 5;
   const hojeNum = ehJunho2026 ? agora.getDate() : null;
 
-  let alvo = todos.filter(b => b.num === hojeNum);
+  let alvoNum = diasOrdenados.includes(hojeNum) ? hojeNum : null;
   let titulo = '🔥 Jogos de hoje', nota = '';
 
-  if(alvo.length === 0){
-    const prox = hojeNum !== null ? todos.find(b => b.num > hojeNum) : todos[0];
-    if(prox){
-      alvo = todos.filter(b => b.num === prox.num);
+  if(alvoNum === null){
+    const prox = hojeNum !== null ? diasOrdenados.find(d => d > hojeNum) : diasOrdenados[0];
+    if(prox !== undefined){
+      alvoNum = prox;
       titulo = '⏭ Próximos jogos';
       nota = '<div class="promo" style="margin-bottom:14px">Sem jogos restantes hoje — mostrando o próximo dia de partidas.</div>';
     } else {
@@ -805,11 +811,11 @@ function renderHoje(){
     }
   }
 
-  const ehHoje = alvo.length > 0 && titulo.includes('hoje');
-  const brJogos = [];
-  alvo.forEach(b => b.jogos.forEach(x => { if(x.jg.br) brJogos.push({jg:x.jg, id:`${b.id}-${b.di}-${x.ji}`}); }));
+  const jogosDoDia = porDia[alvoNum];
+  const ehHoje = titulo.includes('hoje');
+  const brJogos = jogosDoDia.filter(x => x.jg.br);
 
-  const totalJogos = alvo.reduce((s,b) => s + b.jogos.length, 0);
+  const totalJogos = jogosDoDia.length;
   let html = `<div class="promo-titulo">${titulo}</div>${nota}`;
 
   html += brJogos.map(x => `<div class="banner-brasil">
@@ -822,11 +828,9 @@ function renderHoje(){
   </div>`).join('');
 
   html += `<div class="promo" style="margin-bottom:14px"><span class="tagp">Painel do dia</span><b>${totalJogos} jogo${totalJogos>1?'s':''} ainda por vir</b>Toque em ✦ Ver Análise IA para ver estatísticas, probabilidades, indicação de vencedor e mercados de cada confronto.</div>`;
-  alvo.forEach(b => {
-    html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
-    b.jogos.forEach(x => { x.jg.dataL = b.l; html += jogoHTML(x.jg, `${b.id}-${b.di}-${x.ji}`); });
-    html += '</div>';
-  });
+  html += `<div class="dia"><span>${rotuloDia[alvoNum]}</span><span>Análise IA</span></div><div class="bloco">`;
+  jogosDoDia.forEach(x => { x.jg.dataL = x.jg.labelReal || rotuloDia[alvoNum]; html += jogoHTML(x.jg, x.id); });
+  html += '</div>';
 
   // ----- NBA do dia (ou próximo jogo da série) -----
   const nbaDias = nbaRestantes();
