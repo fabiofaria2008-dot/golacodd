@@ -1264,10 +1264,16 @@ async function gerarArte(){
   c.strokeStyle = "#2B3645"; c.lineWidth = 2;
   c.beginPath(); c.moveTo(M, y); c.lineTo(W-M, y); c.stroke();
 
-  // Data do jogo
+  // Data do jogo (com ícone de calendário neutro desenhado)
   y += 54;
+  c.save();
+  c.strokeStyle = "#F0A92E"; c.lineWidth = 3.5; c.lineCap = "round";
+  rr(c, M, y - 26, 32, 30, 6); c.stroke();
+  c.beginPath(); c.moveTo(M, y - 15); c.lineTo(M + 32, y - 15); c.stroke();
+  c.beginPath(); c.moveTo(M + 9, y - 32); c.lineTo(M + 9, y - 24); c.moveTo(M + 23, y - 32); c.lineTo(M + 23, y - 24); c.stroke();
+  c.restore();
   c.font = "600 28px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
-  c.fillText(`📅 ${(a.jg.dataL || '').toUpperCase()}`, M, y);
+  c.fillText((a.jg.dataL || '').toUpperCase(), M + 48, y);
 
   // Meta do jogo
   y += 42;
@@ -1283,16 +1289,16 @@ async function gerarArte(){
   let f1 = encolhe(c, a.jg.a.toUpperCase(), 78, W-2*M);
   c.fillStyle = "#E8ECF1"; c.font = `${f1}px Anton, sans-serif`;
   c.fillText(a.jg.a.toUpperCase(), M, y);
-  y += 58;
+  y += 54;
   c.save();
-  c.strokeStyle = "#C8472F"; c.lineWidth = 13; c.lineCap = "round";
-  const xc = M + 26, yc = y - 16, xr = 24;
+  c.strokeStyle = "#C8472F"; c.lineWidth = 12; c.lineCap = "round";
+  const xc = M + 24, yc = y - 14, xr = 21;
   c.beginPath();
   c.moveTo(xc - xr, yc - xr); c.lineTo(xc + xr, yc + xr);
   c.moveTo(xc + xr, yc - xr); c.lineTo(xc - xr, yc + xr);
   c.stroke();
   c.restore();
-  y += 74;
+  y += 86;
   let f2 = encolhe(c, a.jg.b.toUpperCase(), 78, W-2*M);
   c.fillStyle = "#E8ECF1"; c.font = `${f2}px Anton, sans-serif`;
   c.fillText(a.jg.b.toUpperCase(), M, y);
