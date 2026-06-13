@@ -435,6 +435,18 @@
   </div>
 </div>
 
+<!-- ============ Prévia da arte ============ -->
+<div class="modal-fundo" id="modalArte" hidden>
+  <div class="modal" style="max-width:460px" role="dialog" aria-label="Prévia da arte">
+    <div class="modal-head"><span>🎨 Sua arte está pronta</span><button id="fecharArte" aria-label="Fechar">✕</button></div>
+    <div style="padding:14px 14px 4px"><img id="imgArte" style="width:100%;border-radius:10px;display:block" alt="Arte da análise para compartilhar"></div>
+    <div style="padding:12px 14px 16px;display:flex;gap:10px">
+      <button class="btn-arte" id="btnCompartilhar" style="margin-top:0">📤 Compartilhar</button>
+      <button class="btn-arte" id="btnBaixar" style="margin-top:0;background:var(--panel-3);color:var(--txt)">⬇ Baixar</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <h2><span class="selo18">18+</span>Jogue com responsabilidade</h2>
   <p>O GolaçODD é um site de análises e palpites para fins informativos e de entretenimento — não é uma casa de apostas, não aceita apostas e não movimenta dinheiro. Apostas esportivas são entretenimento para maiores de 18 anos, não fonte de renda. Defina um limite de gasto antes da rodada e não tente recuperar perdas. As odds citadas flutuam e podem estar desatualizadas — confirme sempre os valores na sua casa de apostas licenciada antes de apostar. Se o jogo deixou de ser diversão, procure ajuda: o CVV atende no telefone 188, e o programa Jogadores Anônimos tem grupos em todo o Brasil.</p>
@@ -1272,7 +1284,7 @@ async function gerarArte(){
   c.fillStyle = "#E8ECF1"; c.font = `${f1}px Anton, sans-serif`;
   c.fillText(a.jg.a.toUpperCase(), M, y);
   y += 62;
-  c.font = "66px Anton, sans-serif"; c.fillStyle = "#C8472F"; c.fillText("×", M, y);
+  c.font = "800 58px Inter, sans-serif"; c.fillStyle = "#C8472F"; c.fillText("×", M+4, y);
   y += 70;
   let f2 = encolhe(c, a.jg.b.toUpperCase(), 78, W-2*M);
   c.fillStyle = "#E8ECF1"; c.font = `${f2}px Anton, sans-serif`;
@@ -1320,11 +1332,11 @@ async function gerarArte(){
     a.mercados.forEach(m => {
       const s = seloArte(m.o);
       c.beginPath(); c.arc(M+44, py-2, 9, 0, Math.PI*2); c.fillStyle = s.cor; c.fill();
-      c.font = "700 29px Inter, sans-serif"; c.fillStyle = "#E8ECF1";
-      let nome = m.n; c.font = "700 29px Inter, sans-serif";
-      while(c.measureText(nome).width > W-2*M-330 && nome.length > 8) nome = nome.slice(0,-2);
-      if(nome !== m.n) nome += "…";
-      c.fillText(nome, M+70, py+8);
+      c.fillStyle = "#E8ECF1";
+      let nf = 29; c.font = `700 ${nf}px Inter, sans-serif`;
+      const maxNome = W-2*M-290;
+      while(c.measureText(m.n).width > maxNome && nf > 19){ nf -= 1; c.font = `700 ${nf}px Inter, sans-serif`; }
+      c.fillText(m.n, M+70, py+8);
       c.font = "600 20px 'IBM Plex Mono', monospace"; c.fillStyle = s.cor;
       c.fillText(s.txt, M+70, py+38);
       c.font = "600 34px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
@@ -1342,21 +1354,39 @@ async function gerarArte(){
   c.fillText("Análise informativa e de entretenimento · Não é recomendação financeira", M, H-52);
   c.fillText("Odds de referência que flutuam · 18+ · Jogue com responsabilidade · " + new Date().toLocaleDateString('pt-BR'), M, H-24);
 
-  // Compartilhar (nativo no celular) ou baixar
-  cv.toBlob(async blob => {
+  // Mostra a prévia antes de compartilhar
+  cv.toBlob(blob => {
     if(!blob) return;
-    const file = new File([blob], "golacodd-analise.png", {type:"image/png"});
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      try{ await navigator.share({files:[file], title:"GolaçODD", text:"Análise IA do GolaçODD ⚽ " + SITE_URL}); return; }catch(e){ if(e.name === 'AbortError') return; }
-    }
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url; link.download = "golacodd-analise.png"; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    arteBlob = blob;
+    if(arteURL) URL.revokeObjectURL(arteURL);
+    arteURL = URL.createObjectURL(blob);
+    document.getElementById('imgArte').src = arteURL;
+    modalArte.hidden = false;
   }, "image/png");
 }
+
+// ---------- Prévia, compartilhar e baixar ----------
+let arteBlob = null, arteURL = null;
+const modalArte = document.getElementById('modalArte');
+
+document.getElementById('btnCompartilhar').addEventListener('click', async () => {
+  if(!arteBlob) return;
+  const file = new File([arteBlob], "golacodd-analise.png", {type:"image/png"});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file]}); return; }catch(e){ if(e.name === 'AbortError') return; }
+  }
+  baixarArte();
+});
+function baixarArte(){
+  if(!arteURL) return;
+  const link = document.createElement('a');
+  link.href = arteURL; link.download = "golacodd-analise.png"; link.click();
+}
+document.getElementById('btnBaixar').addEventListener('click', baixarArte);
+document.getElementById('fecharArte').addEventListener('click', () => modalArte.hidden = true);
+modalArte.addEventListener('click', e => { if(e.target === modalArte) modalArte.hidden = true; });
 modalIA.addEventListener('click', e => { if(e.target === modalIA) modalIA.hidden = true; });
-document.addEventListener('keydown', e => { if(e.key === 'Escape') modalIA.hidden = true; });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ modalIA.hidden = true; modalArte.hidden = true; } });
 </script>
 </body>
 </html>
