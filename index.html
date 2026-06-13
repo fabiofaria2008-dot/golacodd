@@ -530,7 +530,7 @@ const rodadas = {
          fonte:"Odds reais compiladas de sites especializados entre 08 e 11/06/2026 — cotações flutuam, confirme na casa"
        }}]},
     {l:"Sábado · 13 de junho",j:[
-      {h:"1h",a:"Austrália",b:"Turquia",g:"D",c:"Vancouver",o:[3.40,3.30,2.10]},
+      {h:"1h",a:"Austrália",b:"Turquia",g:"D",c:"Vancouver",o:[3.40,3.30,2.10],diaReal:14,labelReal:"Domingo · 14 de junho"},
       {h:"16h",a:"Catar",b:"Suíça",g:"B",c:"San Francisco",o:[5.00,3.60,1.70]},
       {h:"19h",a:"Brasil",b:"Marrocos",g:"C",c:"Nova York/Nova Jersey",o:[1.65,3.75,5.00],br:1,
        real:"1×2 real · Betfair · 10/06",
@@ -601,7 +601,7 @@ const rodadas = {
       {h:"18h",a:"França",b:"Iraque",g:"I",c:"Filadélfia",o:[1.16,7.50,18.0]},
       {h:"21h",a:"Noruega",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[2.50,3.20,2.85]}]},
     {l:"Terça · 23 de junho",j:[
-      {h:"0h",a:"Jordânia",b:"Argélia",g:"J",c:"San Francisco",o:[3.30,3.20,2.20]},
+      {h:"0h",a:"Jordânia",b:"Argélia",g:"J",c:"San Francisco",o:[3.30,3.20,2.20],diaReal:22,labelReal:"Segunda · 22 de junho"},
       {h:"14h",a:"Portugal",b:"Uzbequistão",g:"K",c:"Houston",o:[1.30,5.25,9.50]},
       {h:"17h",a:"Inglaterra",b:"Gana",g:"L",c:"Boston",o:[1.40,4.60,8.00]},
       {h:"20h",a:"Panamá",b:"Croácia",g:"L",c:"Toronto",o:[4.80,3.50,1.72]},
@@ -725,7 +725,7 @@ function jogoHTML(jg, idJogo){
   const pFav = Math.round((favCasa ? inv[0] : inv[2]) / soma * 100);
   return `<div class="jogo${jg.br?' br':''}">
         <div class="info">
-          <div class="meta"><span>${jg.h}</span><span class="g">Grupo ${jg.g}</span><span>${jg.c}</span>${jg.real ? '<span class="tag-real">● Dados reais</span>' : ''}</div>
+          <div class="meta"><span>${jg.h}</span><span class="g">Grupo ${jg.g}</span><span>${jg.c}</span>${jg.labelReal ? `<span style="color:#F0A92E">↳ ${jg.labelReal}</span>` : ''}${jg.real ? '<span class="tag-real">● Dados reais</span>' : ''}</div>
           <div class="times"><span>${jg.a}${jg.br&&jg.a==='Brasil'?' <span class="estrela">★</span>':''}</span><span>${jg.b}${jg.br&&jg.b==='Brasil'?' <span class="estrela">★</span>':''}</span></div>
         </div>
         <div class="favchip">
@@ -741,9 +741,10 @@ function jogoHTML(jg, idJogo){
 const diaNum = l => { const m = l.match(/(\d+) de junho/); return m ? +m[1] : null; };
 function horaMin(h){ const m = h.match(/(\d+)h(\d+)?/); return {h:+m[1], m:+(m[2]||0)}; }
 function jogoEncerrado(diaN, jg){
-  if(diaN === null) return false;
+  const dia = jg.diaReal || diaN; // madrugada que vira o dia seguinte em Brasília
+  if(dia === null) return false;
   const t = horaMin(jg.h);
-  const kickoff = Date.UTC(2026, 5, diaN, t.h + 3, t.m); // horários de Brasília (UTC-3)
+  const kickoff = Date.UTC(2026, 5, dia, t.h + 3, t.m); // horários de Brasília (UTC-3)
   return Date.now() > kickoff + 150*60*1000; // considera encerrado ~2h30 após o início
 }
 function jogosRestantes(dia){
@@ -1273,7 +1274,7 @@ async function gerarArte(){
   c.beginPath(); c.moveTo(M + 9, y - 32); c.lineTo(M + 9, y - 24); c.moveTo(M + 23, y - 32); c.lineTo(M + 23, y - 24); c.stroke();
   c.restore();
   c.font = "600 28px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
-  c.fillText((a.jg.dataL || '').toUpperCase(), M + 48, y);
+  c.fillText((a.jg.labelReal || a.jg.dataL || '').toUpperCase(), M + 48, y);
 
   // Meta do jogo
   y += 42;
