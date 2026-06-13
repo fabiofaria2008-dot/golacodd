@@ -756,7 +756,7 @@ function renderRodada(id){
     if(restantes.length === 0) return; // dia inteiro já disputado
     temJogos = true;
     html += `<div class="dia"><span>${dia.l}</span><span>Análise IA</span></div><div class="bloco">`;
-    restantes.forEach(x => { html += jogoHTML(x.jg, `${id}-${di}-${x.ji}`); });
+    restantes.forEach(x => { x.jg.dataL = dia.l; html += jogoHTML(x.jg, `${id}-${di}-${x.ji}`); });
     html += '</div>';
   });
   if(!temJogos) html += '<div class="promo" style="margin-top:8px"><b>✅ Rodada encerrada</b>Todos os jogos desta rodada já foram disputados e saíram da lista.</div>';
@@ -811,7 +811,7 @@ function renderHoje(){
   html += `<div class="promo" style="margin-bottom:14px"><span class="tagp">Painel do dia</span><b>${totalJogos} jogo${totalJogos>1?'s':''} ainda por vir</b>Toque em ✦ Ver Análise IA para ver estatísticas, probabilidades, indicação de vencedor e mercados de cada confronto.</div>`;
   alvo.forEach(b => {
     html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
-    b.jogos.forEach(x => { html += jogoHTML(x.jg, `${b.id}-${b.di}-${x.ji}`); });
+    b.jogos.forEach(x => { x.jg.dataL = b.l; html += jogoHTML(x.jg, `${b.id}-${b.di}-${x.ji}`); });
     html += '</div>';
   });
 
@@ -837,7 +837,7 @@ function blocoNBA(dias, prefixo){
   let html = '';
   dias.forEach(b => {
     html += `<div class="dia"><span>${b.l}</span><span>Análise IA</span></div><div class="bloco">`;
-    b.jogos.forEach(x => { html += jogoHTML(x.jg, `${prefixo}-${b.di}-${x.ji}`); });
+    b.jogos.forEach(x => { x.jg.dataL = b.l; html += jogoHTML(x.jg, `${prefixo}-${b.di}-${x.ji}`); });
     html += '</div>';
   });
   return html;
@@ -1252,27 +1252,34 @@ async function gerarArte(){
   c.strokeStyle = "#2B3645"; c.lineWidth = 2;
   c.beginPath(); c.moveTo(M, y); c.lineTo(W-M, y); c.stroke();
 
+  // Data do jogo
+  y += 54;
+  c.font = "600 28px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
+  c.fillText(`📅 ${(a.jg.dataL || '').toUpperCase()}`, M, y);
+
   // Meta do jogo
-  y += 58;
-  c.font = "600 26px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
+  y += 42;
+  c.fillStyle = "#8B97A5";
   const meta = a.nba ? `${a.jg.h} · ${a.tier} · ${a.jg.c}`.toUpperCase()
                      : `${a.jg.h} · GRUPO ${a.jg.g} · ${a.jg.c}`.toUpperCase();
+  let mf = 25; c.font = `600 ${mf}px 'IBM Plex Mono', monospace`;
+  while(c.measureText(meta).width > W-2*M && mf > 18){ mf -= 1; c.font = `600 ${mf}px 'IBM Plex Mono', monospace`; }
   c.fillText(meta, M, y);
 
   // Times
-  y += 86;
+  y += 80;
   let f1 = encolhe(c, a.jg.a.toUpperCase(), 78, W-2*M);
   c.fillStyle = "#E8ECF1"; c.font = `${f1}px Anton, sans-serif`;
   c.fillText(a.jg.a.toUpperCase(), M, y);
   y += 62;
-  c.font = "44px Anton, sans-serif"; c.fillStyle = "#C8472F"; c.fillText("×", M, y);
-  y += 66;
+  c.font = "66px Anton, sans-serif"; c.fillStyle = "#C8472F"; c.fillText("×", M, y);
+  y += 70;
   let f2 = encolhe(c, a.jg.b.toUpperCase(), 78, W-2*M);
   c.fillStyle = "#E8ECF1"; c.font = `${f2}px Anton, sans-serif`;
   c.fillText(a.jg.b.toUpperCase(), M, y);
 
   // Bloco: indicação de vencedor
-  y += 52;
+  y += 44;
   rr(c, M, y, W-2*M, 158, 14); c.fillStyle = "#161D26"; c.fill();
   c.strokeStyle = "#2B3645"; c.lineWidth = 2; rr(c, M, y, W-2*M, 158, 14); c.stroke();
   c.font = "600 22px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
@@ -1290,8 +1297,8 @@ async function gerarArte(){
   c.fillStyle = sl.cor; c.fillText(sl.txt, M+34, y+142);
 
   // Bloco: mercados (futebol) ou probabilidades (NBA)
-  y += 196;
-  const altura = a.nba ? 200 : 78 + a.mercados.length*84;
+  y += 192;
+  const altura = a.nba ? 200 : 76 + a.mercados.length*80;
   rr(c, M, y, W-2*M, altura, 14); c.fillStyle = "#161D26"; c.fill();
   c.strokeStyle = "#2B3645"; rr(c, M, y, W-2*M, altura, 14); c.stroke();
   c.font = "600 22px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
@@ -1323,7 +1330,7 @@ async function gerarArte(){
       c.font = "600 34px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
       const o2 = m.o.toFixed(2);
       c.fillText(o2, W-M-34-c.measureText(o2).width, py+12);
-      py += 84;
+      py += 80;
     });
   }
 
