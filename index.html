@@ -460,7 +460,6 @@ const rodadas = {
   r1:{destaques:[
     {dia:11,h:"16h",t:"Abertura no Azteca",d:"México em casa, na altitude, com estádio lotado — anfitriões não perdem aberturas de Copa. Risco: pressão travar o 1º tempo. Estude vitória do México e menos de 2.5 gols."},
     {dia:11,h:"23h",t:"Coreia do Sul × Rep. Tcheca",d:"A Tcheca volta a uma Copa após 20 anos e marcou 2+ gols nos últimos 5 jogos. Son Heung-min do outro lado. Os analistas apontam ambos marcam \"sim\"."},
-    {dia:12,h:"22h",t:"EUA × Paraguai",d:"Anfitrião jovem e veloz contra a defesa mais fechada das Eliminatórias. Os EUA venceram 5 dos 7 confrontos diretos. Cuidado com favoritismo exagerado: jogo de poucos gols."},
     {dia:13,h:"19h",t:"Brasil × Marrocos",d:"A estreia mais dura entre os cabeças de chave. Marrocos defende muito bem; espere bloco baixo e contra-ataques. Estude ambos marcam \"não\"."},
     {dia:14,h:"17h",t:"Holanda × Japão",d:"O jogo mais equilibrado da rodada. Japão derrubou Alemanha e Espanha em 2022. Estude ambos marcam \"sim\" e dupla chance no Japão."},
     {dia:16,h:"16h",t:"França × Senegal",d:"Reedição da histórica abertura de 2002, quando o Senegal bateu os campeões mundiais por 1 a 0. A França favorita, mas com fantasma no retrovisor — e Senegal forte fisicamente."}
@@ -738,6 +737,7 @@ function jogoHTML(jg, idJogo){
 }
 
 // ---------- Filtro de jogos já disputados ----------
+const rotuloDia = {11:"Quinta · 11 de junho",12:"Sexta · 12 de junho",13:"Sábado · 13 de junho",14:"Domingo · 14 de junho",15:"Segunda · 15 de junho",16:"Terça · 16 de junho",17:"Quarta · 17 de junho",18:"Quinta · 18 de junho",19:"Sexta · 19 de junho",20:"Sábado · 20 de junho",21:"Domingo · 21 de junho",22:"Segunda · 22 de junho",23:"Terça · 23 de junho",24:"Quarta · 24 de junho",25:"Quinta · 25 de junho",26:"Sexta · 26 de junho",27:"Sábado · 27 de junho"};
 const diaNum = l => { const m = l.match(/(\d+) de junho/); return m ? +m[1] : null; };
 function horaMin(h){ const m = h.match(/(\d+)h(\d+)?/); return {h:+m[1], m:+(m[2]||0)}; }
 function jogoEncerrado(diaN, jg){
@@ -745,7 +745,7 @@ function jogoEncerrado(diaN, jg){
   if(dia === null) return false;
   const t = horaMin(jg.h);
   const kickoff = Date.UTC(2026, 5, dia, t.h + 3, t.m); // horários de Brasília (UTC-3)
-  return Date.now() > kickoff + 150*60*1000; // considera encerrado ~2h30 após o início
+  return Date.now() > kickoff + 120*60*1000; // considera encerrado ~2h após o início (jogo real dura ~1h50)
 }
 function jogosRestantes(dia){
   const n = diaNum(dia.l);
@@ -764,12 +764,21 @@ function renderRodada(id){
     html += '</div>';
   }
   let temJogos = false;
+  // Reagrupa por dia efetivo: jogos de madrugada (diaReal) migram para o dia correto
+  const blocos = [];
   r.dias.forEach((dia,di) => {
-    const restantes = jogosRestantes(dia);
-    if(restantes.length === 0) return; // dia inteiro já disputado
+    jogosRestantes(dia).forEach(x => {
+      const d = x.jg.diaReal || diaNum(dia.l);
+      let bloco = blocos.find(b => b.num === d);
+      if(!bloco){ bloco = {num:d, label:(x.jg.labelReal || rotuloDia[d] || dia.l), jogos:[]}; blocos.push(bloco); }
+      bloco.jogos.push({jg:x.jg, id:`${id}-${di}-${x.ji}`});
+    });
+  });
+  blocos.sort((a,b) => a.num - b.num);
+  blocos.forEach(bloco => {
     temJogos = true;
-    html += `<div class="dia"><span>${dia.l}</span><span>Análise IA</span></div><div class="bloco">`;
-    restantes.forEach(x => { x.jg.dataL = dia.l; html += jogoHTML(x.jg, `${id}-${di}-${x.ji}`); });
+    html += `<div class="dia"><span>${bloco.label}</span><span>Análise IA</span></div><div class="bloco">`;
+    bloco.jogos.forEach(x => { x.jg.dataL = x.jg.labelReal || bloco.label; html += jogoHTML(x.jg, x.id); });
     html += '</div>';
   });
   if(!temJogos) html += '<div class="promo" style="margin-top:8px"><b>✅ Rodada encerrada</b>Todos os jogos desta rodada já foram disputados e saíram da lista.</div>';
@@ -778,8 +787,6 @@ function renderRodada(id){
 ['r1','r2','r3'].forEach(renderRodada);
 
 // ---------- Aba HOJE ----------
-const rotuloDia = {11:"Quinta · 11 de junho",12:"Sexta · 12 de junho",13:"Sábado · 13 de junho",14:"Domingo · 14 de junho",15:"Segunda · 15 de junho",16:"Terça · 16 de junho",17:"Quarta · 17 de junho",18:"Quinta · 18 de junho",19:"Sexta · 19 de junho",20:"Sábado · 20 de junho",21:"Domingo · 21 de junho",22:"Segunda · 22 de junho",23:"Terça · 23 de junho",24:"Quarta · 24 de junho",25:"Quinta · 25 de junho",26:"Sexta · 26 de junho",27:"Sábado · 27 de junho"};
-
 function renderHoje(){
   const sec = document.getElementById('hoje');
   // Agrupa por DIA EFETIVO de cada jogo (respeitando diaReal das madrugadas)
@@ -897,7 +904,9 @@ const historico = [
   {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"1º tempo: menos de 1.5 gols",odd:1.44,res:"g",obs:"0×0 no intervalo — gols só no 2º tempo"},
   {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Canadá vence",odd:1.85,res:"p",obs:""},
   {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Menos de 2.5 gols",odd:2.03,res:"p",obs:""},
-  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"p",obs:""}
+  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"g",obs:"EUA 4×1 — vitória dominante na estreia em casa"},
+  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Mais de 2.5 gols",odd:1.86,res:"g",obs:"5 gols no jogo (4×1)"},
+  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vence + Ambos marcam: Sim",odd:3.18,res:"g",obs:"EUA venceu e os dois marcaram"}
 ];
 
 function renderHistorico(){
