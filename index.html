@@ -892,22 +892,22 @@ function renderNBA(){
 renderNBA();
 
 // ---------- Histórico de indicações (greens & reds) ----------
-// res: 'g' = green, 'r' = red, 'p' = em aberto
+// res: 'g' = green, 'r' = red, 'p' = em aberto · dh = ordenação cronológica (dia*100+hora)
 const historico = [
-  {data:"11/06",jogo:"México × África do Sul",ind:"México vence",odd:1.65,res:"g",obs:"México 2×0 — quebrou o tabu das aberturas"},
-  {data:"11/06",jogo:"México × África do Sul",ind:"Menos de 2.5 gols",odd:1.73,res:"g",obs:"2 gols no jogo — dado real (Betboom) confirmado"},
-  {data:"11/06",jogo:"México × África do Sul",ind:"Mais de 3.5 cartões",odd:1.61,res:"g",obs:"Jogo com 3 expulsões"},
-  {data:"11/06",jogo:"México × África do Sul",ind:"México vence + Ambos marcam: Sim",odd:2.90,res:"r",obs:"A África do Sul não marcou (2×0)"},
-  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Coreia do Sul vence",odd:2.60,res:"g",obs:"Coreia 2×1, de virada"},
-  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Ambos marcam: Sim",odd:1.94,res:"g",obs:"2×1 — dado real (Hiperbet) confirmado"},
-  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"Dupla chance: Tcheca ou empate",odd:1.37,res:"r",obs:"A Coreia venceu — a proteção falhou"},
-  {data:"11/06",jogo:"Coreia do Sul × Rep. Tcheca",ind:"1º tempo: menos de 1.5 gols",odd:1.44,res:"g",obs:"0×0 no intervalo — gols só no 2º tempo"},
-  {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Canadá vence",odd:1.85,res:"p",obs:""},
-  {data:"12/06",jogo:"Canadá × Bósnia e Herzegovina",ind:"Menos de 2.5 gols",odd:2.03,res:"p",obs:""},
-  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"g",obs:"EUA 4×1 — vitória dominante na estreia em casa"},
-  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Mais de 2.5 gols",odd:1.86,res:"g",obs:"5 gols no jogo (4×1)"},
-  {data:"12/06",jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vence + Ambos marcam: Sim",odd:3.18,res:"g",obs:"EUA venceu e os dois marcaram"}
-];
+  {data:"11/06 16h",dh:1116,jogo:"México × África do Sul",ind:"México vence",odd:1.65,res:"g",obs:"México 2×0 — quebrou o tabu das aberturas"},
+  {data:"11/06 16h",dh:1116,jogo:"México × África do Sul",ind:"Menos de 2.5 gols",odd:1.73,res:"g",obs:"2 gols no jogo — dado real (Betboom) confirmado"},
+  {data:"11/06 16h",dh:1116,jogo:"México × África do Sul",ind:"Mais de 3.5 cartões",odd:1.61,res:"g",obs:"Jogo com 3 expulsões"},
+  {data:"11/06 16h",dh:1116,jogo:"México × África do Sul",ind:"México vence + Ambos marcam: Sim",odd:2.90,res:"r",obs:"A África do Sul não marcou (2×0)"},
+  {data:"11/06 23h",dh:1123,jogo:"Coreia do Sul × Rep. Tcheca",ind:"Coreia do Sul vence",odd:2.60,res:"g",obs:"Coreia 2×1, de virada"},
+  {data:"11/06 23h",dh:1123,jogo:"Coreia do Sul × Rep. Tcheca",ind:"Ambos marcam: Sim",odd:1.94,res:"g",obs:"2×1 — dado real (Hiperbet) confirmado"},
+  {data:"11/06 23h",dh:1123,jogo:"Coreia do Sul × Rep. Tcheca",ind:"Dupla chance: Tcheca ou empate",odd:1.37,res:"r",obs:"A Coreia venceu — a proteção falhou"},
+  {data:"11/06 23h",dh:1123,jogo:"Coreia do Sul × Rep. Tcheca",ind:"1º tempo: menos de 1.5 gols",odd:1.44,res:"g",obs:"0×0 no intervalo — gols só no 2º tempo"},
+  {data:"12/06 16h",dh:1216,jogo:"Canadá × Bósnia e Herzegovina",ind:"Canadá vence",odd:1.85,res:"r",obs:"1×1 — Larin empatou aos 33 do 2º tempo"},
+  {data:"12/06 16h",dh:1216,jogo:"Canadá × Bósnia e Herzegovina",ind:"Menos de 2.5 gols",odd:2.03,res:"g",obs:"2 gols no jogo (1×1) — dado real confirmado"},
+  {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"g",obs:"EUA 4×1 — vitória dominante na estreia em casa"},
+  {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Mais de 2.5 gols",odd:1.86,res:"g",obs:"5 gols no jogo (4×1)"},
+  {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vence + Ambos marcam: Sim",odd:3.18,res:"g",obs:"EUA venceu e os dois marcaram"}
+].sort((a,b) => a.dh - b.dh);
 
 function renderHistorico(){
   const sec = document.getElementById('historico');
