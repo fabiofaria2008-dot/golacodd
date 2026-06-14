@@ -284,6 +284,7 @@
   .badge-res.g{color:#4ADE80;background:rgba(39,174,96,.14);border:1px solid rgba(39,174,96,.5)}
   .badge-res.r{color:#FF8A75;background:rgba(224,86,63,.13);border:1px solid rgba(224,86,63,.55)}
   .badge-res.p{color:#F2D060;background:rgba(232,197,71,.12);border:1px solid rgba(232,197,71,.45)}
+  .badge-res.a{color:#9FB0C0;background:rgba(139,151,165,.13);border:1px solid rgba(139,151,165,.45)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -906,13 +907,20 @@ const historico = [
   {data:"12/06 16h",dh:1216,jogo:"Canadá × Bósnia e Herzegovina",ind:"Menos de 2.5 gols",odd:2.03,res:"g",obs:"2 gols no jogo (1×1) — dado real confirmado"},
   {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vencem",odd:1.95,res:"g",obs:"EUA 4×1 — vitória dominante na estreia em casa"},
   {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Mais de 2.5 gols",odd:1.86,res:"g",obs:"5 gols no jogo (4×1)"},
-  {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vence + Ambos marcam: Sim",odd:3.18,res:"g",obs:"EUA venceu e os dois marcaram"}
+  {data:"12/06 22h",dh:1222,jogo:"Estados Unidos × Paraguai",ind:"Estados Unidos vence + Ambos marcam: Sim",odd:3.18,res:"g",obs:"EUA venceu e os dois marcaram"},
+  {data:"13/06 16h",dh:1316,jogo:"Catar × Suíça",ind:"Suíça vence",odd:1.70,res:"r",obs:"1×1 — Catar empatou com gol contra nos acréscimos"},
+  {data:"13/06 16h",dh:1316,jogo:"Catar × Suíça",ind:"Menos de 2.5 gols",odd:1.65,res:"g",obs:"2 gols no jogo (1×1)"},
+  {data:"13/06 19h",dh:1319,jogo:"Brasil × Marrocos",ind:"Brasil vence",odd:1.65,res:"r",obs:"1×1 — Saibari abriu, Vini Jr. empatou com golaço"},
+  {data:"13/06 19h",dh:1319,jogo:"Brasil × Marrocos",ind:"Brasil — empate anula aposta (DNB)",odd:1.30,res:"a",obs:"Empate anulou a aposta — stake devolvida (não conta como erro)"},
+  {data:"13/06 19h",dh:1319,jogo:"Brasil × Marrocos",ind:"Ambos marcam: Não",odd:1.91,res:"r",obs:"Os dois marcaram no 1º tempo (1×1)"},
+  {data:"13/06 22h",dh:1322,jogo:"Haiti × Escócia",ind:"Escócia vence",odd:1.70,res:"g",obs:"Escócia 1×0, gol de McGinn — green!"},
+  {data:"13/06 22h",dh:1322,jogo:"Haiti × Escócia",ind:"Menos de 2.5 gols",odd:1.60,res:"g",obs:"Apenas 1 gol no jogo"}
 ].sort((a,b) => a.dh - b.dh);
 
 function renderHistorico(){
   const sec = document.getElementById('historico');
-  const resolvidas = historico.filter(x => x.res !== 'p');
-  const pendentes = historico.filter(x => x.res === 'p');
+  const resolvidas = historico.filter(x => x.res !== 'p' && x.res !== 'a'); // 'a' = anulada (push)
+  const anuladas = historico.filter(x => x.res === 'a');
   const greens = resolvidas.filter(x => x.res === 'g').length;
   const reds = resolvidas.length - greens;
   const taxa = resolvidas.length ? Math.round(greens / resolvidas.length * 100) : 0;
@@ -937,7 +945,7 @@ function renderHistorico(){
         ${x.obs ? `<div class="hobs">${x.obs}</div>` : ''}
       </div>
       <span class="hodd">${x.odd.toFixed(2)}</span>
-      <span class="badge-res ${x.res}">${x.res === 'g' ? '🟢 Green' : x.res === 'r' ? '🔴 Red' : '⏳ Aberta'}</span>
+      <span class="badge-res ${x.res}">${x.res === 'g' ? '🟢 Green' : x.res === 'r' ? '🔴 Red' : x.res === 'a' ? '⚪ Anulada' : '⏳ Aberta'}</span>
     </div>`;
 
   sec.innerHTML = `
@@ -957,7 +965,7 @@ function renderHistorico(){
       </div>`).join('')}
       <div class="pl-margem">Saldo simulado com aposta fixa de 1 unidade por indicação. Histórico auditado a cada atualização do site — resultados passados não garantem resultados futuros.</div>
     </div>
-    ${pendentes.length ? `<div class="dia"><span>⏳ Em aberto</span><span>${pendentes.length}</span></div><div class="bloco" style="margin-bottom:18px">${pendentes.map(linha).join('')}</div>` : ''}
+    ${anuladas.length ? `<div class="dia"><span>⚪ Anuladas (push)</span><span>${anuladas.length}</span></div><div class="bloco" style="margin-bottom:18px">${anuladas.map(linha).join('')}</div>` : ''}
     <div class="dia"><span>Resolvidas</span><span>${resolvidas.length}</span></div>
     <div class="bloco">${resolvidas.map(linha).join('')}</div>`;
 }
