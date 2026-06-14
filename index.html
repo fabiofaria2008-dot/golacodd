@@ -558,9 +558,40 @@ const rodadas = {
       {h:"20h",a:"Costa do Marfim",b:"Equador",g:"E",c:"Filadélfia",o:[2.90,3.10,2.50]},
       {h:"23h",a:"Suécia",b:"Tunísia",g:"F",c:"Monterrey",o:[1.75,3.50,4.80]}]},
     {l:"Segunda · 15 de junho",j:[
-      {h:"13h",a:"Espanha",b:"Cabo Verde",g:"H",c:"Atlanta",o:[1.12,8.50,21.0]},
+      {h:"13h",a:"Espanha",b:"Cabo Verde",g:"H",c:"Atlanta",o:[1.10,8.50,23.0],real:"1×2 real · Bet365 · 14/06",
+       det:{
+         stats:[
+           "A Espanha é 2ª do ranking FIFA, contra a estreante Cabo Verde — 67 posições de diferença",
+           "A Espanha marcou nos dois tempos nos últimos 5 jogos oficiais e vem de Eurocopa 2024 e Nations League 2025",
+           "Defesa espanhola sólida: só 2 gols sofridos nos últimos 5 jogos",
+           "Cabo Verde estreia em Copas, mas vem de 3 vitórias nos últimos 5 (3×0 Bermuda, 3×0 Sérvia)"
+         ],
+         tendencia:"mais",
+         mercados:[
+           {casa:"Bet365",m:"Espanha marca nos dois tempos",o:"1.50"},
+           {casa:"Bet365",m:"Espanha marca de 3 a 6 gols",o:"1.66"},
+           {casa:"Bet365",m:"Oyarzábal marca a qualquer momento",o:"1.53"},
+           {casa:"Bet365",m:"Espanha vence (1×2)",o:"1.10"}
+         ],
+         fonte:"Odds reais Bet365 compiladas em 14/06/2026 — cotações flutuam, confirme na casa"
+       }},
       {h:"16h",a:"Bélgica",b:"Egito",g:"G",c:"Seattle",o:[1.60,3.80,5.75]},
-      {h:"19h",a:"Arábia Saudita",b:"Uruguai",g:"H",c:"Miami",o:[6.00,3.80,1.57]},
+      {h:"19h",a:"Arábia Saudita",b:"Uruguai",g:"H",c:"Miami",o:[6.00,3.80,1.57],real:"1×2 real · Bet365 · 14/06",
+       det:{
+         stats:[
+           "Uruguai bicampeão mundial, 15ª participação, comandado por Marcelo Bielsa com pressão alta e intensidade",
+           "No único confronto em Copas (2018), o Uruguai venceu a Arábia por 1 a 0",
+           "A Arábia trocou de técnico (Georgios Donis) a 2 meses da Copa — só 3 jogos no comando",
+           "A Arábia é a zebra histórica (bateu a Argentina em 2022), mas chega com pouca entrosagem"
+         ],
+         tendencia:"menos",
+         mercados:[
+           {casa:"Bet365",m:"Uruguai vence (1×2)",o:"1.57"},
+           {casa:"Bet365",m:"Uruguai — empate anula (DNB)",o:"1.25"},
+           {casa:"Bet365",m:"Menos de 2.5 gols",o:"1.70"}
+         ],
+         fonte:"Odds reais Bet365 compiladas em 14/06/2026 — cotações flutuam, confirme na casa"
+       }},
       {h:"22h",a:"Irã",b:"Nova Zelândia",g:"G",c:"Los Angeles",o:[1.95,3.20,4.20]}]},
     {l:"Terça · 16 de junho",j:[
       {h:"14h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0]},
@@ -918,7 +949,13 @@ const historico = [
   {teste:true,data:"13/06 19h",dh:1319,jogo:"Brasil × Marrocos",ind:"Brasil — empate anula (DNB)",odd:1.30,res:"a",obs:"Empate anulou — stake devolvida"},
   {teste:true,data:"13/06 19h",dh:1319,jogo:"Brasil × Marrocos",ind:"Ambos marcam: Não",odd:1.91,res:"r",obs:"Os dois marcaram no 1º tempo"},
   {teste:true,data:"13/06 22h",dh:1322,jogo:"Haiti × Escócia",ind:"Escócia vence",odd:1.70,res:"g",obs:"Escócia 1×0, gol de McGinn"},
-  {teste:true,data:"13/06 22h",dh:1322,jogo:"Haiti × Escócia",ind:"Menos de 2.5 gols",odd:1.60,res:"g",obs:"Apenas 1 gol no jogo"}
+  {teste:true,data:"13/06 22h",dh:1322,jogo:"Haiti × Escócia",ind:"Menos de 2.5 gols",odd:1.60,res:"g",obs:"Apenas 1 gol no jogo"},
+  {teste:true,data:"14/06 01h",dh:1401,jogo:"Austrália × Turquia",ind:"Turquia vence",odd:2.10,res:"g",obs:"Turquia 2×0 — favorita confirmou fora"},
+  {teste:true,data:"14/06 01h",dh:1401,jogo:"Austrália × Turquia",ind:"Menos de 2.5 gols",odd:1.80,res:"g",obs:"2 gols no jogo (2×0)"},
+  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Alemanha vence",odd:1.20,res:"g",obs:"Goleada histórica: 7×1"},
+  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Alemanha handicap -1.5",odd:1.30,res:"g",obs:"Venceu por 6 de saldo (7×1)"},
+  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Mais de 2.5 gols",odd:1.45,res:"g",obs:"8 gols no jogo! (7×1)"},
+  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Ambos marcam: Não",odd:1.50,res:"r",obs:"Curaçao descontou (Comenencia) — 7×1"}
   // ===== A PARTIR DAQUI: placar oficial com odds reais Bet365 (2ª rodada em diante) =====
 ].sort((a,b) => a.dh - b.dh);
 
