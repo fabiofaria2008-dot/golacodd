@@ -755,16 +755,18 @@ function jogoHTML(jg, idJogo){
   const fav = favCasa ? jg.a : jg.b;
   const inv = jg.o.map(o => 1/o);
   const soma = inv.reduce((a,b) => a+b, 0);
+  const oFav = Math.min(jg.o[0], jg.o[2]);
   const pFav = Math.round((favCasa ? inv[0] : inv[2]) / soma * 100);
+  const chip = oFav > 2.30
+    ? `<span class="fc-rotulo">Análise</span><span class="fc-nome">Jogo equilibrado</span><span class="fc-prob">sem favorito claro</span>`
+    : `<span class="fc-rotulo">Favorito</span><span class="fc-nome">${fav}</span><span class="fc-prob">${pFav}% implícito</span>`;
   return `<div class="jogo${jg.br?' br':''}">
         <div class="info">
           <div class="meta"><span>${jg.h}</span><span class="g">Grupo ${jg.g}</span><span>${jg.c}</span>${jg.labelReal ? `<span style="color:#F0A92E">↳ ${jg.labelReal}</span>` : ''}${jg.real ? '<span class="tag-real">● Dados reais</span>' : ''}</div>
           <div class="times"><span>${jg.a}${jg.br&&jg.a==='Brasil'?' <span class="estrela">★</span>':''}</span><span>${jg.b}${jg.br&&jg.b==='Brasil'?' <span class="estrela">★</span>':''}</span></div>
         </div>
         <div class="favchip">
-          <span class="fc-rotulo">Favorito</span>
-          <span class="fc-nome">${fav}</span>
-          <span class="fc-prob">${pFav}% implícito</span>
+          ${chip}
         </div>
         <button class="btn-ia" data-ia="${idJogo}">✦ Ver Análise IA</button>
       </div>`;
@@ -1161,6 +1163,7 @@ function abrirAnalise(idJogo){
   const ex = extras(jg.o);
 
   let tier, conf, txt;
+  const semFavorito = fav.o > 2.30; // sem favoritismo real — não cravamos vencedor
   if(fav.o <= 1.40){
     tier = "Favoritismo pesado"; conf = "Convicção alta · odd baixa";
     txt = `<strong>${fav.n}</strong> chega com favoritismo pesado neste confronto. A odd seca paga pouco sozinha — o valor tende a estar em combiná-la com mercados de gols ou handicap. E cuidado: zebras de Copa adoram exatamente esse perfil de jogo.`;
@@ -1169,7 +1172,7 @@ function abrirAnalise(idJogo){
     txt = `<strong>${fav.n}</strong> é o favorito, mas sem margem confortável. ${zeb.n} a ${zeb.o.toFixed(2)} pode ter valor se o jogo ficar truncado, e o empate a ${oX.toFixed(2)} é um cenário vivo que merece respeito.`;
   } else {
     tier = "Jogo equilibrado"; conf = "Convicção baixa · jogo aberto";
-    txt = `As odds mostram pouca distância entre <strong>${jg.a}</strong> e <strong>${jg.b}</strong>. O 1×2 seco é arriscado nesse perfil — os mercados de gols costumam oferecer uma leitura mais estável do que tentar cravar o vencedor.`;
+    txt = `As odds mostram um jogo muito parelho entre <strong>${jg.a}</strong> (${o1.toFixed(2)}), empate (${oX.toFixed(2)}) e <strong>${jg.b}</strong> (${o2.toFixed(2)}). Cravar o vencedor aqui é arriscado demais — por isso a IA <strong>não indica um lado</strong> e foca apenas em mercados que independem de quem vence, como gols e ritmo do 1º tempo.`;
   }
   const nota = notas[`${jg.a} × ${jg.b}`];
   if(nota) txt += `<br><br>${nota}`;
@@ -1219,15 +1222,12 @@ function abrirAnalise(idJogo){
     mercados.push({n:`${fav.n} vence + ${(ex.sim < ex.nao ? bmSim : bmNao).e}`, o:fav.o*(ex.sim < ex.nao ? bmSim : bmNao).o,
       j:"Combinada para quem confia no favorito"});
   } else {
-    // Jogo equilibrado: proteção, leitura de gols e 1º tempo
-    const pDupla = 1/oX + 1/zeb.o;
-    mercados.push({n:`Dupla chance: ${zeb.n} ou empate`, o:clamp((1/pDupla)*0.93, 1.25, 2.20),
-      j:"Jogo aberto — a zebra protegida tem valor real"});
+    // Jogo sem favorito claro: só mercados que independem de quem vence
     mercados.push({n:g.e, o:g.o, j:justG});
-    mercados.push({n:"Empate anula aposta no favorito", o:clamp(fav.o*0.82, 1.30, 2.10),
-      j:"Em jogo parelho, proteger contra o empate faz sentido"});
     mercados.push({n:"1º tempo: menos de 1.5 gols", o:1.44,
-      j:"Confrontos estudados começam travados"});
+      j:"Jogos parelhos costumam começar estudados e travados"});
+    mercados.push({n:(ex.sim < ex.nao ? bmSim : bmNao).e, o:(ex.sim < ex.nao ? bmSim : bmNao).o,
+      j:"Leitura de ambos marcarem, sem depender do vencedor"});
   }
 
   // Probabilidade implícita e margem da casa (calculadas das odds 1X2)
@@ -1268,10 +1268,12 @@ function abrirAnalise(idJogo){
     ${probHTML}
     <div class="ia-bloco">
       <div class="ia-rotulo">Indicação de vencedor</div>
-      <div class="ia-linha">
+      ${semFavorito
+        ? `<div class="ia-linha"><span class="desc">Sem indicação de vencedor<small>Jogo muito equilibrado — a IA não crava um lado</small></span></div>`
+        : `<div class="ia-linha">
         <span class="desc">${fav.n} vence${seloRisco(fav.o)}<small>${conf}</small></span>
         <span class="ov">${fav.o.toFixed(2)}</span>
-      </div>
+      </div>`}
     </div>
     <div class="ia-bloco">
       <div class="ia-rotulo">Mercados indicados pela IA</div>
@@ -1283,7 +1285,7 @@ function abrirAnalise(idJogo){
     </div>
     ${casasHTML}
     <button class="btn-arte" id="btnArte">📤 Gerar arte para compartilhar</button>`;
-  ultimaAnalise = {nba:false, jg, tier, conf, fav:{n:fav.n, o:fav.o},
+  ultimaAnalise = {nba:false, jg, tier, conf, fav:{n:fav.n, o:fav.o}, semFavorito,
     mercados, probs, nomes:[jg.a, 'Empate', jg.b]};
   modalIA.hidden = false;
 }
@@ -1402,17 +1404,22 @@ async function gerarArte(){
   c.strokeStyle = "#2B3645"; c.lineWidth = 2; rr(c, M, y, W-2*M, 158, 14); c.stroke();
   c.font = "600 22px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
   c.fillText("INDICAÇÃO DE VENCEDOR", M+34, y+48);
-  c.font = "700 40px Inter, sans-serif"; c.fillStyle = "#E8ECF1";
-  const indTxt = a.nba ? `${a.fav.n} vencem` : `${a.fav.n} vence`;
-  c.fillText(indTxt, M+34, y+108);
-  c.font = "600 46px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
-  const oddTxt = a.fav.o.toFixed(2); const ow = c.measureText(oddTxt).width;
-  c.fillText(oddTxt, W-M-34-ow, y+108);
-  const sl = seloArte(a.fav.o);
-  c.font = "600 21px 'IBM Plex Mono', monospace";
-  const sw = c.measureText(sl.txt).width;
-  rr(c, M+34, y+122, sw+30, 0.1, 1); // âncora
-  c.fillStyle = sl.cor; c.fillText(sl.txt, M+34, y+142);
+  if(a.semFavorito){
+    c.font = "700 36px Inter, sans-serif"; c.fillStyle = "#E8ECF1";
+    c.fillText("Sem indicação", M+34, y+102);
+    c.font = "400 22px Inter, sans-serif"; c.fillStyle = "#8B97A5";
+    c.fillText("Jogo muito equilibrado — sem favorito claro", M+34, y+136);
+  } else {
+    c.font = "700 40px Inter, sans-serif"; c.fillStyle = "#E8ECF1";
+    const indTxt = a.nba ? `${a.fav.n} vencem` : `${a.fav.n} vence`;
+    c.fillText(indTxt, M+34, y+108);
+    c.font = "600 46px 'IBM Plex Mono', monospace"; c.fillStyle = "#F0A92E";
+    const oddTxt = a.fav.o.toFixed(2); const ow = c.measureText(oddTxt).width;
+    c.fillText(oddTxt, W-M-34-ow, y+108);
+    const sl = seloArte(a.fav.o);
+    c.font = "600 21px 'IBM Plex Mono', monospace";
+    c.fillStyle = sl.cor; c.fillText(sl.txt, M+34, y+142);
+  }
 
   // Bloco: mercados (futebol) ou probabilidades (NBA)
   y += 192;
