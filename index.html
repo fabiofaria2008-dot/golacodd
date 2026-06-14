@@ -744,35 +744,19 @@ const rodadas = {
 
 // ---------- NBA Finals 2026 (dados reais · SportRadar) ----------
 const nbaSerie = {
-  status:"Knicks lideram a série por 3 a 1",
+  status:"🏆 New York Knicks CAMPEÕES — venceram a série por 4 a 1",
   resultados:[
     "Jogo 1 (03/06): Knicks 105 × 95 Spurs — em San Antonio",
     "Jogo 2 (05/06): Knicks 105 × 104 Spurs — em San Antonio",
     "Jogo 3 (08/06): Spurs 115 × 111 Knicks — em Nova York",
-    "Jogo 4 (10/06): Knicks 107 × 106 Spurs — em Nova York"
+    "Jogo 4 (10/06): Knicks 107 × 106 Spurs — em Nova York",
+    "Jogo 5 (13/06): Knicks 94 × 90 Spurs — título em San Antonio! 🏆"
   ],
-  dias:[
-    {l:"Sábado · 13 de junho", j:[
-      {h:"21h30", a:"San Antonio Spurs", b:"New York Knicks", g:"Jogo 5", c:"San Antonio", nba:1,
-       p:[64.5,35.5], oRef:[1.55,2.82], real:"prob. real · SportRadar",
-       det:{
-         stats:[
-           "Os Knicks lideram a série por 3 a 1 e podem ser campeões já no Jogo 5 — seria o primeiro título de NY desde 1973",
-           "Reedição das Finals de 1999, quando estes mesmos Spurs bateram os Knicks",
-           "Os dois últimos jogos foram decididos no detalhe: 115 a 111 e 107 a 106",
-           "Os Spurs eliminaram o favorito OKC vencendo o Jogo 7 fora de casa; os Knicks varreram Cleveland por 4 a 0 na final do Leste",
-           "Modelo SportRadar para o Jogo 5: Spurs 64,5% (fator casa + eliminação) × Knicks 35,5%"
-         ],
-         fonte:"Probabilidades reais do modelo SportRadar em 11/06/2026"
-       }}
-    ]},
-    {l:"Terça · 16 de junho", j:[
-      {h:"21h30", a:"New York Knicks", b:"San Antonio Spurs", g:"Jogo 6", c:"Nova York", nba:1, cond:1}
-    ]},
-    {l:"Sexta · 19 de junho", j:[
-      {h:"21h30", a:"San Antonio Spurs", b:"New York Knicks", g:"Jogo 7", c:"San Antonio", nba:1, cond:1}
-    ]}
-  ]
+  dias:[],
+  campeao:{
+    titulo:"New York Knicks — Campeões da NBA 2026",
+    texto:"Os Knicks encerraram um jejum de 53 anos (desde 1973) e conquistaram o título fechando a série por 4 a 1 sobre os Spurs. O Jogo 5, decidido por apenas 4 pontos (94 a 90) fora de casa, coroou uma campanha que incluiu a varrida sobre Cleveland na final do Leste. Reedição das Finals de 1999 — mas desta vez com final feliz para Nova York."
+  }
 };
 
 
@@ -981,12 +965,19 @@ function renderNBA(){
   const dias = nbaRestantes();
   let html = `<div class="promo-titulo">🏀 NBA Finals 2026 — Knicks × Spurs</div>
     <div class="promos">
-      <div class="promo"><span class="tagp">Situação da série</span><b>${nbaSerie.status}</b>Reedição das Finals de 1999. Os Knicks buscam o primeiro título desde 1973; os Spurs tentam reagir em casa na era Wembanyama.</div>
-      <div class="promo"><span class="tagp">Resultados</span><b>Como chegamos até aqui</b>${nbaSerie.resultados.join('<br>')}</div>
+      <div class="promo"><span class="tagp">Situação da série</span><b>${nbaSerie.status}</b>Reedição das Finals de 1999. Desta vez, Nova York levou a melhor.</div>
+      <div class="promo"><span class="tagp">Resultados</span><b>Como foi a série</b>${nbaSerie.resultados.join('<br>')}</div>
     </div>`;
-  if(dias.length === 0){
+  if(nbaSerie.campeao){
+    html += `<div class="banner-brasil" style="flex-direction:column;align-items:flex-start;gap:8px">
+      <div class="bb-chamada">🏆 Campeão da NBA 2026</div>
+      <div class="bb-jogo">${nbaSerie.campeao.titulo}</div>
+      <div class="ia-txt" style="color:#CFE3D5;margin:0">${nbaSerie.campeao.texto}</div>
+    </div>`;
+  }
+  if(dias.length === 0 && !nbaSerie.campeao){
     html += '<div class="promo"><b>🏆 Série encerrada!</b> As Finals da NBA terminaram. Em breve: análises da próxima temporada.</div>';
-  } else {
+  } else if(dias.length){
     html += blocoNBA(dias, 'nba');
   }
   sec.innerHTML = html;
