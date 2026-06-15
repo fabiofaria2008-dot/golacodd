@@ -1357,15 +1357,18 @@ function abrirAnalise(idJogo){
   // ----- Motor de mercados indicados (variados por perfil de jogo) -----
   const clamp = (v,a,b) => Math.min(Math.max(v,a),b);
   const mercados = [];
+  // "Ambos marcam" SEMPRE segue a direção de gols, para nunca contradizer o over/under:
+  // menos gols → ambos não · mais gols → ambos sim
+  const bm = direcaoG === 'menos' ? bmNao : bmSim;
 
   if(fav.o <= 1.40){
-    // Favoritismo pesado: handicap, escanteios e ambos não
+    // Favoritismo pesado: handicap, escanteios e leitura de gols coerente
     mercados.push({n:`${fav.n} handicap -1.5`, o:clamp(fav.o*1.9, 1.60, 3.40),
       j:"Paga muito melhor que o 1×2 seco em favoritismo pesado"});
     mercados.push({n:"Mais de 8.5 escanteios", o:clamp(1.50 + (fav.o-1.05)*0.6, 1.50, 2.10),
       j:"Favorito pressionando bloco baixo gera escanteio em série"});
-    mercados.push({n:"Ambos marcam: Não", o:ex.nao,
-      j:"Domínio de um lado só costuma sufocar o adversário"});
+    mercados.push({n:bm.e, o:bm.o,
+      j:direcaoG === 'menos' ? "Coerente com o cenário de poucos gols" : "Coerente com o cenário de muitos gols"});
     mercados.push({n:`${fav.n} vence + ${g.e}`, o:fav.o*g.o,
       j:justG});
   } else if(fav.o <= 2.10){
@@ -1375,16 +1378,28 @@ function abrirAnalise(idJogo){
     mercados.push({n:g.e, o:g.o, j:justG});
     mercados.push({n:`${fav.n} vence o 1º tempo`, o:clamp(fav.o*1.35, 1.70, 4.00),
       j:"Favorito que impõe ritmo tende a sair na frente cedo"});
-    mercados.push({n:`${fav.n} vence + ${(ex.sim < ex.nao ? bmSim : bmNao).e}`, o:fav.o*(ex.sim < ex.nao ? bmSim : bmNao).o,
-      j:"Combinada para quem confia no favorito"});
+    mercados.push({n:`${fav.n} vence + ${bm.e}`, o:fav.o*bm.o,
+      j:"Combinada coerente com a leitura de gols do jogo"});
   } else {
     // Jogo sem favorito claro: só mercados que independem de quem vence
     mercados.push({n:g.e, o:g.o, j:justG});
     mercados.push({n:"1º tempo: menos de 1.5 gols", o:1.44,
       j:"Jogos parelhos costumam começar estudados e travados"});
-    mercados.push({n:(ex.sim < ex.nao ? bmSim : bmNao).e, o:(ex.sim < ex.nao ? bmSim : bmNao).o,
-      j:"Leitura de ambos marcarem, sem depender do vencedor"});
+    mercados.push({n:bm.e, o:bm.o,
+      j:direcaoG === 'menos' ? "Coerente com o cenário de poucos gols" : "Coerente com o cenário de muitos gols"});
   }
+
+  // ----- Trava de coerência: remove qualquer par contraditório -----
+  // Regras: "menos 2.5" briga com "ambos sim"; "mais 2.5" briga com "ambos não";
+  // e os dois "ambos marcam" opostos nunca coexistem.
+  const temMenos = mercados.some(m => /Menos de 2\.5/.test(m.n));
+  const temMais  = mercados.some(m => /Mais de 2\.5/.test(m.n) && !/8\.5/.test(m.n));
+  const incoerente = m => {
+    if(temMenos && /Ambos marcam: Sim/.test(m.n)) return true;
+    if(temMais  && /Ambos marcam: Não/.test(m.n)) return true;
+    return false;
+  };
+  const filtrados = mercados.filter(m => !incoerente(m));
 
   // Probabilidade implícita e margem da casa (calculadas das odds 1X2)
   const inv = jg.o.map(o => 1/o);
@@ -1433,7 +1448,7 @@ function abrirAnalise(idJogo){
     </div>
     <div class="ia-bloco">
       <div class="ia-rotulo">Mercados indicados pela IA</div>
-      ${mercados.map(m => `<div class="ia-linha">
+      ${filtrados.map(m => `<div class="ia-linha">
         <span class="desc">${m.n}${seloRisco(m.o)}<small>${m.j}</small></span>
         <span class="ov">${m.o.toFixed(2)}</span>
       </div>`).join('')}
@@ -1442,7 +1457,7 @@ function abrirAnalise(idJogo){
     ${casasHTML}
     <button class="btn-arte" id="btnArte">📤 Gerar arte para compartilhar</button>`;
   ultimaAnalise = {nba:false, jg, tier, conf, fav:{n:fav.n, o:fav.o}, semFavorito,
-    mercados, probs, nomes:[jg.a, 'Empate', jg.b]};
+    mercados:filtrados, probs, nomes:[jg.a, 'Empate', jg.b]};
   modalIA.hidden = false;
 }
 
