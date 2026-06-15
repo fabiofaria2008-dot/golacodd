@@ -632,9 +632,45 @@ const rodadas = {
        }},
       {h:"22h",a:"Irã",b:"Nova Zelândia",g:"G",c:"Los Angeles",o:[1.95,3.20,4.20]}]},
     {l:"Terça · 16 de junho",j:[
-      {h:"14h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0]},
-      {h:"16h",a:"França",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[1.70,3.60,5.00]},
-      {h:"19h",a:"Iraque",b:"Noruega",g:"I",c:"Boston",o:[6.50,4.00,1.50]}]},
+      {h:"14h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0],
+       det:{
+         stats:[
+           "Estreia da atual campeã mundial: Messi disputa seu 200º jogo, 1º a atuar em 6 Copas diferentes",
+           "A Argentina venceu os 5 jogos de preparação, marcou 14 gols e sofreu apenas 1",
+           "A Argélia voltou ao Mundial após 12 anos e ganhou moral: bateu a Holanda (1×0) e goleou a Bolívia",
+           "As Raposas do Deserto não perderam nem sofreram gols nos últimos 4 jogos — defesa em alta"
+         ],
+         tendencia:"menos",
+         fonte:"Informações compiladas de sites especializados em 15/06/2026"
+       }},
+      {h:"16h",a:"França",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[1.44,4.40,6.50],real:"1×2 real · Bet365 · 15/06",
+       det:{
+         stats:[
+           "Reedição de 2002, quando o Senegal bateu a campeã França na estreia — 24 anos depois",
+           "A França vem de 9 vitórias nos últimos 11 jogos, com tridente Mbappé-Dembélé-Olise",
+           "100% dos últimos 9 jogos da França tiveram mais de 2.5 gols — mas ela sofreu gol nos últimos 5",
+           "O Senegal tem qualidade (Mané, Sarr) mas teve menos de 2.5 gols em 5 dos últimos 7 jogos"
+         ],
+         tendencia:"mais",
+         mercados:[
+           {casa:"Bet365",m:"França vence (1×2)",o:"1.44"},
+           {casa:"Bet365",m:"Mais de 2.5 gols",o:"1.78"},
+           {casa:"Bet365",m:"Mbappé marca a qualquer momento",o:"2.15"},
+           {casa:"Bet365",m:"França vence e ambos marcam",o:"3.25"}
+         ],
+         fonte:"Odds reais Bet365 compiladas em 15/06/2026 — cotações flutuam, confirme na casa"
+       }},
+      {h:"19h",a:"Iraque",b:"Noruega",g:"I",c:"Boston",o:[6.50,4.00,1.50],
+       det:{
+         stats:[
+           "A Noruega de Haaland volta ao Mundial após 28 anos (última vez em 1998)",
+           "O Iraque retorna após 40 anos (última em 1986) e tende a jogar fechado",
+           "O Iraque teve menos de 2.5 gols em 6 dos últimos 7 jogos — muito defensivo",
+           "Haaland é a referência: o mercado de gol do norueguês é o mais visado do jogo"
+         ],
+         tendencia:"menos",
+         fonte:"Informações compiladas de sites especializados em 15/06/2026"
+       }}]},
     {l:"Quarta · 17 de junho",j:[
       {h:"1h",a:"Áustria",b:"Jordânia",g:"J",c:"San Francisco",o:[1.45,4.20,7.50]},
       {h:"14h",a:"Portugal",b:"RD Congo",g:"K",c:"Houston",o:[1.25,5.75,12.0]},
@@ -1052,7 +1088,11 @@ const historico = [
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Alemanha vence",odd:1.20,res:"g",obs:"Goleada histórica: 7×1"},
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Alemanha handicap -1.5",odd:1.30,res:"g",obs:"Venceu por 6 de saldo (7×1)"},
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Mais de 2.5 gols",odd:1.45,res:"g",obs:"8 gols no jogo! (7×1)"},
-  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Ambos marcam: Não",odd:1.50,res:"r",obs:"Curaçao descontou (Comenencia) — 7×1"}
+  {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Ambos marcam: Não",odd:1.50,res:"r",obs:"Curaçao descontou (Comenencia) — 7×1"},
+  {teste:true,data:"15/06 13h",dh:1513,jogo:"Espanha × Cabo Verde",ind:"Espanha vence",odd:1.10,res:"r",obs:"Zebra! Cabo Verde segurou o 0×0 com defesa heroica"},
+  {teste:true,data:"15/06 13h",dh:1513,jogo:"Espanha × Cabo Verde",ind:"Espanha marca nos dois tempos",odd:1.50,res:"r",obs:"Espanha não marcou — Vozinha, goleiro de 40 anos, brilhou"},
+  {teste:true,data:"15/06 16h",dh:1516,jogo:"Bélgica × Egito",ind:"Bélgica vence",odd:1.60,res:"r",obs:"1×1 — Egito segurou o empate, mais um favorito tropeçando"},
+  {teste:true,data:"15/06 16h",dh:1516,jogo:"Bélgica × Egito",ind:"Menos de 2.5 gols",odd:1.70,res:"g",obs:"2 gols no jogo (1×1) — tendência de poucos gols confirmada"}
   // ===== A PARTIR DAQUI: placar oficial com odds reais Bet365 (2ª rodada em diante) =====
 ].sort((a,b) => a.dh - b.dh);
 
