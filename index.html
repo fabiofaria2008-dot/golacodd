@@ -96,6 +96,31 @@
   .subpainel{display:none}
   .subpainel.ativa{display:block}
 
+  /* ============ Seletor de competições ============ */
+  .compnav{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px;-webkit-overflow-scrolling:touch}
+  .comptab{
+    font-family:'Inter',sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;
+    color:var(--txt-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;
+    padding:10px 16px;cursor:pointer;transition:all .12s;white-space:nowrap;flex-shrink:0;
+  }
+  .comptab:hover{color:var(--txt);border-color:var(--amber)}
+  .comptab:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .comptab.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
+  .comppainel{display:none}
+  .comppainel.ativa{display:block}
+  .embreve{
+    text-align:center;padding:48px 24px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;
+  }
+  .embreve .eb-ico{font-size:48px;margin-bottom:12px}
+  .embreve h3{font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:.03em;color:var(--txt);margin-bottom:10px}
+  .embreve p{font-size:14px;line-height:1.65;color:var(--txt-dim);max-width:46ch;margin:0 auto 16px}
+  .embreve .eb-tag{
+    display:inline-block;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;
+    color:var(--amber);background:rgba(240,169,46,.12);border:1px solid rgba(240,169,46,.4);
+    border-radius:6px;padding:7px 14px;
+  }
+
   /* ============ Destaques (promo) ============ */
   .promo-titulo{
     font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.08em;text-transform:uppercase;
@@ -385,7 +410,7 @@
 
 <nav class="navjogos" role="tablist" aria-label="Esportes">
   <button class="tab tab-hoje ativa" role="tab" aria-selected="true" data-alvo="hoje"><span class="dot" aria-hidden="true"></span>Hoje</button>
-  <button class="tab" role="tab" aria-selected="false" data-alvo="futebol">⚽ Copa do Mundo</button>
+  <button class="tab" role="tab" aria-selected="false" data-alvo="futebol">⚽ Futebol</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="nba">🏀 NBA</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="historico">📊 Histórico</button>
 </nav>
@@ -394,35 +419,50 @@
 <section id="historico" class="painel" role="tabpanel"></section>
 
 <section id="futebol" class="painel" role="tabpanel">
-  <nav class="subnav" aria-label="Fases da Copa do Mundo">
-    <button class="subtab ativa" data-sub="r1">1ª Rodada</button>
-    <button class="subtab" data-sub="r2">2ª Rodada</button>
-    <button class="subtab" data-sub="r3">3ª Rodada</button>
-    <button class="subtab" data-sub="grupos">Grupos</button>
+  <nav class="compnav" aria-label="Competições de futebol">
+    <button class="comptab ativa" data-comp="copa">🌍 Copa do Mundo</button>
+    <button class="comptab" data-comp="brasileirao">🇧🇷 Brasileirão</button>
+    <button class="comptab" data-comp="libertadores">🏆 Libertadores</button>
+    <button class="comptab" data-comp="sulamericana">🥈 Sul-Americana</button>
+    <button class="comptab" data-comp="copabrasil">🇧🇷 Copa do Brasil</button>
   </nav>
-  <div id="r1" class="subpainel ativa"></div>
-  <div id="r2" class="subpainel"></div>
-  <div id="r3" class="subpainel"></div>
-  <div id="grupos" class="subpainel">
-  <div class="promo-titulo">Os 12 grupos</div>
-  <div class="grade-grupos">
-    <div class="gcard"><h3>Grupo A</h3><ul><li class="forte">México (sede)</li><li>África do Sul</li><li>Coreia do Sul</li><li>República Tcheca</li></ul></div>
-    <div class="gcard"><h3>Grupo B</h3><ul><li class="forte">Canadá (sede)</li><li>Suíça</li><li>Catar</li><li>Bósnia e Herzegovina</li></ul></div>
-    <div class="gcard"><h3>Grupo C</h3><ul><li class="forte">Brasil ★</li><li>Marrocos</li><li>Escócia</li><li>Haiti</li></ul></div>
-    <div class="gcard"><h3>Grupo D</h3><ul><li class="forte">Estados Unidos (sede)</li><li>Paraguai</li><li>Austrália</li><li>Turquia</li></ul></div>
-    <div class="gcard"><h3>Grupo E</h3><ul><li class="forte">Alemanha</li><li>Equador</li><li>Costa do Marfim</li><li>Curaçao</li></ul></div>
-    <div class="gcard"><h3>Grupo F</h3><ul><li class="forte">Holanda</li><li>Japão</li><li>Suécia</li><li>Tunísia</li></ul></div>
-    <div class="gcard"><h3>Grupo G</h3><ul><li class="forte">Bélgica</li><li>Irã</li><li>Egito</li><li>Nova Zelândia</li></ul></div>
-    <div class="gcard"><h3>Grupo H</h3><ul><li class="forte">Espanha</li><li>Uruguai</li><li>Arábia Saudita</li><li>Cabo Verde</li></ul></div>
-    <div class="gcard"><h3>Grupo I</h3><ul><li class="forte">França</li><li>Senegal</li><li>Noruega</li><li>Iraque</li></ul></div>
-    <div class="gcard"><h3>Grupo J</h3><ul><li class="forte">Argentina</li><li>Áustria</li><li>Argélia</li><li>Jordânia</li></ul></div>
-    <div class="gcard"><h3>Grupo K</h3><ul><li class="forte">Portugal</li><li>Colômbia</li><li>Uzbequistão</li><li>RD Congo</li></ul></div>
-    <div class="gcard"><h3>Grupo L</h3><ul><li class="forte">Inglaterra</li><li>Croácia</li><li>Gana</li><li>Panamá</li></ul></div>
+
+  <div id="comp-copa" class="comppainel ativa">
+    <nav class="subnav" aria-label="Fases da Copa do Mundo">
+      <button class="subtab ativa" data-sub="r1">1ª Rodada</button>
+      <button class="subtab" data-sub="r2">2ª Rodada</button>
+      <button class="subtab" data-sub="r3">3ª Rodada</button>
+      <button class="subtab" data-sub="grupos">Grupos</button>
+    </nav>
+    <div id="r1" class="subpainel ativa"></div>
+    <div id="r2" class="subpainel"></div>
+    <div id="r3" class="subpainel"></div>
+    <div id="grupos" class="subpainel">
+    <div class="promo-titulo">Os 12 grupos</div>
+    <div class="grade-grupos">
+      <div class="gcard"><h3>Grupo A</h3><ul><li class="forte">México (sede)</li><li>África do Sul</li><li>Coreia do Sul</li><li>República Tcheca</li></ul></div>
+      <div class="gcard"><h3>Grupo B</h3><ul><li class="forte">Canadá (sede)</li><li>Suíça</li><li>Catar</li><li>Bósnia e Herzegovina</li></ul></div>
+      <div class="gcard"><h3>Grupo C</h3><ul><li class="forte">Brasil ★</li><li>Marrocos</li><li>Escócia</li><li>Haiti</li></ul></div>
+      <div class="gcard"><h3>Grupo D</h3><ul><li class="forte">Estados Unidos (sede)</li><li>Paraguai</li><li>Austrália</li><li>Turquia</li></ul></div>
+      <div class="gcard"><h3>Grupo E</h3><ul><li class="forte">Alemanha</li><li>Equador</li><li>Costa do Marfim</li><li>Curaçao</li></ul></div>
+      <div class="gcard"><h3>Grupo F</h3><ul><li class="forte">Holanda</li><li>Japão</li><li>Suécia</li><li>Tunísia</li></ul></div>
+      <div class="gcard"><h3>Grupo G</h3><ul><li class="forte">Bélgica</li><li>Irã</li><li>Egito</li><li>Nova Zelândia</li></ul></div>
+      <div class="gcard"><h3>Grupo H</h3><ul><li class="forte">Espanha</li><li>Uruguai</li><li>Arábia Saudita</li><li>Cabo Verde</li></ul></div>
+      <div class="gcard"><h3>Grupo I</h3><ul><li class="forte">França</li><li>Senegal</li><li>Noruega</li><li>Iraque</li></ul></div>
+      <div class="gcard"><h3>Grupo J</h3><ul><li class="forte">Argentina</li><li>Áustria</li><li>Argélia</li><li>Jordânia</li></ul></div>
+      <div class="gcard"><h3>Grupo K</h3><ul><li class="forte">Portugal</li><li>Colômbia</li><li>Uzbequistão</li><li>RD Congo</li></ul></div>
+      <div class="gcard"><h3>Grupo L</h3><ul><li class="forte">Inglaterra</li><li>Croácia</li><li>Gana</li><li>Panamá</li></ul></div>
+    </div>
+    <div class="regras">
+      <strong style="color:var(--txt)">Classificação:</strong> avançam ao mata-mata 32 seleções — os dois primeiros de cada grupo e os oito melhores terceiros no geral. A fase eliminatória começa em 29 de junho, e a final será em 19 de julho no MetLife Stadium, em Nova Jersey. Para apostas de "passa de fase", lembre que até um terceiro lugar com uma só vitória pode se classificar.
+    </div>
+    </div>
   </div>
-  <div class="regras">
-    <strong style="color:var(--txt)">Classificação:</strong> avançam ao mata-mata 32 seleções — os dois primeiros de cada grupo e os oito melhores terceiros no geral. A fase eliminatória começa em 29 de junho, e a final será em 19 de julho no MetLife Stadium, em Nova Jersey. Para apostas de "passa de fase", lembre que até um terceiro lugar com uma só vitória pode se classificar.
-  </div>
-  </div>
+
+  <div id="comp-brasileirao" class="comppainel"><div class="embreve"><div class="eb-ico">🇧🇷</div><h3>Brasileirão Série A</h3><p>O Brasileirão está em pausa para a Copa do Mundo e <strong>retorna em 22 de julho</strong>, com a 19ª rodada. A partir daí, esta aba traz jogos, análises da IA e odds reais da Bet365 — incluindo destaque para os times grandes.</p><span class="eb-tag">⏸ Volta em 22/07</span></div></div>
+  <div id="comp-libertadores" class="comppainel"><div class="embreve"><div class="eb-ico">🏆</div><h3>Libertadores</h3><p>A Libertadores está em pausa para a Copa do Mundo. Quando as oitavas de final começarem, esta aba traz o chaveamento, análises e odds reais dos confrontos mata-mata.</p><span class="eb-tag">⏸ Volta após a Copa</span></div></div>
+  <div id="comp-sulamericana" class="comppainel"><div class="embreve"><div class="eb-ico">🥈</div><h3>Sul-Americana</h3><p>A Sul-Americana retoma após a Copa do Mundo. Esta aba vai trazer os jogos do mata-mata com análises da IA e odds reais.</p><span class="eb-tag">⏸ Volta após a Copa</span></div></div>
+  <div id="comp-copabrasil" class="comppainel"><div class="embreve"><div class="eb-ico">🇧🇷</div><h3>Copa do Brasil</h3><p>A Copa do Brasil está pausada para a Copa do Mundo. Em breve, esta aba traz os confrontos eliminatórios com análises e odds reais da Bet365.</p><span class="eb-tag">⏸ Volta após a Copa</span></div></div>
 </section>
 
 <section id="nba" class="painel" role="tabpanel"></section>
@@ -1121,6 +1161,16 @@ subtabs.forEach(st => st.addEventListener('click', () => {
   subpaineis.forEach(p => p.classList.remove('ativa'));
   st.classList.add('ativa');
   document.getElementById(st.dataset.sub).classList.add('ativa');
+}));
+
+// ---------- Seletor de competições (Futebol) ----------
+const comptabs = document.querySelectorAll('.comptab');
+const comppaineis = document.querySelectorAll('.comppainel');
+comptabs.forEach(ct => ct.addEventListener('click', () => {
+  comptabs.forEach(c => c.classList.remove('ativa'));
+  comppaineis.forEach(p => p.classList.remove('ativa'));
+  ct.classList.add('ativa');
+  document.getElementById('comp-' + ct.dataset.comp).classList.add('ativa');
 }));
 
 // Abre automaticamente a primeira rodada que ainda tem jogos por disputar
