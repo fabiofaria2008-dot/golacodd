@@ -379,7 +379,7 @@
 <body>
 
 <div class="topo">
-  <div class="logo"><svg class="bola" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="38" fill="none" stroke="#2B3645" stroke-width="8"/><path d="M 50 12 A 38 38 0 1 0 88 50 L 60 50" fill="none" stroke="#F0A92E" stroke-width="9" stroke-linecap="butt"/><circle cx="86" cy="20" r="6.5" fill="#FAF8F2"/></svg><h1>Golaç<span>ODD</span></h1></div>
+  <div class="logo"><svg class="bola" viewBox="0 0 100 100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="38" fill="none" stroke="#2B3645" stroke-width="8"/><polyline points="26,67 38,58 49,64 64,42 76,52" fill="none" stroke="#F0A92E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/><path d="M 50 12 A 38 38 0 1 0 88 50 L 60 50" fill="none" stroke="#F0A92E" stroke-width="9" stroke-linecap="butt"/><circle cx="86" cy="20" r="6.5" fill="#FAF8F2"/></svg><h1>Golaç<span>ODD</span></h1></div>
   <div class="sim">Análises &amp; Palpites com IA</div>
 </div>
 
@@ -1391,6 +1391,16 @@ async function gerarArte(){
   c.lineCap = "butt";
   // anel de fundo cinza
   c.strokeStyle = "#2B3645"; c.lineWidth = 9; c.beginPath(); c.arc(0,0,br,0,Math.PI*2); c.stroke();
+  // linha de gráfico fantasma (dados/IA) dentro do G
+  c.save();
+  c.globalAlpha = 0.45; c.strokeStyle = "#F0A92E"; c.lineWidth = 2.6;
+  c.lineJoin = "round"; c.lineCap = "round";
+  const gpts = [[-0.62,0.34],[-0.30,0.10],[-0.04,0.26],[0.30,-0.18],[0.58,0.02]];
+  c.beginPath();
+  gpts.forEach((p,i) => { const x=p[0]*br, y=p[1]*br; i?c.lineTo(x,y):c.moveTo(x,y); });
+  c.stroke();
+  gpts.forEach(p => { c.beginPath(); c.arc(p[0]*br, p[1]*br, 2.4, 0, Math.PI*2); c.fill(); });
+  c.restore();
   // arco do G âmbar (abre embaixo à direita)
   c.strokeStyle = "#F0A92E"; c.lineWidth = 10;
   c.beginPath(); c.arc(0,0,br, -Math.PI*0.30, Math.PI*1.18); c.stroke();
