@@ -350,6 +350,12 @@
   .calc-cen .v.pos{color:#4ADE80}
   .calc-cen .v.neg{color:#FF8A75}
   .calc-aviso{font-size:11px;color:var(--txt-dim);line-height:1.55;margin-top:10px;font-style:italic}
+  .calc-ajuda{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
+  .calc-ajuda summary{cursor:pointer;padding:13px 14px;font-size:13px;font-weight:600;color:var(--amber);list-style:none}
+  .calc-ajuda summary::-webkit-details-marker{display:none}
+  .calc-ajuda-corpo{padding:0 14px 14px}
+  .calc-ajuda-corpo p{font-size:12.5px;line-height:1.6;color:var(--txt-dim);margin-bottom:9px}
+  .calc-ajuda-corpo strong{color:var(--txt)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -537,6 +543,21 @@
     <div class="modal-head"><span>🧮 Calculadora de cobertura</span><button id="fecharCalc" aria-label="Fechar">✕</button></div>
     <div class="calc-corpo">
       <p class="calc-intro">Você já fez uma aposta e quer se proteger durante o jogo? Informe sua aposta original e as odds <strong>ao vivo</strong> que você vê na sua casa agora. A calculadora mostra quanto apostar para travar lucro ou zerar o risco.</p>
+
+      <details class="calc-ajuda">
+        <summary>❓ Como usar (toque para abrir)</summary>
+        <div class="calc-ajuda-corpo">
+          <p><strong>O que é cobertura (hedge):</strong> é fazer uma 2ª aposta no resultado oposto, durante o jogo, pra se proteger. Você abre mão de parte do lucro em troca de segurança.</p>
+          <p><strong>Exemplo:</strong> você apostou R$50 no Brasil a 2.00. O Brasil faz 1×0 e você teme o empate. Na sua casa, o empate agora paga 3.20 ao vivo. Você informa isso aqui e a calculadora diz quanto apostar no empate pra se cobrir.</p>
+          <p><strong>Passo a passo:</strong></p>
+          <p>1. Preencha sua aposta original (valor, odd e em que apostou).<br>
+          2. Escolha cobrir os 2 resultados restantes ou só 1.<br>
+          3. Veja na sua casa as odds <strong>ao vivo</strong> do(s) resultado(s) e digite aqui.<br>
+          4. Toque em Calcular.</p>
+          <p><strong>Os dois cenários:</strong> 🔒 <strong>Travar lucro</strong> garante o mesmo ganho em qualquer resultado. 🛡️ <strong>Zerar risco</strong> arrisca menos, mira recuperar a aposta e lucrar mais se seu time segurar.</p>
+          <p><strong>Importante:</strong> a cobertura só trava lucro de verdade quando seu time já está ganhando e a odd do adversário subiu. Antes do jogo ou empatado, cobrir costuma dar pequeno prejuízo pela margem da casa — e a calculadora avisa quando isso acontece.</p>
+        </div>
+      </details>
 
       <div class="calc-bloco">
         <div class="calc-rotulo">Sua aposta original</div>
