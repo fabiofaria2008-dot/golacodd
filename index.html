@@ -356,6 +356,25 @@
   .calc-ajuda-corpo{padding:0 14px 14px}
   .calc-ajuda-corpo p{font-size:12.5px;line-height:1.6;color:var(--txt-dim);margin-bottom:9px}
   .calc-ajuda-corpo strong{color:var(--txt)}
+
+  /* ============ Panorama dos times ============ */
+  .pano-forma{margin-bottom:14px}
+  .pf-time{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .pf-nome{font-size:13.5px;font-weight:600;color:var(--txt)}
+  .pf-jogos{display:flex;gap:5px}
+  .pf-r{width:15px;height:15px;border-radius:4px;display:inline-block}
+  .pf-r.g{background:#27AE60}
+  .pf-r.e{background:#C9A227}
+  .pf-r.d{background:#C8472F}
+  .pf-legenda{font-size:10.5px;color:var(--txt-dim);margin-top:8px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+  .pf-legenda .pf-r{width:11px;height:11px}
+  .pano-medias{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;margin-bottom:12px}
+  .pm-item{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 6px;text-align:center}
+  .pm-v{display:block;font-family:'Anton',sans-serif;font-size:20px;color:var(--amber);line-height:1}
+  .pm-l{display:block;font-size:9.5px;color:var(--txt-dim);margin-top:4px;line-height:1.3}
+  .pano-h2h,.pano-desf{font-size:12.5px;line-height:1.55;color:var(--txt-dim);margin-top:8px}
+  .pano-h2h strong,.pano-desf strong{color:var(--txt)}
+  .pano-desf{color:#FFB59E}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -749,6 +768,13 @@ const rodadas = {
     {l:"Terça · 16 de junho",j:[
       {h:"16h",a:"França",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[1.44,4.40,6.50],real:"1×2 real · Bet365 · 15/06",
        det:{
+         pano:{
+           formaA:['g','d','g','g','g'],
+           formaB:['d','e','g','g','g'],
+           medias:[{v:"9 jogos",l:"seguidos +2.5 gols (FRA)"},{v:"5",l:"jogos FRA sofrendo gol"},{v:"1×0",l:"Senegal venceu em 2002"}],
+           h2h:"Reedição de 2002: o Senegal bateu a campeã França por 1×0 na estreia e a eliminou. Único encontro recente.",
+           desfalques:"França com força máxima: Saliba, Maignan e Koundé recuperados."
+         },
          stats:[
            "Reedição de 2002, quando o Senegal bateu a campeã França na estreia — 24 anos depois",
            "A França vem de 9 vitórias nos últimos 11 jogos, com tridente Mbappé-Dembélé-Olise",
@@ -777,19 +803,60 @@ const rodadas = {
        }},
       {h:"22h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0],
        det:{
+         pano:{
+           formaA:['g','g','g','g','g'],
+           formaB:['g','e','g','g','g'],
+           medias:[{v:"7-2-1",l:"últimos 10 (V-E-D)"},{v:"2.8",l:"gols/jogo Argentina"},{v:"0.4",l:"sofridos/jogo Arg"}],
+           h2h:"Confronto raro: poucos encontros na história. A Argélia voltou ao Mundial após 12 anos.",
+           desfalques:"Otamendi (Argentina) suspenso, fora da estreia."
+         },
          stats:[
            "Estreia da atual campeã mundial: Messi disputa seu 200º jogo, 1º a atuar em 6 Copas diferentes",
-           "A Argentina venceu os 5 jogos de preparação, marcou 14 gols e sofreu apenas 1",
-           "A Argélia voltou ao Mundial após 12 anos e ganhou moral: bateu a Holanda (1×0) e goleou a Bolívia",
-           "As Raposas do Deserto não perderam nem sofreram gols nos últimos 4 jogos — defesa em alta"
+           "A Argentina venceu os 7 últimos amistosos, com goleadas (5×0 Zâmbia, 6×0 Porto Rico)",
+           "A Argélia ganhou moral: bateu a Holanda (1×0) e não sofreu gols nos últimos 4 jogos",
+           "Dúvida sobre a Argentina: não enfrentou seleções da Copa nos amistosos recentes"
          ],
          tendencia:"menos",
          fonte:"Informações compiladas de sites especializados em 15/06/2026"
        }}]},
     {l:"Quarta · 17 de junho",j:[
       {h:"1h",a:"Áustria",b:"Jordânia",g:"J",c:"San Francisco",o:[1.45,4.20,7.50]},
-      {h:"14h",a:"Portugal",b:"RD Congo",g:"K",c:"Houston",o:[1.25,5.75,12.0]},
-      {h:"17h",a:"Inglaterra",b:"Croácia",g:"L",c:"Dallas",o:[1.90,3.40,4.00]},
+      {h:"14h",a:"Portugal",b:"RD Congo",g:"K",c:"Houston",o:[1.25,5.75,12.0],
+       det:{
+         pano:{
+           formaA:['g','e','g','g','g'],
+           formaB:['e','g','e','d','g'],
+           medias:[{v:"3+",l:"gols/jogo Portugal recente"},{v:"4-1-0",l:"últimos 5 (V-E-D) POR"},{v:"52 anos",l:"RD Congo fora de Copas"}],
+           h2h:"Primeiro encontro da história entre as duas seleções.",
+           desfalques:"RD Congo: Wissa em dúvida (lesão no joelho). Portugal homenageia Diogo Jota."
+         },
+         stats:[
+           "Portugal chega bicampeão da Nations League (bateu a Espanha nos pênaltis em 2025)",
+           "Ataque português pega fogo: média acima de 3 gols/jogo, goleou a Armênia por 9×1",
+           "A RD Congo de Desabre é defensivamente organizada e volta após 52 anos",
+           "Bruno Fernandes (recorde de assistências na Premier) e CR7 motivado puxam a fila"
+         ],
+         tendencia:"mais",
+         fonte:"Informações compiladas de sites especializados em 15/06/2026"
+       }},
+      {h:"17h",a:"Inglaterra",b:"Croácia",g:"L",c:"Dallas",o:[1.90,3.40,4.00],
+       det:{
+         pano:{
+           formaA:['g','g','g','g','g'],
+           formaB:['g','e','g','d','g'],
+           medias:[{v:"10 jogos",l:"Inglaterra sem sofrer gol"},{v:"8-0-0",l:"Eliminatórias (V-E-D)"},{v:"2×1",l:"Croácia venceu em 2018"}],
+           h2h:"A Croácia eliminou a Inglaterra na semifinal de 2018 (2×1 na prorrogação) — ferida aberta.",
+           desfalques:"Sem desfalques de peso confirmados até agora."
+         },
+         stats:[
+           "A Inglaterra de Tuchel fez 8 vitórias em 8 nas Eliminatórias, 22 gols e nenhum sofrido",
+           "Não sofre gol há 10 jogos — defesa é o ponto forte do projeto Tuchel",
+           "A Croácia é veterana e perigosa, mas oscilou nos amistosos recentes",
+           "Jogo mais equilibrado da rodada: Harry Kane (61 gols pelo Bayern) lidera o ataque inglês"
+         ],
+         tendencia:"menos",
+         fonte:"Informações compiladas de sites especializados em 15/06/2026"
+       }},
       {h:"20h",a:"Gana",b:"Panamá",g:"L",c:"Toronto",o:[2.20,3.20,3.40]},
       {h:"23h",a:"Uzbequistão",b:"Colômbia",g:"K",c:"Cidade do México",o:[5.50,3.70,1.62]}]}
   ]},
@@ -1528,6 +1595,23 @@ function abrirAnalise(idJogo){
     </div>`;
 
   // Blocos de dados reais (estatísticas e comparação de casas), quando disponíveis
+  const panoramaHTML = (jg.det && jg.det.pano) ? `<div class="ia-bloco">
+      <div class="ia-rotulo">Panorama dos times</div>
+      <div class="pano-forma">
+        <div class="pf-time">
+          <span class="pf-nome">${jg.a}</span>
+          <span class="pf-jogos">${jg.det.pano.formaA.map(r => `<span class="pf-r ${r}"></span>`).join('')}</span>
+        </div>
+        <div class="pf-time">
+          <span class="pf-nome">${jg.b}</span>
+          <span class="pf-jogos">${jg.det.pano.formaB.map(r => `<span class="pf-r ${r}"></span>`).join('')}</span>
+        </div>
+        <div class="pf-legenda">Forma — últimos 5 jogos (mais recente à direita) · <span class="pf-r g"></span> vitória <span class="pf-r e"></span> empate <span class="pf-r d"></span> derrota</div>
+      </div>
+      ${jg.det.pano.medias ? `<div class="pano-medias">${jg.det.pano.medias.map(m => `<div class="pm-item"><span class="pm-v">${m.v}</span><span class="pm-l">${m.l}</span></div>`).join('')}</div>` : ''}
+      ${jg.det.pano.h2h ? `<div class="pano-h2h"><strong>Confronto direto:</strong> ${jg.det.pano.h2h}</div>` : ''}
+      ${jg.det.pano.desfalques ? `<div class="pano-desf"><strong>⚠ Desfalques:</strong> ${jg.det.pano.desfalques}</div>` : ''}
+    </div>` : '';
   const statsHTML = jg.det ? `<div class="ia-bloco">
       <div class="ia-rotulo">Estatísticas do confronto</div>
       <ul class="ia-stats">${jg.det.stats.map(s => `<li>${s}</li>`).join('')}</ul>
@@ -1546,6 +1630,7 @@ function abrirAnalise(idJogo){
     <h3>${jg.a} × ${jg.b}</h3>
     <div class="ia-meta">${jg.h} · Grupo ${jg.g} · ${jg.c}${jg.real ? ` · <span class="tag-real">${jg.real}</span>` : ''}</div>
     <p class="ia-txt">${txt}</p>
+    ${panoramaHTML}
     ${statsHTML}
     ${probHTML}
     <div class="ia-bloco">
