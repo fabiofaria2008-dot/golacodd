@@ -643,17 +643,6 @@ const rodadas = {
          fonte:"Informações compiladas de sites especializados em 15/06/2026"
        }}]},
     {l:"Terça · 16 de junho",j:[
-      {h:"14h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0],
-       det:{
-         stats:[
-           "Estreia da atual campeã mundial: Messi disputa seu 200º jogo, 1º a atuar em 6 Copas diferentes",
-           "A Argentina venceu os 5 jogos de preparação, marcou 14 gols e sofreu apenas 1",
-           "A Argélia voltou ao Mundial após 12 anos e ganhou moral: bateu a Holanda (1×0) e goleou a Bolívia",
-           "As Raposas do Deserto não perderam nem sofreram gols nos últimos 4 jogos — defesa em alta"
-         ],
-         tendencia:"menos",
-         fonte:"Informações compiladas de sites especializados em 15/06/2026"
-       }},
       {h:"16h",a:"França",b:"Senegal",g:"I",c:"Nova York/Nova Jersey",o:[1.44,4.40,6.50],real:"1×2 real · Bet365 · 15/06",
        det:{
          stats:[
@@ -678,6 +667,17 @@ const rodadas = {
            "O Iraque retorna após 40 anos (última em 1986) e tende a jogar fechado",
            "O Iraque teve menos de 2.5 gols em 6 dos últimos 7 jogos — muito defensivo",
            "Haaland é a referência: o mercado de gol do norueguês é o mais visado do jogo"
+         ],
+         tendencia:"menos",
+         fonte:"Informações compiladas de sites especializados em 15/06/2026"
+       }},
+      {h:"22h",a:"Argentina",b:"Argélia",g:"J",c:"Kansas City",o:[1.30,5.25,10.0],
+       det:{
+         stats:[
+           "Estreia da atual campeã mundial: Messi disputa seu 200º jogo, 1º a atuar em 6 Copas diferentes",
+           "A Argentina venceu os 5 jogos de preparação, marcou 14 gols e sofreu apenas 1",
+           "A Argélia voltou ao Mundial após 12 anos e ganhou moral: bateu a Holanda (1×0) e goleou a Bolívia",
+           "As Raposas do Deserto não perderam nem sofreram gols nos últimos 4 jogos — defesa em alta"
          ],
          tendencia:"menos",
          fonte:"Informações compiladas de sites especializados em 15/06/2026"
@@ -1100,10 +1100,17 @@ const historico = [
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Alemanha handicap -1.5",odd:1.30,res:"g",obs:"Venceu por 6 de saldo (7×1)"},
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Mais de 2.5 gols",odd:1.45,res:"g",obs:"8 gols no jogo! (7×1)"},
   {teste:true,data:"14/06 14h",dh:1414,jogo:"Alemanha × Curaçao",ind:"Ambos marcam: Não",odd:1.50,res:"r",obs:"Curaçao descontou (Comenencia) — 7×1"},
+  {teste:true,data:"14/06 17h",dh:1417,jogo:"Holanda × Japão",ind:"Mais de 2.5 gols",odd:1.70,res:"g",obs:"4 gols no jogo (2×2) — tendência de gols confirmada"},
+  {teste:true,data:"14/06 17h",dh:1417,jogo:"Holanda × Japão",ind:"Ambos marcam: Sim",odd:1.80,res:"g",obs:"Os dois marcaram (2×2)"},
   {teste:true,data:"15/06 13h",dh:1513,jogo:"Espanha × Cabo Verde",ind:"Espanha vence",odd:1.10,res:"r",obs:"Zebra! Cabo Verde segurou o 0×0 com defesa heroica"},
   {teste:true,data:"15/06 13h",dh:1513,jogo:"Espanha × Cabo Verde",ind:"Espanha marca nos dois tempos",odd:1.50,res:"r",obs:"Espanha não marcou — Vozinha, goleiro de 40 anos, brilhou"},
   {teste:true,data:"15/06 16h",dh:1516,jogo:"Bélgica × Egito",ind:"Bélgica vence",odd:1.60,res:"r",obs:"1×1 — Egito segurou o empate, mais um favorito tropeçando"},
-  {teste:true,data:"15/06 16h",dh:1516,jogo:"Bélgica × Egito",ind:"Menos de 2.5 gols",odd:1.70,res:"g",obs:"2 gols no jogo (1×1) — tendência de poucos gols confirmada"}
+  {teste:true,data:"15/06 16h",dh:1516,jogo:"Bélgica × Egito",ind:"Menos de 2.5 gols",odd:1.70,res:"g",obs:"2 gols no jogo (1×1) — tendência de poucos gols confirmada"},
+  {teste:true,data:"15/06 19h",dh:1519,jogo:"Arábia Saudita × Uruguai",ind:"Uruguai vence",odd:1.46,res:"r",obs:"1×1 — a Arábia segurou, Maxi Araújo evitou a derrota"},
+  {teste:true,data:"15/06 19h",dh:1519,jogo:"Arábia Saudita × Uruguai",ind:"Menos de 2.5 gols",odd:1.82,res:"g",obs:"2 gols no jogo (1×1) — tendência confirmada"},
+  {teste:true,data:"15/06 19h",dh:1519,jogo:"Arábia Saudita × Uruguai",ind:"Ambos marcam: Não",odd:1.82,res:"r",obs:"Os dois marcaram (1×1)"},
+  {teste:true,data:"15/06 22h",dh:1522,jogo:"Irã × Nova Zelândia",ind:"Irã vence",odd:1.95,res:"r",obs:"2×2 — Elijah Just fez 2 gols históricos pela NZ"},
+  {teste:true,data:"15/06 22h",dh:1522,jogo:"Irã × Nova Zelândia",ind:"Menos de 2.5 gols",odd:1.87,res:"r",obs:"4 gols no jogo (2×2) — a zebra estourou a linha"}
   // ===== A PARTIR DAQUI: placar oficial com odds reais Bet365 (2ª rodada em diante) =====
 ].sort((a,b) => a.dh - b.dh);
 
