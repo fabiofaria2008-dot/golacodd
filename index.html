@@ -310,6 +310,46 @@
   .badge-res.r{color:#FF8A75;background:rgba(224,86,63,.13);border:1px solid rgba(224,86,63,.55)}
   .badge-res.p{color:#F2D060;background:rgba(232,197,71,.12);border:1px solid rgba(232,197,71,.45)}
   .badge-res.a{color:#9FB0C0;background:rgba(139,151,165,.13);border:1px solid rgba(139,151,165,.45)}
+
+  /* ============ Calculadora de cobertura ============ */
+  #fabCalc{
+    position:fixed;right:18px;bottom:18px;z-index:50;
+    width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--amber),#D89420);color:var(--bg);
+    font-size:26px;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:transform .12s;
+  }
+  #fabCalc:hover{transform:scale(1.07)}
+  #fabCalc:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  .calc-corpo{padding:16px 16px 20px;overflow-y:auto;max-height:calc(85vh - 56px)}
+  .calc-intro{font-size:13px;line-height:1.6;color:var(--txt-dim);margin-bottom:16px}
+  .calc-bloco{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+  .calc-rotulo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+  .calc-campo{margin-bottom:11px}
+  .calc-campo:last-child{margin-bottom:0}
+  .calc-campo label{display:block;font-size:12px;color:var(--txt-dim);margin-bottom:5px}
+  .calc-campo input,.calc-campo select{
+    width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    color:var(--txt);font-size:15px;padding:11px 12px;font-family:'Inter',sans-serif;
+  }
+  .calc-campo input:focus,.calc-campo select:focus{outline:none;border-color:var(--amber)}
+  .calc-toggle{display:flex;gap:8px;margin-bottom:12px}
+  .ctog{
+    flex:1;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
+    color:var(--txt-dim);background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:10px 8px;cursor:pointer;transition:all .12s;
+  }
+  .ctog.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
+  #calcResultado{margin-top:16px}
+  .calc-card{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:15px;margin-bottom:11px}
+  .calc-card h4{font-size:13px;color:var(--txt);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+  .calc-card .cstake{font-family:'Anton',sans-serif;font-size:30px;color:var(--amber);line-height:1}
+  .calc-card .cstake small{font-family:'Inter',sans-serif;font-size:13px;color:var(--txt-dim);font-weight:400}
+  .calc-cenarios{margin-top:11px;border-top:1px solid var(--line);padding-top:11px}
+  .calc-cen{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;color:var(--txt-dim)}
+  .calc-cen .v{font-family:var(--mono);font-weight:600}
+  .calc-cen .v.pos{color:#4ADE80}
+  .calc-cen .v.neg{color:#FF8A75}
+  .calc-aviso{font-size:11px;color:var(--txt-dim);line-height:1.55;margin-top:10px;font-style:italic}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -484,6 +524,49 @@
     <div style="padding:12px 14px 16px;display:flex;gap:10px">
       <button class="btn-arte" id="btnCompartilhar" style="margin-top:0">📤 Compartilhar</button>
       <button class="btn-arte" id="btnBaixar" style="margin-top:0;background:var(--panel-3);color:var(--txt)">⬇ Baixar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Botão flutuante: Calculadora de cobertura ============ -->
+<button id="fabCalc" aria-label="Calculadora de cobertura" title="Calculadora de cobertura">🧮</button>
+
+<!-- ============ Calculadora de cobertura (hedge) ============ -->
+<div class="modal-fundo" id="modalCalc" hidden>
+  <div class="modal" style="max-width:500px" role="dialog" aria-label="Calculadora de cobertura">
+    <div class="modal-head"><span>🧮 Calculadora de cobertura</span><button id="fecharCalc" aria-label="Fechar">✕</button></div>
+    <div class="calc-corpo">
+      <p class="calc-intro">Você já fez uma aposta e quer se proteger durante o jogo? Informe sua aposta original e as odds <strong>ao vivo</strong> que você vê na sua casa agora. A calculadora mostra quanto apostar para travar lucro ou zerar o risco.</p>
+
+      <div class="calc-bloco">
+        <div class="calc-rotulo">Sua aposta original</div>
+        <div class="calc-campo"><label>Valor apostado (R$)</label><input type="number" id="cValor" inputmode="decimal" placeholder="50"></div>
+        <div class="calc-campo"><label>Odd que você pegou</label><input type="number" id="cOdd" inputmode="decimal" placeholder="2.00"></div>
+        <div class="calc-campo"><label>No que você apostou</label>
+          <select id="cLado"><option value="A">Vitória do Time A (mandante)</option><option value="X">Empate</option><option value="B">Vitória do Time B (visitante)</option></select>
+        </div>
+      </div>
+
+      <div class="calc-bloco">
+        <div class="calc-rotulo">Cobertura — quanto cobrir?</div>
+        <div class="calc-toggle">
+          <button class="ctog ativa" data-modo="total">Cobertura total (2 resultados)</button>
+          <button class="ctog" data-modo="parcial">Cobrir 1 resultado</button>
+        </div>
+        <div id="campoTotal">
+          <div class="calc-campo"><label>Odd ao vivo do resultado 1</label><input type="number" id="cHedge1" inputmode="decimal" placeholder="ex: empate 3.20"></div>
+          <div class="calc-campo"><label>Odd ao vivo do resultado 2</label><input type="number" id="cHedge2" inputmode="decimal" placeholder="ex: outro time 4.50"></div>
+        </div>
+        <div id="campoParcial" hidden>
+          <div class="calc-campo"><label>Qual resultado cobrir?</label>
+            <select id="cParcialLado"></select>
+          </div>
+          <div class="calc-campo"><label>Odd ao vivo desse resultado</label><input type="number" id="cHedgeP" inputmode="decimal" placeholder="ex: 3.20"></div>
+        </div>
+      </div>
+
+      <button class="btn-arte" id="btnCalcular" style="margin-top:0">Calcular cobertura</button>
+      <div id="calcResultado"></div>
     </div>
   </div>
 </div>
@@ -1681,7 +1764,124 @@ document.getElementById('btnBaixar').addEventListener('click', baixarArte);
 document.getElementById('fecharArte').addEventListener('click', () => modalArte.hidden = true);
 modalArte.addEventListener('click', e => { if(e.target === modalArte) modalArte.hidden = true; });
 modalIA.addEventListener('click', e => { if(e.target === modalIA) modalIA.hidden = true; });
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ modalIA.hidden = true; modalArte.hidden = true; } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ modalIA.hidden = true; modalArte.hidden = true; modalCalc.hidden = true; } });
+
+// ---------- Calculadora de cobertura (hedge) ----------
+const modalCalc = document.getElementById('modalCalc');
+const nomesLado = {A:'Vitória do Time A', X:'Empate', B:'Vitória do Time B'};
+
+document.getElementById('fabCalc').addEventListener('click', () => { modalCalc.hidden = false; });
+document.getElementById('fecharCalc').addEventListener('click', () => { modalCalc.hidden = true; });
+modalCalc.addEventListener('click', e => { if(e.target === modalCalc) modalCalc.hidden = true; });
+
+let modoCalc = 'total';
+document.querySelectorAll('.ctog').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.ctog').forEach(x => x.classList.remove('ativa'));
+  b.classList.add('ativa');
+  modoCalc = b.dataset.modo;
+  document.getElementById('campoTotal').hidden = modoCalc !== 'total';
+  document.getElementById('campoParcial').hidden = modoCalc !== 'parcial';
+}));
+
+document.getElementById('cLado').addEventListener('change', atualizaParcial);
+function atualizaParcial(){
+  const orig = document.getElementById('cLado').value;
+  const outros = ['A','X','B'].filter(l => l !== orig);
+  document.getElementById('cParcialLado').innerHTML = outros.map(l => `<option value="${l}">${nomesLado[l]}</option>`).join('');
+}
+atualizaParcial();
+
+document.getElementById('btnCalcular').addEventListener('click', calcularCobertura);
+
+function calcularCobertura(){
+  const valor = parseFloat(document.getElementById('cValor').value);
+  const odd = parseFloat(document.getElementById('cOdd').value);
+  const ladoOrig = document.getElementById('cLado').value;
+  const out = document.getElementById('calcResultado');
+
+  if(!valor || !odd || valor <= 0 || odd <= 1){
+    out.innerHTML = `<div class="calc-aviso" style="color:#FF8A75">Preencha o valor apostado e a odd (maior que 1.00) corretamente.</div>`;
+    return;
+  }
+  const retornoOrig = valor * odd;
+
+  let hedges = [];
+  if(modoCalc === 'total'){
+    const outros = ['A','X','B'].filter(l => l !== ladoOrig);
+    const h1 = parseFloat(document.getElementById('cHedge1').value);
+    const h2 = parseFloat(document.getElementById('cHedge2').value);
+    if(!h1 || !h2 || h1 <= 1 || h2 <= 1){
+      out.innerHTML = `<div class="calc-aviso" style="color:#FF8A75">Informe as duas odds ao vivo (maiores que 1.00) dos resultados a cobrir.</div>`;
+      return;
+    }
+    hedges = [{lado:outros[0], odd:h1}, {lado:outros[1], odd:h2}];
+  } else {
+    const lado = document.getElementById('cParcialLado').value;
+    const hp = parseFloat(document.getElementById('cHedgeP').value);
+    if(!hp || hp <= 1){
+      out.innerHTML = `<div class="calc-aviso" style="color:#FF8A75">Informe a odd ao vivo (maior que 1.00) do resultado a cobrir.</div>`;
+      return;
+    }
+    hedges = [{lado, odd:hp}];
+  }
+
+  // Cenário 1: travar lucro (retorno do hedge iguala o da aposta original)
+  const travado = hedges.map(h => ({...h, stake: retornoOrig / h.odd}));
+  const totalApostadoTravado = valor + travado.reduce((s,h) => s + h.stake, 0);
+  const lucroTravado = retornoOrig - totalApostadoTravado;
+
+  // Cenário 2: zerar risco
+  let zerar;
+  if(hedges.length === 1){
+    const h = hedges[0];
+    const stake = valor / (h.odd - 1);
+    zerar = {stakes:[{...h, stake}], total: valor + stake};
+  } else {
+    const soma = 1/hedges[0].odd + 1/hedges[1].odd;
+    const k = valor / (1 - soma);
+    if(k <= 0){ zerar = null; }
+    else {
+      const stakes = hedges.map(h => ({...h, stake: k / h.odd}));
+      zerar = {stakes, total: valor + stakes.reduce((s,h)=>s+h.stake,0)};
+    }
+  }
+
+  const todosLados = ['A','X','B'];
+  const cenarioFinal = (stakesMap, total) => todosLados.map(l => {
+    let retorno = 0;
+    if(l === ladoOrig) retorno = retornoOrig;
+    else if(stakesMap[l]) retorno = stakesMap[l].retorno;
+    return {lado:l, lucro: retorno - total};
+  });
+
+  const mapTravado = {}; travado.forEach(h => mapTravado[h.lado] = {retorno: h.stake * h.odd});
+  const cenTravado = cenarioFinal(mapTravado, totalApostadoTravado);
+
+  let html = `<div class="calc-card">
+    <h4>🔒 Travar lucro garantido</h4>
+    ${travado.map(h => `<div style="margin-top:6px"><span class="cstake" style="font-size:24px">R$ ${h.stake.toFixed(2)}</span> <small style="color:var(--txt-dim)">em ${nomesLado[h.lado]} (odd ${h.odd.toFixed(2)})</small></div>`).join('')}
+    <div class="calc-cenarios">
+      ${cenTravado.map(c => `<div class="calc-cen"><span>${nomesLado[c.lado]}${c.lado===ladoOrig?' (sua aposta)':''}</span><span class="v ${c.lucro>=0?'pos':'neg'}">${c.lucro>=0?'+':''}R$ ${c.lucro.toFixed(2)}</span></div>`).join('')}
+    </div>
+    <div class="calc-aviso">Total investido: R$ ${totalApostadoTravado.toFixed(2)}. ${lucroTravado>=0?`Lucro garantido de R$ ${lucroTravado.toFixed(2)} em qualquer resultado coberto.`:`Com essas odds, não dá pra travar lucro (daria prejuízo de R$ ${Math.abs(lucroTravado).toFixed(2)}). Espere as odds ao vivo subirem.`}</div>
+  </div>`;
+
+  if(zerar){
+    const mapZerar = {}; zerar.stakes.forEach(h => mapZerar[h.lado] = {retorno: h.stake * h.odd});
+    const cenZerar = cenarioFinal(mapZerar, zerar.total);
+    html += `<div class="calc-card">
+      <h4>🛡️ Zerar o risco (recuperar a aposta)</h4>
+      ${zerar.stakes.map(h => `<div style="margin-top:4px"><span class="cstake" style="font-size:24px">R$ ${h.stake.toFixed(2)}</span> <small style="color:var(--txt-dim)">em ${nomesLado[h.lado]} (odd ${h.odd.toFixed(2)})</small></div>`).join('')}
+      <div class="calc-cenarios">
+        ${cenZerar.map(c => `<div class="calc-cen"><span>${nomesLado[c.lado]}${c.lado===ladoOrig?' (sua aposta)':''}</span><span class="v ${c.lucro>=0?'pos':'neg'}">${c.lucro>=0?'+':''}R$ ${c.lucro.toFixed(2)}</span></div>`).join('')}
+      </div>
+      <div class="calc-aviso">Total investido: R$ ${zerar.total.toFixed(2)}. Mais conservador: arrisca menos no hedge e mira recuperar o valor se a aposta original perder, mantendo lucro maior se ela ganhar.</div>
+    </div>`;
+  }
+
+  html += `<div class="calc-aviso">⚠ Odds ao vivo mudam a cada segundo — confirme na sua casa antes de apostar. Ferramenta de cálculo, não conselho de aposta.</div>`;
+  out.innerHTML = html;
+}
 </script>
 </body>
 </html>
