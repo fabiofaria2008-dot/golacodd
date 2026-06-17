@@ -362,12 +362,18 @@
   .pf-time{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
   .pf-nome{font-size:13.5px;font-weight:600;color:var(--txt)}
   .pf-jogos{display:flex;gap:5px}
-  .pf-r{width:15px;height:15px;border-radius:4px;display:inline-block}
-  .pf-r.g{background:#27AE60}
-  .pf-r.e{background:#C9A227}
-  .pf-r.d{background:#C8472F}
-  .pf-legenda{font-size:10.5px;color:var(--txt-dim);margin-top:8px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-  .pf-legenda .pf-r{width:11px;height:11px}
+  .pf-r{
+    width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;
+    font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:#fff;
+  }
+  .pf-r.g{background:#16A34A;box-shadow:0 1px 4px rgba(22,163,74,.4)}
+  .pf-r.g::after{content:"V"}
+  .pf-r.e{background:#D9A400;color:#1A1205;box-shadow:0 1px 4px rgba(217,164,0,.35)}
+  .pf-r.e::after{content:"E"}
+  .pf-r.d{background:#DC2626;box-shadow:0 1px 4px rgba(220,38,38,.4)}
+  .pf-r.d::after{content:"D"}
+  .pf-legenda{font-size:10.5px;color:var(--txt-dim);margin-top:10px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+  .pf-legenda .pf-r{width:16px;height:16px;font-size:9px}
   .pano-medias{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;margin-bottom:12px}
   .pm-item{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 6px;text-align:center}
   .pm-v{display:block;font-family:'Anton',sans-serif;font-size:20px;color:var(--amber);line-height:1}
@@ -1281,7 +1287,14 @@ const historico = [
   {teste:true,data:"15/06 19h",dh:1519,jogo:"Arábia Saudita × Uruguai",ind:"Menos de 2.5 gols",odd:1.82,res:"g",obs:"2 gols no jogo (1×1) — tendência confirmada"},
   {teste:true,data:"15/06 19h",dh:1519,jogo:"Arábia Saudita × Uruguai",ind:"Ambos marcam: Não",odd:1.82,res:"r",obs:"Os dois marcaram (1×1)"},
   {teste:true,data:"15/06 22h",dh:1522,jogo:"Irã × Nova Zelândia",ind:"Irã vence",odd:1.95,res:"r",obs:"2×2 — Elijah Just fez 2 gols históricos pela NZ"},
-  {teste:true,data:"15/06 22h",dh:1522,jogo:"Irã × Nova Zelândia",ind:"Menos de 2.5 gols",odd:1.87,res:"r",obs:"4 gols no jogo (2×2) — a zebra estourou a linha"}
+  {teste:true,data:"15/06 22h",dh:1522,jogo:"Irã × Nova Zelândia",ind:"Menos de 2.5 gols",odd:1.87,res:"r",obs:"4 gols no jogo (2×2) — a zebra estourou a linha"},
+  {teste:true,data:"16/06 16h",dh:1616,jogo:"França × Senegal",ind:"França vence",odd:1.44,res:"g",obs:"3×1 — favoritismo confirmado, enfim um favorito ganhou!"},
+  {teste:true,data:"16/06 16h",dh:1616,jogo:"França × Senegal",ind:"Mais de 2.5 gols",odd:1.78,res:"g",obs:"4 gols no jogo (3×1) — tendência de gols da França confirmada"},
+  {teste:true,data:"16/06 16h",dh:1616,jogo:"França × Senegal",ind:"Mbappé marca a qualquer momento",odd:2.15,res:"g",obs:"Mbappé deixou o dele no 3×1"},
+  {teste:true,data:"16/06 19h",dh:1619,jogo:"Iraque × Noruega",ind:"Noruega vence",odd:1.50,res:"g",obs:"4×1 — Haaland marcou 2, goleada norueguesa"},
+  {teste:true,data:"16/06 19h",dh:1619,jogo:"Iraque × Noruega",ind:"Menos de 2.5 gols",odd:1.80,res:"r",obs:"5 gols no jogo (4×1) — a Noruega estourou a linha"},
+  {teste:true,data:"16/06 22h",dh:1622,jogo:"Argentina × Argélia",ind:"Argentina vence",odd:1.30,res:"g",obs:"3×0 — a campeã atropelou na estreia"},
+  {teste:true,data:"16/06 22h",dh:1622,jogo:"Argentina × Argélia",ind:"Menos de 2.5 gols",odd:1.85,res:"r",obs:"3 gols no jogo (3×0) — estourou a linha no fim"}
   // ===== A PARTIR DAQUI: placar oficial com odds reais Bet365 (2ª rodada em diante) =====
 ].sort((a,b) => a.dh - b.dh);
 
