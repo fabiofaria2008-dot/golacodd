@@ -1362,18 +1362,25 @@ function renderHistorico(){
       </div>
       ${o.anuladas ? `<div class="dia"><span>⚪ Anuladas (push)</span><span>${o.anuladas}</span></div><div class="bloco" style="margin-bottom:18px">${oficiais.filter(x=>x.res==='a').map(linha).join('')}</div>` : ''}
       <div class="dia"><span>Indicações oficiais</span><span>${o.total + o.anuladas}</span></div>
-      <div class="bloco" style="margin-bottom:8px">${oficiais.filter(x=>x.res!=='a').map(linha).join('')}</div>`;
+      <div class="bloco" style="margin-bottom:8px">${[...oficiais].filter(x=>x.res!=='a').sort((a,b)=>b.dh-a.dh).map(linha).join('')}</div>`;
   }
 
   // ----- Bloco da fase de TESTES (recolhível) -----
   const t = calc(testes);
+  const testesOrdenados = [...testes].sort((a,b) => b.dh - a.dh); // mais recentes primeiro
   const testeHTML = testes.length ? `
     <details style="margin-top:24px">
       <summary style="cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim);padding:10px 0">
-        📋 Período de testes (1ª rodada) — ${t.g}G / ${t.r}R · odds estimadas, fora do placar oficial
+        📋 Período de testes (1ª rodada) — ${t.g}G / ${t.r}R · ${t.taxa}% · saldo ${t.saldo>=0?'+':''}${t.saldo.toFixed(2)}u
       </summary>
+      <div class="hist-cards" style="margin-top:6px">
+        <div class="hcard"><div class="hv">${t.taxa}%</div><div class="hl">Taxa de acerto</div></div>
+        <div class="hcard"><div class="hv g">${t.g}</div><div class="hl">Greens</div></div>
+        <div class="hcard"><div class="hv r">${t.r}</div><div class="hl">Reds</div></div>
+        <div class="hcard"><div class="hv ${t.saldo>=0?'g':'r'}">${t.saldo>=0?'+':''}${t.saldo.toFixed(2)}u</div><div class="hl">Saldo (1u/aposta)</div></div>
+      </div>
       <div class="pl-margem" style="margin:6px 0 12px">Estas indicações usaram odds estimadas pela IA antes de adotarmos as odds reais da Bet365. Mantidas por transparência, mas não entram no placar oficial.</div>
-      <div class="bloco">${testes.map(linha).join('')}</div>
+      <div class="bloco">${testesOrdenados.map(linha).join('')}</div>
     </details>` : '';
 
   sec.innerHTML = `
