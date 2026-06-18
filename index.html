@@ -1294,8 +1294,18 @@ const historico = [
   {teste:true,data:"16/06 19h",dh:1619,jogo:"Iraque × Noruega",ind:"Noruega vence",odd:1.50,res:"g",obs:"4×1 — Haaland marcou 2, goleada norueguesa"},
   {teste:true,data:"16/06 19h",dh:1619,jogo:"Iraque × Noruega",ind:"Menos de 2.5 gols",odd:1.80,res:"r",obs:"5 gols no jogo (4×1) — a Noruega estourou a linha"},
   {teste:true,data:"16/06 22h",dh:1622,jogo:"Argentina × Argélia",ind:"Argentina vence",odd:1.30,res:"g",obs:"3×0 — a campeã atropelou na estreia"},
-  {teste:true,data:"16/06 22h",dh:1622,jogo:"Argentina × Argélia",ind:"Menos de 2.5 gols",odd:1.85,res:"r",obs:"3 gols no jogo (3×0) — estourou a linha no fim"}
-  // ===== A PARTIR DAQUI: placar oficial com odds reais Bet365 (2ª rodada em diante) =====
+  {teste:true,data:"16/06 22h",dh:1622,jogo:"Argentina × Argélia",ind:"Menos de 2.5 gols",odd:1.85,res:"r",obs:"3 gols no jogo (3×0) — estourou a linha no fim"},
+  {teste:true,data:"17/06 14h",dh:1714,jogo:"Portugal × RD Congo",ind:"Portugal vence",odd:1.25,res:"r",obs:"1×1 — a RD Congo surpreendeu e segurou Portugal"},
+  {teste:true,data:"17/06 14h",dh:1714,jogo:"Portugal × RD Congo",ind:"Mais de 2.5 gols",odd:1.55,res:"r",obs:"2 gols no jogo (1×1) — ficou abaixo da linha"},
+  {teste:true,data:"17/06 17h",dh:1717,jogo:"Inglaterra × Croácia",ind:"Inglaterra vence",odd:1.90,res:"g",obs:"4×2 — a Inglaterra de Tuchel atropelou"},
+  {teste:true,data:"17/06 17h",dh:1717,jogo:"Inglaterra × Croácia",ind:"Menos de 2.5 gols",odd:1.80,res:"r",obs:"6 gols no jogo! (4×2) — jogo aberto surpreendeu"},
+  // ===== PLACAR OFICIAL — odds reais Bet365, registradas antes do jogo (a partir de 18/06) =====
+  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Rep. Tcheca vence",odd:1.81,res:"p",obs:""},
+  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Ambos marcam: Não",odd:1.80,res:"p",obs:""},
+  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Suíça vence",odd:1.90,res:"p",obs:""},
+  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Ambos marcam: Sim",odd:1.95,res:"p",obs:""},
+  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Canadá vence",odd:1.78,res:"p",obs:""},
+  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Menos de 2.5 gols",odd:1.72,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 function renderHistorico(){
@@ -1334,24 +1344,26 @@ function renderHistorico(){
       <span class="badge-res ${x.res}">${x.res === 'g' ? '🟢 Green' : x.res === 'r' ? '🔴 Red' : x.res === 'a' ? '⚪ Anulada' : '⏳ Aberta'}</span>
     </div>`;
 
-  // ----- Bloco do placar OFICIAL (vazio até a 2ª rodada) -----
+  // ----- Bloco do placar OFICIAL -----
+  const pendentesOf = oficiais.filter(x => x.res === 'p');
+  const pendBloco = pendentesOf.length ? `<div class="dia"><span>⏳ Em aberto</span><span>${pendentesOf.length}</span></div><div class="bloco" style="margin-bottom:18px">${[...pendentesOf].sort((a,b)=>b.dh-a.dh).map(linha).join('')}</div>` : '';
   let oficialHTML;
-  if(o.total === 0){
+  if(o.total === 0 && pendentesOf.length === 0){
     oficialHTML = `<div class="hist-cards">
         <div class="hcard"><div class="hv">—</div><div class="hl">Taxa de acerto</div></div>
         <div class="hcard"><div class="hv g">0</div><div class="hl">Greens</div></div>
         <div class="hcard"><div class="hv r">0</div><div class="hl">Reds</div></div>
         <div class="hcard"><div class="hv">0.00u</div><div class="hl">Saldo</div></div>
       </div>
-      <div class="promo" style="margin-bottom:18px"><span class="tagp">Placar oficial</span><b>Começa na 2ª rodada</b>A partir de agora, cada indicação é registrada <strong>antes do jogo</strong> com a odd real da Bet365. Placar 100% auditável, sem ajuste retroativo.</div>`;
+      <div class="promo" style="margin-bottom:18px"><span class="tagp">Placar oficial</span><b>Começa agora</b>A partir de agora, cada indicação é registrada <strong>antes do jogo</strong> com a odd real da Bet365. Placar 100% auditável, sem ajuste retroativo.</div>`;
   } else {
     oficialHTML = `<div class="hist-cards">
-        <div class="hcard"><div class="hv">${o.taxa}%</div><div class="hl">Taxa de acerto</div></div>
+        <div class="hcard"><div class="hv">${o.total ? o.taxa + '%' : '—'}</div><div class="hl">Taxa de acerto</div></div>
         <div class="hcard"><div class="hv g">${o.g}</div><div class="hl">Greens</div></div>
         <div class="hcard"><div class="hv r">${o.r}</div><div class="hl">Reds</div></div>
         <div class="hcard"><div class="hv ${o.saldo >= 0 ? 'g' : 'r'}">${o.saldo >= 0 ? '+' : ''}${o.saldo.toFixed(2)}u</div><div class="hl">Saldo (1u/aposta)</div></div>
       </div>
-      <div class="ia-bloco" style="margin-bottom:18px">
+      ${o.total ? `<div class="ia-bloco" style="margin-bottom:18px">
         <div class="ia-rotulo">Acerto por nível de risco</div>
         ${porSelo.map(s => `<div class="prob-linha">
           <span class="pl-nome">${s.nome}</span>
@@ -1359,10 +1371,11 @@ function renderHistorico(){
           <span class="pl-num">${s.t ? `${s.g}/${s.t} · ${s.pct}%` : '—'}</span>
         </div>`).join('')}
         <div class="pl-margem">Odds de referência: Bet365, registradas antes de cada jogo. Saldo com 1 unidade por indicação. Resultados passados não garantem resultados futuros.</div>
-      </div>
+      </div>` : `<div class="promo" style="margin-bottom:18px"><span class="tagp">Placar oficial</span><b>Primeiras apostas registradas!</b>Indicações com odd real da Bet365, registradas <strong>antes do jogo</strong>. Aguardando os resultados para abrir o placar.</div>`}
+      ${pendBloco}
       ${o.anuladas ? `<div class="dia"><span>⚪ Anuladas (push)</span><span>${o.anuladas}</span></div><div class="bloco" style="margin-bottom:18px">${oficiais.filter(x=>x.res==='a').map(linha).join('')}</div>` : ''}
-      <div class="dia"><span>Indicações oficiais</span><span>${o.total + o.anuladas}</span></div>
-      <div class="bloco" style="margin-bottom:8px">${[...oficiais].filter(x=>x.res!=='a').sort((a,b)=>b.dh-a.dh).map(linha).join('')}</div>`;
+      ${o.total + o.anuladas ? `<div class="dia"><span>Resolvidas</span><span>${o.total + o.anuladas}</span></div>
+      <div class="bloco" style="margin-bottom:8px">${[...oficiais].filter(x=>x.res==='g'||x.res==='r').sort((a,b)=>b.dh-a.dh).map(linha).join('')}</div>` : ''}`;
   }
 
   // ----- Bloco da fase de TESTES (recolhível) -----
