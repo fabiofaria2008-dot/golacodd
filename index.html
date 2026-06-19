@@ -1363,12 +1363,17 @@ const historico = [
   {teste:true,data:"17/06 17h",dh:1717,jogo:"Inglaterra × Croácia",ind:"Inglaterra vence",odd:1.90,res:"g",obs:"4×2 — a Inglaterra de Tuchel atropelou"},
   {teste:true,data:"17/06 17h",dh:1717,jogo:"Inglaterra × Croácia",ind:"Menos de 2.5 gols",odd:1.80,res:"r",obs:"6 gols no jogo! (4×2) — jogo aberto surpreendeu"},
   // ===== PLACAR OFICIAL — odds reais Bet365, registradas antes do jogo (a partir de 18/06) =====
-  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Rep. Tcheca vence",odd:1.81,res:"p",obs:""},
-  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Ambos marcam: Não",odd:1.80,res:"p",obs:""},
-  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Suíça vence",odd:1.90,res:"p",obs:""},
-  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Ambos marcam: Sim",odd:1.95,res:"p",obs:""},
-  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Canadá vence",odd:1.78,res:"p",obs:""},
-  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Menos de 2.5 gols",odd:1.72,res:"p",obs:""}
+  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Rep. Tcheca vence",odd:1.81,res:"r",obs:"1×1 — Schick marcou, mas a África do Sul buscou o empate"},
+  {data:"18/06 13h",dh:1813,jogo:"Rep. Tcheca × África do Sul",ind:"Ambos marcam: Não",odd:1.80,res:"r",obs:"Os dois marcaram (1×1)"},
+  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Suíça vence",odd:1.90,res:"g",obs:"4×1 — Xhaka, Manzambi (2) e Vargas; vitória convincente"},
+  {data:"18/06 17h",dh:1817,jogo:"Suíça × Bósnia",ind:"Ambos marcam: Sim",odd:1.95,res:"g",obs:"A Bósnia descontou — os dois marcaram (4×1)"},
+  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Canadá vence",odd:1.78,res:"g",obs:"6×0 — goleada do anfitrião!"},
+  {data:"18/06 20h",dh:1820,jogo:"Canadá × Catar",ind:"Menos de 2.5 gols",odd:1.72,res:"r",obs:"6 gols no jogo (6×0) — estourou a linha com folga"},
+  {data:"19/06 16h",dh:1916,jogo:"Estados Unidos × Austrália",ind:"Estados Unidos vencem",odd:1.70,res:"p",obs:""},
+  {data:"19/06 16h",dh:1916,jogo:"Estados Unidos × Austrália",ind:"Menos de 2.5 gols",odd:1.80,res:"p",obs:""},
+  {data:"19/06 19h",dh:1919,jogo:"Escócia × Marrocos",ind:"Marrocos vence — empate anula (DNB)",odd:1.55,res:"p",obs:""},
+  {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Mais de 2.5 gols",odd:1.40,res:"p",obs:""},
+  {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Brasil marca nos dois tempos",odd:1.55,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 function renderHistorico(){
