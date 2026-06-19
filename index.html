@@ -381,6 +381,16 @@
   .pano-h2h,.pano-desf{font-size:12.5px;line-height:1.55;color:var(--txt-dim);margin-top:8px}
   .pano-h2h strong,.pano-desf strong{color:var(--txt)}
   .pano-desf{color:#FFB59E}
+
+  /* ============ Filtro de esporte no histórico ============ */
+  .esp-filtro{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .espbtn{
+    font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;
+    color:var(--txt-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;
+    padding:8px 15px;cursor:pointer;transition:all .12s;white-space:nowrap;
+  }
+  .espbtn:hover{color:var(--txt);border-color:var(--amber)}
+  .espbtn.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -1373,13 +1383,28 @@ const historico = [
   {data:"19/06 16h",dh:1916,jogo:"Estados Unidos × Austrália",ind:"Menos de 2.5 gols",odd:1.80,res:"p",obs:""},
   {data:"19/06 19h",dh:1919,jogo:"Escócia × Marrocos",ind:"Marrocos vence — empate anula (DNB)",odd:1.55,res:"p",obs:""},
   {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Mais de 2.5 gols",odd:1.40,res:"p",obs:""},
-  {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Brasil marca nos dois tempos",odd:1.55,res:"p",obs:""}
+  {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Brasil marca nos dois tempos",odd:1.55,res:"p",obs:""},
+  // ----- Tênis (seleções oficiais do dia) -----
+  {esporte:"tenis",data:"19/06 08h",dh:1908,jogo:"Shelton × Fritz",ind:"Shelton vence",odd:1.65,res:"p",obs:""},
+  {esporte:"tenis",data:"19/06 11h30",dh:1911,jogo:"Sabalenka × Bartunkova",ind:"Sabalenka vence",odd:1.56,res:"p",obs:""},
+  {esporte:"tenis",data:"19/06 12h40",dh:1912,jogo:"Medvedev × Altmaier",ind:"Medvedev vence",odd:1.60,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
+let filtroEsporte = 'todos';
 function renderHistorico(){
   const sec = document.getElementById('historico');
-  const oficiais = historico.filter(x => !x.teste);
-  const testes = historico.filter(x => x.teste);
+  // esporte padrão = futebol (tudo que existe hoje); entradas futuras podem ter x.esporte
+  const doEsporte = x => filtroEsporte === 'todos' || (x.esporte || 'fut') === filtroEsporte;
+  const oficiais = historico.filter(x => !x.teste && doEsporte(x));
+  const testes = historico.filter(x => x.teste && doEsporte(x));
+
+  // Conta quantos esportes existem no histórico (pra mostrar só os filtros relevantes)
+  const esportes = [...new Set(historico.map(x => x.esporte || 'fut'))];
+  const nomeEsp = {fut:'⚽ Futebol', tenis:'🎾 Tênis', nba:'🏀 Basquete'};
+  const filtroHTML = esportes.length > 1 ? `<div class="esp-filtro">
+    <button class="espbtn ${filtroEsporte==='todos'?'ativa':''}" data-esp="todos">Todos</button>
+    ${esportes.map(e => `<button class="espbtn ${filtroEsporte===e?'ativa':''}" data-esp="${e}">${nomeEsp[e]||e}</button>`).join('')}
+  </div>` : '';
 
   const calc = arr => {
     const res = arr.filter(x => x.res === 'g' || x.res === 'r');
@@ -1466,8 +1491,14 @@ function renderHistorico(){
 
   sec.innerHTML = `
     <div class="promo-titulo">📊 Histórico oficial — Odds Bet365</div>
+    ${filtroHTML}
     ${oficialHTML}
     ${testeHTML}`;
+
+  sec.querySelectorAll('.espbtn').forEach(b => b.addEventListener('click', () => {
+    filtroEsporte = b.dataset.esp;
+    renderHistorico();
+  }));
 }
 renderHistorico();
 
