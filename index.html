@@ -483,6 +483,7 @@
   <button class="tab tab-hoje ativa" role="tab" aria-selected="true" data-alvo="hoje"><span class="dot" aria-hidden="true"></span>Hoje</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="futebol">⚽ Futebol</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="nba">🏀 NBA</button>
+  <button class="tab" role="tab" aria-selected="false" data-alvo="tenis">🎾 Tênis</button>
   <button class="tab" role="tab" aria-selected="false" data-alvo="historico">📊 Histórico</button>
 </nav>
 
@@ -537,6 +538,7 @@
 </section>
 
 <section id="nba" class="painel" role="tabpanel"></section>
+<section id="tenis" class="painel" role="tabpanel"></section>
 
 <!-- ============ Modal Análise IA ============ -->
 <div class="modal-fundo" id="modalIA" hidden>
@@ -1222,6 +1224,53 @@ function nbaRestantes(){
   });
   return dias;
 }
+// ---------- Tênis: seleção curada do dia (melhor valor) ----------
+const tenisData = {
+  data:"Sexta · 19 de junho",
+  nota:"Seleção curada: os jogos de favorito mais claro do dia, escolhidos por relação risco/retorno. Temporada de grama (preparação para Wimbledon).",
+  jogos:[
+    {h:"10h30",fav:"Aryna Sabalenka",adv:"Nikola Bartunkova",torneio:"WTA 500 · Berlim",odd:1.56,prob:85,
+     nota:"Sabalenka (nº1 do mundo) contra a 121ª do ranking. Modelo dá 85% e 79% de levar o 1º set. Favoritismo sólido em piso rápido."},
+    {h:"10h30",fav:"Alex de Minaur",adv:"Brandon Nakashima",torneio:"ATP 500 · Queen's",odd:1.59,prob:63,
+     nota:"De Minaur (nº7, cabeça 1) é especialista em grama e jogou a final aqui. Nakashima é sólido, mas o australiano leva vantagem no piso."},
+    {h:"12h30",fav:"Daniil Medvedev",adv:"Daniel Altmaier",torneio:"ATP 500 · Halle",odd:1.60,prob:80,
+     nota:"Medvedev (nº8) tem retrospecto amplamente favorável e o modelo dá 80%. Altmaier é wildcard, abaixo no ranking."},
+    {h:"09h30",fav:"Ben Shelton",adv:"Taylor Fritz",torneio:"ATP 500 · Queen's",odd:1.65,prob:58,
+     nota:"Duelo americano de saque pesado. Shelton vem em alta e o saque canhoto incomoda na grama — odd com bom valor."},
+    {h:"12h00",fav:"Francisco Cerundolo",adv:"Arthur Fery",torneio:"ATP 500 · Queen's",odd:1.61,prob:62,
+     nota:"Cerundolo (top 20) é muito superior no ranking ao britânico Fery (wildcard). Favorito claro com odd que paga bem."}
+  ]
+};
+
+function renderTenis(){
+  const sec = document.getElementById('tenis');
+  const t = tenisData;
+  let html = `<div class="promo-titulo">🎾 Tênis — seleção do dia</div>
+    <div class="promo" style="margin-bottom:16px"><span class="tagp">${t.data}</span><b>${t.jogos.length} jogos de maior confiança</b>${t.nota}</div>`;
+  t.jogos.forEach(j => {
+    html += `<div class="jogo">
+      <div class="info">
+        <div class="meta"><span>${j.h}</span><span class="g">${j.torneio}</span></div>
+        <div class="times"><span>${j.fav} <span class="estrela">★</span></span><span>${j.adv}</span></div>
+      </div>
+      <div class="favchip">
+        <span class="fc-rotulo">Favorito</span>
+        <span class="fc-nome">${j.fav.split(' ').pop()}</span>
+        <span class="fc-prob">${j.prob}% prob.</span>
+      </div>
+    </div>
+    <div class="bloco" style="margin:-8px 0 14px;padding:13px 16px">
+      <div class="ia-linha" style="border:none;padding:0;margin-bottom:8px">
+        <span class="desc">${j.fav} vence${seloRisco(j.odd)}<small>${j.nota}</small></span>
+        <span class="ov">${j.odd.toFixed(2)}</span>
+      </div>
+    </div>`;
+  });
+  html += `<div class="faixa" style="margin-top:8px;border-radius:10px;border:1px solid #3D2E10">⚠ Seleção informativa por relação risco/retorno — favorito provável não é green garantido (tênis tem zebra, lesão, piso). Odds de referência que flutuam; confirme na sua casa. 18+</div>`;
+  sec.innerHTML = html;
+}
+renderTenis();
+
 function renderNBA(){
   const sec = document.getElementById('nba');
   const dias = nbaRestantes();
