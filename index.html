@@ -1236,31 +1236,23 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Sexta · 19 de junho",
-  nota:"Seleção curada: os jogos de favorito mais claro do dia, escolhidos por relação risco/retorno. Temporada de grama (preparação para Wimbledon).",
+  data:"Sábado · 20 de junho",
+  nota:"Seleção curada: dia de semifinais nos torneios de grama (preparação para Wimbledon). Favoritos de melhor valor.",
   manha:[
-    {h:"08h00",fav:"Ben Shelton",adv:"Taylor Fritz",torneio:"ATP 500 · Queen's",odd:1.65,prob:58,
-     nota:"Duelo americano de saque pesado. Shelton vem em alta e o canhoto incomoda na grama — odd com bom valor."},
-    {h:"08h30",fav:"Emma Navarro",adv:"Jessica Bouzas Maneiro",torneio:"WTA 250 · Nottingham",odd:1.59,prob:60,
-     nota:"Navarro é a melhor ranqueada e o modelo dá 60%. Favorita consistente em quadra rápida."},
-    {h:"09h00",fav:"Francisco Cerundolo",adv:"Arthur Fery",torneio:"ATP 500 · Queen's",odd:1.61,prob:62,
-     nota:"Cerundolo (top 20) é muito superior no ranking ao britânico Fery (wildcard). Favorito claro que paga bem."},
-    {h:"10h30",fav:"Alex de Minaur",adv:"Brandon Nakashima",torneio:"ATP 500 · Queen's",odd:1.59,prob:63,
-     nota:"De Minaur (nº7, cabeça 1) é especialista em grama e jogou a final aqui. Leva vantagem no piso."},
-    {h:"11h10",fav:"Karolina Pliskova",adv:"Talia Gibson",torneio:"WTA 250 · Nottingham",odd:1.65,prob:60,
-     nota:"Pliskova nunca caiu antes da final em Nottingham. Experiência e saque pesam contra Gibson."}
+    {h:"08h00",fav:"Karolina Pliskova",adv:"Marie Bouzkova",torneio:"WTA 250 · Nottingham (semi)",odd:1.62,prob:60,
+     nota:"Pliskova vem embalada e tem mais poder de saque na grama. Semifinal equilibrada, mas a tcheca leva vantagem."},
+    {h:"09h00",fav:"Aryna Sabalenka",adv:"Jessica Pegula",torneio:"WTA 500 · Berlim (semi)",odd:1.55,prob:64,
+     nota:"Sabalenka (nº1) contra Pegula numa semi de peso. A bielorrussa tem mais potência e lidera o confronto direto."},
+    {h:"10h30",fav:"Alexander Zverev",adv:"Taylor Fritz",torneio:"ATP 500 · Halle (semi)",odd:1.80,prob:55,
+     nota:"Clássico de saque. Zverev joga em casa na Alemanha e é cabeça 1 — leve favoritismo num jogo que pode ir longe."}
   ],
   tarde:[
-    {h:"11h30",fav:"Aryna Sabalenka",adv:"Nikola Bartunkova",torneio:"WTA 500 · Berlim",odd:1.56,prob:85,
-     nota:"Sabalenka (nº1) contra a 121ª. Modelo dá 85% e 79% de levar o 1º set. Favoritismo sólido."},
-    {h:"12h40",fav:"Daniil Medvedev",adv:"Daniel Altmaier",torneio:"ATP 500 · Halle",odd:1.60,prob:80,
-     nota:"Medvedev (nº8) com retrospecto amplamente favorável, 80% no modelo. Altmaier é wildcard."},
-    {h:"13h50",fav:"Felix Auger-Aliassime",adv:"Frances Tiafoe",torneio:"ATP 500 · Halle",odd:1.70,prob:60,
-     nota:"Auger-Aliassime lidera o H2H por 3 a 0 e está mais regular na grama. 60% no modelo — odd com valor."},
-    {h:"15h00",fav:"Lorenzo Musetti",adv:"Cameron Norrie",torneio:"ATP 500 · Queen's",odd:1.66,prob:61,
-     nota:"Musetti (top 12, cabeça 2) é superior tecnicamente. Norrie joga em casa, mas vive fase irregular."},
-    {h:"16h00",fav:"Coco Gauff",adv:"Elina Svitolina",torneio:"WTA 500 · Berlim",odd:1.62,prob:62,
-     nota:"Gauff (nº4) tem velocidade e saque para a grama. Svitolina é dura, mas a americana leva ligeira vantagem."}
+    {h:"11h30",fav:"Ugo Humbert",adv:"Frances Tiafoe",torneio:"ATP 500 · Halle (semi)",odd:1.85,prob:54,
+     nota:"Humbert vem de eliminar Auger-Aliassime e o canhoto é arma na grama. Valor interessante num confronto parelho."},
+    {h:"13h00",fav:"Elena Rybakina",adv:"Alexandra Eala",torneio:"WTA 500 · Berlim (semi)",odd:1.50,prob:67,
+     nota:"Rybakina é campeã de Wimbledon e domina na grama. Eala surpreendeu batendo Svitolina, mas a cazaque é favorita clara."},
+    {h:"14h30",fav:"Jannik Sinner",adv:"Flavio Cobolli",torneio:"ATP · exibição (final)",odd:1.30,prob:77,
+     nota:"Sinner é o nº1 do mundo e amplo favorito sobre o compatriota Cobolli. Odd baixa, mas o favoritismo é sólido."}
   ]
 };
 
@@ -1285,7 +1277,7 @@ function renderTenis(){
       </div>
     </div>`;
   let html = `<div class="promo-titulo">🎾 Tênis — seleção do dia</div>
-    <div class="promo" style="margin-bottom:16px"><span class="tagp">${t.data}</span><b>10 jogos de maior confiança</b>${t.nota}</div>
+    <div class="promo" style="margin-bottom:16px"><span class="tagp">${t.data}</span><b>${t.manha.length + t.tarde.length} jogos de maior confiança</b>${t.nota}</div>
     <div class="dia"><span>☀️ Manhã</span><span>${t.manha.length} jogos</span></div>
     <div style="margin-bottom:8px">${t.manha.map(jogoHTML).join('')}</div>
     <div class="dia"><span>🌆 Tarde</span><span>${t.tarde.length} jogos</span></div>
@@ -1386,8 +1378,15 @@ const historico = [
   {data:"19/06 21h30",dh:1921,jogo:"Brasil × Haiti",ind:"Brasil marca nos dois tempos",odd:1.55,res:"r",obs:"Os 3 gols saíram no 1º tempo (Cunha 23' e 36', Vini 45+3'); no 2º tempo administrou"},
   // ----- Tênis (seleções oficiais do dia) -----
   {esporte:"tenis",data:"19/06 08h",dh:1908,jogo:"Shelton × Fritz",ind:"Shelton vence",odd:1.65,res:"r",obs:"Fritz virou (6-7, 7-6, 7-6), salvando match point — zebra"},
-  {esporte:"tenis",data:"19/06 11h30",dh:1911,jogo:"Sabalenka × Bartunkova",ind:"Sabalenka vence",odd:1.56,res:"g",obs:"Sabalenka venceu e avançou à semi contra Pegula"},
-  {esporte:"tenis",data:"19/06 12h40",dh:1912,jogo:"Medvedev × Altmaier",ind:"Medvedev vence",odd:1.60,res:"r",obs:"Zebra! Altmaier (nº81, wildcard) eliminou Medvedev"}
+  {esporte:"tenis",data:"19/06 08h30",dh:1908.5,jogo:"Navarro × Bouzas",ind:"Navarro vence",odd:1.59,res:"g",obs:"Navarro (cabeça 3) confirmou favoritismo"},
+  {esporte:"tenis",data:"19/06 09h",dh:1909,jogo:"Cerundolo × Fery",ind:"Cerundolo vence",odd:1.61,res:"g",obs:"Cerundolo (cabeça 7) bateu o wildcard Fery"},
+  {esporte:"tenis",data:"19/06 10h30",dh:1910.5,jogo:"De Minaur × Nakashima",ind:"De Minaur vence",odd:1.59,res:"r",obs:"Zebra! Nakashima venceu o cabeça 1 (5-7, 3-6)"},
+  {esporte:"tenis",data:"19/06 11h10",dh:1911.16,jogo:"Pliskova × Gibson",ind:"Pliskova vence",odd:1.65,res:"g",obs:"Pliskova venceu 7-5, 6-4"},
+  {esporte:"tenis",data:"19/06 11h30",dh:1911.5,jogo:"Sabalenka × Bartunkova",ind:"Sabalenka vence",odd:1.56,res:"g",obs:"Sabalenka venceu e avançou à semi contra Pegula"},
+  {esporte:"tenis",data:"19/06 12h40",dh:1912.66,jogo:"Medvedev × Altmaier",ind:"Medvedev vence",odd:1.60,res:"r",obs:"Zebra! Altmaier (nº81, wildcard) eliminou Medvedev"},
+  {esporte:"tenis",data:"19/06 13h50",dh:1913.83,jogo:"Auger-Aliassime × Tiafoe",ind:"Auger-Aliassime vence",odd:1.70,res:"r",obs:"Zebra! Tiafoe salvou 7 match points e venceu (3-6, 6-3, 7-6)"},
+  {esporte:"tenis",data:"19/06 15h",dh:1915,jogo:"Gauff × Svitolina",ind:"Gauff vence",odd:1.62,res:"g",obs:"Gauff levou a melhor no duelo de Berlim"},
+  {esporte:"tenis",data:"19/06 16h",dh:1916.01,jogo:"Sinner × Cobolli",ind:"Sinner vence",odd:1.30,res:"g",obs:"Sinner confirmou amplo favoritismo"}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
