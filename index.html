@@ -1236,24 +1236,17 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Sábado · 20 de junho",
-  nota:"Seleção curada: dia de semifinais nos torneios de grama (preparação para Wimbledon). Favoritos de melhor valor.",
+  data:"Domingo · 21 de junho",
+  nota:"Dia de FINAIS nos torneios de grama. Últimos testes antes de Wimbledon — favoritos de melhor valor.",
   manha:[
-    {h:"08h00",fav:"Karolina Pliskova",adv:"Marie Bouzkova",torneio:"WTA 250 · Nottingham (semi)",odd:1.62,prob:60,
-     nota:"Pliskova vem embalada e tem mais poder de saque na grama. Semifinal equilibrada, mas a tcheca leva vantagem."},
-    {h:"09h00",fav:"Aryna Sabalenka",adv:"Jessica Pegula",torneio:"WTA 500 · Berlim (semi)",odd:1.55,prob:64,
-     nota:"Sabalenka (nº1) contra Pegula numa semi de peso. A bielorrussa tem mais potência e lidera o confronto direto."},
-    {h:"10h30",fav:"Alexander Zverev",adv:"Taylor Fritz",torneio:"ATP 500 · Halle (semi)",odd:1.80,prob:55,
-     nota:"Clássico de saque. Zverev joga em casa na Alemanha e é cabeça 1 — leve favoritismo num jogo que pode ir longe."}
+    {h:"08h00",fav:"Jessica Pegula",adv:"Linda Noskova",torneio:"WTA 500 · Berlim (FINAL)",odd:1.62,prob:60,
+     nota:"Pegula vem de bater a nº1 Sabalenka e tem mais experiência em finais. Noskova faz sua 1ª final na grama."},
+    {h:"09h30",fav:"Taylor Fritz",adv:"Frances Tiafoe",torneio:"ATP 500 · Halle (FINAL)",odd:1.55,prob:63,
+     nota:"Duelo americano. Fritz vem de bater Zverev (7ª seguida) e tem mais potência de saque na grama — favorito de valor."},
+    {h:"11h00",fav:"Jiri Lehecka",adv:"Jakub Mensik",torneio:"ATP 500 · Queen's (FINAL)",odd:1.72,prob:57,
+     nota:"Final tcheca em Londres. Lehecka é mais experiente e regular na grama; jogo parelho com odd que paga bem."}
   ],
-  tarde:[
-    {h:"11h30",fav:"Ugo Humbert",adv:"Frances Tiafoe",torneio:"ATP 500 · Halle (semi)",odd:1.85,prob:54,
-     nota:"Humbert vem de eliminar Auger-Aliassime e o canhoto é arma na grama. Valor interessante num confronto parelho."},
-    {h:"13h00",fav:"Elena Rybakina",adv:"Alexandra Eala",torneio:"WTA 500 · Berlim (semi)",odd:1.50,prob:67,
-     nota:"Rybakina é campeã de Wimbledon e domina na grama. Eala surpreendeu batendo Svitolina, mas a cazaque é favorita clara."},
-    {h:"14h30",fav:"Jannik Sinner",adv:"Flavio Cobolli",torneio:"ATP · exibição (final)",odd:1.30,prob:77,
-     nota:"Sinner é o nº1 do mundo e amplo favorito sobre o compatriota Cobolli. Odd baixa, mas o favoritismo é sólido."}
-  ]
+  tarde:[]
 };
 
 function renderTenis(){
@@ -1278,10 +1271,8 @@ function renderTenis(){
     </div>`;
   let html = `<div class="promo-titulo">🎾 Tênis — seleção do dia</div>
     <div class="promo" style="margin-bottom:16px"><span class="tagp">${t.data}</span><b>${t.manha.length + t.tarde.length} jogos de maior confiança</b>${t.nota}</div>
-    <div class="dia"><span>☀️ Manhã</span><span>${t.manha.length} jogos</span></div>
-    <div style="margin-bottom:8px">${t.manha.map(jogoHTML).join('')}</div>
-    <div class="dia"><span>🌆 Tarde</span><span>${t.tarde.length} jogos</span></div>
-    <div style="margin-bottom:8px">${t.tarde.map(jogoHTML).join('')}</div>
+    ${t.manha.length ? `<div class="dia"><span>☀️ Manhã</span><span>${t.manha.length} jogos</span></div><div style="margin-bottom:8px">${t.manha.map(jogoHTML).join('')}</div>` : ''}
+    ${t.tarde.length ? `<div class="dia"><span>🌆 Tarde</span><span>${t.tarde.length} jogos</span></div><div style="margin-bottom:8px">${t.tarde.map(jogoHTML).join('')}</div>` : ''}
     <div class="faixa" style="margin-top:8px;border-radius:10px;border:1px solid #3D2E10">⚠ Seleção informativa por relação risco/retorno — favorito provável não é green garantido (tênis tem zebra, lesão, piso). Odds de referência que flutuam; confirme na sua casa. 18+</div>`;
   sec.innerHTML = html;
 }
@@ -1389,7 +1380,12 @@ const historico = [
   {esporte:"tenis",data:"19/06 16h",dh:1916.01,jogo:"Sinner × Cobolli",ind:"Sinner vence",odd:1.30,res:"g",obs:"Sinner confirmou amplo favoritismo"},
   {esporte:"tenis",data:"20/06 09h",dh:2009,jogo:"Sabalenka × Pegula",ind:"Sabalenka vence",odd:1.55,res:"r",obs:"Zebra! Pegula virou (4-6, 7-6, 6-0) com bagel no 3º set"},
   {esporte:"tenis",data:"20/06 10h30",dh:2010.5,jogo:"Zverev × Fritz",ind:"Zverev vence",odd:1.80,res:"r",obs:"Fritz venceu a 7ª seguida sobre Zverev e foi à final"},
-  {esporte:"tenis",data:"20/06 11h30",dh:2011.5,jogo:"Tiafoe × Altmaier",ind:"Tiafoe vence",odd:1.55,res:"g",obs:"Tiafoe dominou Altmaier em sets diretos e foi à final"}
+  {esporte:"tenis",data:"20/06 11h30",dh:2011.5,jogo:"Tiafoe × Altmaier",ind:"Tiafoe vence",odd:1.55,res:"g",obs:"Tiafoe dominou Altmaier em sets diretos e foi à final"},
+  // ----- Futebol domingo 21/06 -----
+  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Espanha vence",odd:1.30,res:"p",obs:""},
+  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Mais de 2.5 gols",odd:1.45,res:"p",obs:""},
+  {data:"21/06 16h",dh:2116,jogo:"Bélgica × Irã",ind:"Bélgica vence",odd:1.55,res:"p",obs:""},
+  {data:"21/06 01h",dh:2101,jogo:"Tunísia × Japão",ind:"Menos de 2.5 gols",odd:1.65,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
