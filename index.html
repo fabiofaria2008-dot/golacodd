@@ -1236,15 +1236,15 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Domingo · 21 de junho",
-  nota:"Dia de FINAIS nos torneios de grama. Últimos testes antes de Wimbledon — favoritos de melhor valor.",
+  data:"Segunda · 22 de junho",
+  nota:"Início dos últimos torneios antes de Wimbledon (Eastbourne e Bad Homburg). Primeiras rodadas — seleção dos favoritos de melhor valor.",
   manha:[
-    {h:"08h00",fav:"Jessica Pegula",adv:"Linda Noskova",torneio:"WTA 500 · Berlim (FINAL)",odd:1.62,prob:60,
-     nota:"Pegula vem de bater a nº1 Sabalenka e tem mais experiência em finais. Noskova faz sua 1ª final na grama."},
-    {h:"09h30",fav:"Taylor Fritz",adv:"Frances Tiafoe",torneio:"ATP 500 · Halle (FINAL)",odd:1.55,prob:63,
-     nota:"Duelo americano. Fritz vem de bater Zverev (7ª seguida) e tem mais potência de saque na grama — favorito de valor."},
-    {h:"11h00",fav:"Jiri Lehecka",adv:"Jakub Mensik",torneio:"ATP 500 · Queen's (FINAL)",odd:1.72,prob:57,
-     nota:"Final tcheca em Londres. Lehecka é mais experiente e regular na grama; jogo parelho com odd que paga bem."}
+    {h:"08h00",fav:"Madison Keys",adv:"Qualifier",torneio:"WTA 500 · Eastbourne (R1)",odd:1.50,prob:67,
+     nota:"Keys é cabeça de chave e tem potência de saque ideal para a grama. Favorita clara na estreia."},
+    {h:"09h30",fav:"Jack Draper",adv:"Qualifier",torneio:"ATP 250 · Eastbourne (R1)",odd:1.45,prob:69,
+     nota:"Draper joga em casa na Inglaterra e vem crescendo na grama. Favoritismo sólido como cabeça 1."},
+    {h:"11h00",fav:"Iga Swiatek",adv:"Qualifier",torneio:"WTA 500 · Bad Homburg (R1)",odd:1.40,prob:71,
+     nota:"Swiatek substituiu Rybakina no field e busca ritmo na grama. Amplo favoritismo na estreia."}
   ],
   tarde:[]
 };
@@ -1382,10 +1382,17 @@ const historico = [
   {esporte:"tenis",data:"20/06 10h30",dh:2010.5,jogo:"Zverev × Fritz",ind:"Zverev vence",odd:1.80,res:"r",obs:"Fritz venceu a 7ª seguida sobre Zverev e foi à final"},
   {esporte:"tenis",data:"20/06 11h30",dh:2011.5,jogo:"Tiafoe × Altmaier",ind:"Tiafoe vence",odd:1.55,res:"g",obs:"Tiafoe dominou Altmaier em sets diretos e foi à final"},
   // ----- Futebol domingo 21/06 -----
-  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Espanha vence",odd:1.30,res:"p",obs:""},
-  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Mais de 2.5 gols",odd:1.45,res:"p",obs:""},
-  {data:"21/06 16h",dh:2116,jogo:"Bélgica × Irã",ind:"Bélgica vence",odd:1.55,res:"p",obs:""},
-  {data:"21/06 01h",dh:2101,jogo:"Tunísia × Japão",ind:"Menos de 2.5 gols",odd:1.65,res:"p",obs:""}
+  {data:"21/06 01h",dh:2101,jogo:"Tunísia × Japão",ind:"Menos de 2.5 gols",odd:1.65,res:"r",obs:"4 gols no jogo (0×4) — Japão goleou no 1000º jogo das Copas"},
+  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Espanha vence",odd:1.30,res:"g",obs:"4×0 — a Espanha respondeu ao vexame da estreia com goleada"},
+  {data:"21/06 13h",dh:2113,jogo:"Espanha × Arábia Saudita",ind:"Mais de 2.5 gols",odd:1.45,res:"g",obs:"4 gols no jogo (4×0) — tendência confirmada"},
+  {data:"21/06 16h",dh:2116,jogo:"Bélgica × Irã",ind:"Bélgica vence",odd:1.55,res:"r",obs:"0×0 — o Irã segurou a Bélgica, mais um favorito tropeçando"},
+  {esporte:"tenis",data:"21/06 08h",dh:2108,jogo:"Pegula × Noskova",ind:"Pegula vence",odd:1.62,res:"r",obs:"Noskova venceu (6-4, 4-6, 6-3) e entrou no top 10"},
+  {esporte:"tenis",data:"21/06 09h30",dh:2109.5,jogo:"Fritz × Tiafoe",ind:"Fritz vence",odd:1.55,res:"r",obs:"Zebra! Tiafoe venceu a final all-american de Halle"},
+  {esporte:"tenis",data:"21/06 11h",dh:2111,jogo:"Lehecka × Mensik",ind:"Lehecka vence",odd:1.72,res:"a",obs:"Anulada — a final de Queen's foi Cerundolo × Paul, confronto não se realizou"},
+  // ----- Futebol segunda 22/06 -----
+  {data:"22/06 14h",dh:2214,jogo:"Argentina × Áustria",ind:"Argentina vence",odd:1.60,res:"p",obs:""},
+  {data:"22/06 18h",dh:2218,jogo:"França × Iraque",ind:"França vence",odd:1.20,res:"p",obs:""},
+  {data:"22/06 18h",dh:2218,jogo:"França × Iraque",ind:"Mais de 2.5 gols",odd:1.50,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
