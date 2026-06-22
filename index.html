@@ -405,6 +405,19 @@
   .gcard h3{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
   .gcard li{list-style:none;font-size:13.5px;padding:5px 0;border-bottom:1px solid var(--line);color:var(--txt-dim)}
   .gcard li:last-child{border-bottom:none}
+  /* Tabela de classificação */
+  .gtab{width:100%;border-collapse:collapse;margin-top:4px}
+  .gtab th{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--txt-dim);font-weight:600;text-align:center;padding:4px 2px;border-bottom:1px solid var(--line)}
+  .gtab th.time{text-align:left;padding-left:2px}
+  .gtab td{font-size:12px;color:var(--txt-dim);text-align:center;padding:6px 2px;border-bottom:1px solid var(--line)}
+  .gtab td.time{text-align:left;font-weight:600;color:var(--txt)}
+  .gtab tr:last-child td{border-bottom:none}
+  .gtab tr.classif td.time{color:#4ADE80}
+  .gtab tr.classif3 td.time{color:var(--amber)}
+  .gtab td.pts{font-family:var(--mono);font-weight:700;color:var(--txt)}
+  .gpos{display:inline-block;width:14px;color:var(--txt-dim);font-size:10px}
+  .gleg{font-size:10px;color:var(--txt-dim);margin-top:10px;line-height:1.5}
+  .gleg b{color:#4ADE80}.gleg i{color:var(--amber);font-style:normal}
   .gcard li.forte{color:var(--txt);font-weight:600}
   .regras{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-top:16px;font-size:13.5px;line-height:1.7;color:var(--txt-dim)}
 
@@ -522,19 +535,44 @@
     <div id="grupos" class="subpainel">
     <div class="promo-titulo">Os 12 grupos</div>
     <div class="grade-grupos">
-      <div class="gcard"><h3>Grupo A</h3><ul><li class="forte">México (sede)</li><li>África do Sul</li><li>Coreia do Sul</li><li>República Tcheca</li></ul></div>
-      <div class="gcard"><h3>Grupo B</h3><ul><li class="forte">Canadá (sede)</li><li>Suíça</li><li>Catar</li><li>Bósnia e Herzegovina</li></ul></div>
-      <div class="gcard"><h3>Grupo C</h3><ul><li class="forte">Brasil ★</li><li>Marrocos</li><li>Escócia</li><li>Haiti</li></ul></div>
-      <div class="gcard"><h3>Grupo D</h3><ul><li class="forte">Estados Unidos (sede)</li><li>Paraguai</li><li>Austrália</li><li>Turquia</li></ul></div>
-      <div class="gcard"><h3>Grupo E</h3><ul><li class="forte">Alemanha</li><li>Equador</li><li>Costa do Marfim</li><li>Curaçao</li></ul></div>
-      <div class="gcard"><h3>Grupo F</h3><ul><li class="forte">Holanda</li><li>Japão</li><li>Suécia</li><li>Tunísia</li></ul></div>
-      <div class="gcard"><h3>Grupo G</h3><ul><li class="forte">Bélgica</li><li>Irã</li><li>Egito</li><li>Nova Zelândia</li></ul></div>
-      <div class="gcard"><h3>Grupo H</h3><ul><li class="forte">Espanha</li><li>Uruguai</li><li>Arábia Saudita</li><li>Cabo Verde</li></ul></div>
-      <div class="gcard"><h3>Grupo I</h3><ul><li class="forte">França</li><li>Senegal</li><li>Noruega</li><li>Iraque</li></ul></div>
-      <div class="gcard"><h3>Grupo J</h3><ul><li class="forte">Argentina</li><li>Áustria</li><li>Argélia</li><li>Jordânia</li></ul></div>
-      <div class="gcard"><h3>Grupo K</h3><ul><li class="forte">Portugal</li><li>Colômbia</li><li>Uzbequistão</li><li>RD Congo</li></ul></div>
-      <div class="gcard"><h3>Grupo L</h3><ul><li class="forte">Inglaterra</li><li>Croácia</li><li>Gana</li><li>Panamá</li></ul></div>
+<div class="gcard"><h3>Grupo A</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>México (sede)</td><td>2</td><td>2</td><td>0</td><td>0</td><td>+3</td><td class="pts">6</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Coreia do Sul</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Rep. Tcheca</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-1</td><td class="pts">1</td></tr><tr class=""><td class="time"><span class="gpos">4</span>África do Sul</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-2</td><td class="pts">1</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo B</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Canadá (sede)</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+6</td><td class="pts">4</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Suíça</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+3</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Bósnia</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-3</td><td class="pts">1</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Catar</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-6</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo C</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Brasil ★</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+3</td><td class="pts">4</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Marrocos</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+1</td><td class="pts">4</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Escócia</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts">3</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Haiti</td><td>2</td><td>0</td><td>0</td><td>2</td><td>-4</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo D</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Estados Unidos (sede)</td><td>2</td><td>2</td><td>0</td><td>0</td><td>+5</td><td class="pts">6</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Austrália</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Paraguai</td><td>2</td><td>1</td><td>0</td><td>1</td><td>-2</td><td class="pts">3</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Turquia</td><td>2</td><td>0</td><td>0</td><td>2</td><td>-3</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo E</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Alemanha</td><td>2</td><td>2</td><td>0</td><td>0</td><td>+7</td><td class="pts">6</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Costa do Marfim</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Equador</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-1</td><td class="pts">1</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Curaçao</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-6</td><td class="pts">1</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo F</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Holanda</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+4</td><td class="pts">4</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Japão</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+4</td><td class="pts">4</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Suécia</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts">3</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Tunísia</td><td>2</td><td>0</td><td>0</td><td>2</td><td>-8</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo G</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Egito</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td class="pts">4</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Irã</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td class="pts">2</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Bélgica</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td class="pts">2</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Nova Zelândia</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-2</td><td class="pts">1</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo H</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Espanha</td><td>2</td><td>1</td><td>1</td><td>0</td><td>+4</td><td class="pts">4</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Uruguai</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td class="pts">2</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Cabo Verde</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td class="pts">2</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Arábia Saudita</td><td>2</td><td>0</td><td>1</td><td>1</td><td>-4</td><td class="pts">1</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo I</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Noruega</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+3</td><td class="pts">3</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>França</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Senegal</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Iraque</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-3</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo J</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Argentina</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+3</td><td class="pts">3</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Áustria</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Jordânia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Argélia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-3</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo K</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Colômbia</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="pts">3</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Portugal</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="pts">1</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>RD Congo</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td class="pts">1</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Uzbequistão</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr></tbody></table></div>
+<div class="gcard"><h3>Grupo L</h3>
+      <table class="gtab"><thead><tr><th class="time">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th><th>P</th></tr></thead>
+      <tbody><tr class="classif"><td class="time"><span class="gpos">1</span>Inglaterra</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+2</td><td class="pts">3</td></tr><tr class="classif"><td class="time"><span class="gpos">2</span>Gana</td><td>1</td><td>1</td><td>0</td><td>0</td><td>+1</td><td class="pts">3</td></tr><tr class="classif3"><td class="time"><span class="gpos">3</span>Panamá</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-1</td><td class="pts">0</td></tr><tr class=""><td class="time"><span class="gpos">4</span>Croácia</td><td>1</td><td>0</td><td>0</td><td>1</td><td>-2</td><td class="pts">0</td></tr></tbody></table></div>
     </div>
+    <div class="gleg"><b>■ Verde</b> = classificado (1º e 2º) · <i>■ Âmbar</i> = 3º lugar (8 melhores avançam) · J jogos · V vitórias · E empates · D derrotas · SG saldo · P pontos. Atualizado em 22/06.</div>
     <div class="regras">
       <strong style="color:var(--txt)">Classificação:</strong> avançam ao mata-mata 32 seleções — os dois primeiros de cada grupo e os oito melhores terceiros no geral. A fase eliminatória começa em 29 de junho, e a final será em 19 de julho no MetLife Stadium, em Nova Jersey. Para apostas de "passa de fase", lembre que até um terceiro lugar com uma só vitória pode se classificar.
     </div>
