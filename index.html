@@ -1274,13 +1274,15 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Segunda · 22 de junho",
-  nota:"1ª rodada em Eastbourne e Bad Homburg (últimos torneios antes de Wimbledon). Muitos cabeças de chave têm bye ou pegaram jogos difíceis — seleção enxuta só com favoritismos confirmados.",
+  data:"Quarta · 24 de junho",
+  nota:"2ª rodada em Eastbourne (grama, pré-Wimbledon). Confrontos confirmados nas fontes oficiais. Obs.: Fonseca desistiu do torneio; Paolini caiu na estreia.",
   manha:[
-    {h:"08h00",fav:"Jelena Ostapenko",adv:"Francesca Jones",torneio:"WTA 250 · Eastbourne (R1)",odd:1.40,prob:70,
-     nota:"Ostapenko (cabeça 3, ex-campeã) contra a wildcard britânica Francesca Jones, que busca a 1ª vitória desde Roland Garros. Favoritismo claro da letã."},
-    {h:"10h00",fav:"Barbora Krejcikova",adv:"Qualifier",torneio:"WTA 250 · Eastbourne (R1)",odd:1.55,prob:64,
-     nota:"Krejcikova (cabeça 4, campeã de Wimbledon 2024) tem repertório de sobra na grama diante de uma qualifier. Favorita, se a forma física ajudar."}
+    {h:"08h00",fav:"Madison Keys",adv:"Adversária a definir",torneio:"ATP/WTA · Eastbourne (R2)",odd:1.45,prob:69,
+     nota:"Keys (bicampeã do torneio) venceu Gibson na estreia e é uma das favoritas ao título. Potência ideal para a grama."},
+    {h:"09h30",fav:"Francisco Cerundolo",adv:"Fearnley/Tirante",torneio:"ATP 500 · Eastbourne (R2)",odd:1.55,prob:64,
+     nota:"Cerundolo (cabeça 3, campeão de 2023) vem de final em Queen's. Forte na grama diante de adversário de menor ranking."},
+    {h:"11h00",fav:"Jack Draper",adv:"Jack Pinnington Jones",torneio:"ATP 500 · Eastbourne (R2)",odd:1.40,prob:71,
+     nota:"Draper bateu Nakashima na volta de lesão, agora com Murray no comando. Favorito claro sobre o compatriota wildcard."}
   ],
   tarde:[]
 };
@@ -1437,7 +1439,8 @@ const historico = [
   {data:"23/06 16h",dh:2316,jogo:"Inglaterra × Gana",ind:"Menos de 2.5 gols",odd:1.85,res:"g",obs:"0 gols no jogo (0×0) — tendência confirmada"},
   // ----- Futebol quarta 24/06 (HOJE) -----
   {data:"24/06 19h",dh:2419,jogo:"Escócia × Brasil",ind:"Brasil vence",odd:1.33,res:"p",obs:""},
-  {data:"24/06 19h",dh:2419,jogo:"Escócia × Brasil",ind:"Vinícius Jr. marca a qualquer momento",odd:2.10,res:"p",obs:""}
+  {data:"24/06 19h",dh:2419,jogo:"Escócia × Brasil",ind:"Vinícius Jr. marca a qualquer momento",odd:2.10,res:"p",obs:""},
+  {esporte:"tenis",data:"24/06 11h",dh:2411,jogo:"Draper × Pinnington Jones",ind:"Draper vence",odd:1.40,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
