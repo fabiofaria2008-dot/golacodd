@@ -1274,17 +1274,22 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Sexta · 26 de junho",
-  nota:"Quartas de final em Eastbourne (último fim de semana antes de Wimbledon). Confrontos confirmados nas fontes oficiais.",
+  data:"Segunda · 29 de junho",
+  nota:"🎾 COMEÇA WIMBLEDON! 1ª rodada do Grand Slam de grama. Confrontos confirmados (ATP/Wimbledon). Obs.: Alcaraz (lesão no pulso) e Raducanu (saúde) fora do torneio.",
   manha:[
-    {h:"09h00",fav:"Jack Draper",adv:"Gabriel Diallo",torneio:"ATP 500 · Eastbourne (QF)",odd:1.55,prob:62,
-     nota:"Draper vem embalado (2 vitórias sólidas) e com Murray no comando. Diallo tem saque forte e bateu Etcheverry, mas o britânico joga em casa e é favorito."},
-    {h:"10h30",fav:"Jelena Ostapenko",adv:"Zeynep Sonmez",torneio:"WTA 250 · Eastbourne (QF)",odd:1.50,prob:66,
-     nota:"Ostapenko (cabeça 3) avançou e pega Sonmez, que eliminou Dart. Potência da letã é diferencial na grama."},
-    {h:"11h30",fav:"Madison Keys",adv:"McCartney Kessler",torneio:"WTA 250 · Eastbourne (QF)",odd:1.60,prob:62,
-     nota:"Duelo americano. Keys (bicampeã) tem mais potência e ranking superior a Kessler — favorita de valor."}
+    {h:"09h30",fav:"Daniil Medvedev",adv:"Marin Cilic",torneio:"Wimbledon · 1ª rodada",odd:1.50,prob:66,
+     nota:"Medvedev (cabeça 8) contra o veterano Cilic. O russo é mais regular e ranqueado; favoritismo de valor na estreia."},
+    {h:"10h00",fav:"Mirra Andreeva",adv:"Magda Linette",torneio:"Wimbledon · 1ª rodada",odd:1.45,prob:69,
+     nota:"Andreeva (cabeça 5, campeã de Roland Garros) está em ascensão e é amplo favoritismo sobre Linette."}
   ],
-  tarde:[]
+  tarde:[
+    {h:"13h30",fav:"Jannik Sinner",adv:"Miomir Kecmanovic",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.15,prob:80,
+     nota:"Sinner (nº1, atual campeão) abre o Centre Court defendendo o título. Com Alcaraz fora, é o favoritão. Odd baixa, mas favoritismo enorme."},
+    {h:"14h30",fav:"Aryna Sabalenka",adv:"Teodora Kostovic",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.10,prob:85,
+     nota:"Sabalenka (nº1) contra uma qualifier (Kostovic). Favoritismo pesado — odd baixíssima, vale só em combinada."},
+    {h:"16h00",fav:"Novak Djokovic",adv:"Wu Yibing",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.25,prob:78,
+     nota:"Djokovic (7x campeão, cabeça 7) busca o 25º Slam aos 39 anos. Favorito claro sobre Wu Yibing, mas atenção à idade em jogos longos."}
+  ]
 };
 
 function renderTenis(){
@@ -1442,9 +1447,15 @@ const historico = [
   {data:"24/06 19h",dh:2419,jogo:"Escócia × Brasil",ind:"Vinícius Jr. marca a qualquer momento",odd:2.10,res:"g",obs:"Vini marcou 2 (aos 7' e 48') — green tranquilo"},
   {esporte:"tenis",data:"24/06 11h",dh:2411,jogo:"Draper × Pinnington Jones",ind:"Draper vence",odd:1.40,res:"g",obs:"7-5, 6-4 — Draper superou até uma virose e foi às quartas, com Murray no comando"},
   // ----- Futebol sexta 26/06 (HOJE) — fecha grupos H e I -----
-  {data:"26/06 16h",dh:2616,jogo:"Noruega × França",ind:"Mais de 2.5 gols",odd:1.65,res:"p",obs:""},
-  {data:"26/06 21h",dh:2621,jogo:"Uruguai × Espanha",ind:"Espanha não perde (dupla chance X2)",odd:1.40,res:"p",obs:""},
-  {esporte:"tenis",data:"26/06 09h",dh:2609,jogo:"Draper × Diallo",ind:"Draper vence",odd:1.55,res:"p",obs:""}
+  {data:"26/06 16h",dh:2616,jogo:"Noruega × França",ind:"Mais de 2.5 gols",odd:1.65,res:"g",obs:"1×4 — Dembélé fez 3; 5 gols no jogo, tendência confirmada"},
+  {data:"26/06 21h",dh:2621,jogo:"Uruguai × Espanha",ind:"Espanha não perde (dupla chance X2)",odd:1.40,res:"g",obs:"0×1 — Baena marcou (frango do Muslera); Espanha lidera o Grupo H"},
+  {esporte:"tenis",data:"26/06 09h",dh:2609,jogo:"Draper × Diallo",ind:"Draper vence",odd:1.55,res:"g",obs:"6-1, 6-4 — Draper atropelou o canadense e foi à semi; ótima prep pra Wimbledon"},
+  // ----- Mata-mata: Brasil x Japão (HOJE, segunda 29) -----
+  {data:"29/06 14h",dh:2914,jogo:"Brasil × Japão",ind:"Brasil vence",odd:1.70,res:"p",obs:""},
+  {data:"29/06 14h",dh:2914,jogo:"Brasil × Japão",ind:"Vinícius Jr. marca a qualquer momento",odd:2.20,res:"p",obs:""},
+  // ----- Tênis: Wimbledon dia 1 (HOJE) -----
+  {esporte:"tenis",data:"29/06 13h30",dh:2913.5,jogo:"Sinner × Kecmanovic",ind:"Sinner vence",odd:1.15,res:"p",obs:""},
+  {esporte:"tenis",data:"29/06 10h",dh:2910,jogo:"Andreeva × Linette",ind:"Andreeva vence",odd:1.45,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
