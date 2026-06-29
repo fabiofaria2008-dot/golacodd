@@ -391,6 +391,12 @@
   }
   .espbtn:hover{color:var(--txt);border-color:var(--amber)}
   .espbtn.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
+  /* Mercados extras do tênis */
+  .ten-mercados{border-top:1px solid var(--line);padding-top:10px}
+  .tm-rotulo{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim);margin-bottom:8px}
+  .tm-linha{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--txt);padding:5px 0}
+  .tm-linha + .tm-linha{border-top:1px solid rgba(255,255,255,.04)}
+  .tm-odd{font-family:var(--mono);font-weight:700;color:var(--amber)}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -1275,20 +1281,34 @@ function nbaRestantes(){
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
   data:"Segunda · 29 de junho",
-  nota:"🎾 COMEÇA WIMBLEDON! 1ª rodada do Grand Slam de grama. Confrontos confirmados (ATP/Wimbledon). Obs.: Alcaraz (lesão no pulso) e Raducanu (saúde) fora do torneio.",
+  nota:"🎾 COMEÇA WIMBLEDON! 1ª rodada do Grand Slam de grama. Confrontos confirmados (ATP/Wimbledon). Cada jogo traz mercados extras além do vencedor. Obs.: Alcaraz (lesão) e Raducanu jogam; Fonseca está confirmado.",
   manha:[
-    {h:"09h30",fav:"Daniil Medvedev",adv:"Marin Cilic",torneio:"Wimbledon · 1ª rodada",odd:1.50,prob:66,
-     nota:"Medvedev (cabeça 8) contra o veterano Cilic. O russo é mais regular e ranqueado; favoritismo de valor na estreia."},
+    {h:"07h00",fav:"Casper Ruud",adv:"Hubert Hurkacz",torneio:"Wimbledon · 1ª rodada",odd:1.72,prob:57,
+     nota:"O maior duelo fora das quadras centrais. Ruud (cabeça 11) é mais regular, mas Hurkacz tem saque mortal na grama — jogo de valor.",
+     mercados:[{m:"Ruud vence",o:"1.72"},{m:"Mais de 38.5 games",o:"1.80"},{m:"Haver tie-break no jogo",o:"1.95"}]},
+    {h:"08h00",fav:"Felix Auger-Aliassime",adv:"Aleksandr Shevchenko",torneio:"Wimbledon · 1ª rodada",odd:1.40,prob:70,
+     nota:"FAA (cabeça 3) é muito superior ao cazaque Shevchenko. Saque forte e bom histórico na grama — favoritismo sólido.",
+     mercados:[{m:"Auger-Aliassime vence",o:"1.40"},{m:"FAA vence sem perder set (2-0/3-0)",o:"1.85"},{m:"Mais de 1.5 sets do FAA",o:"1.30"}]},
+    {h:"09h00",fav:"Naomi Osaka",adv:"Elsa Jacquemot",torneio:"Wimbledon · 1ª rodada",odd:1.50,prob:66,
+     nota:"Osaka (cabeça 14, ex-nº1) tem potência e experiência de Grand Slam contra a francesa Jacquemot. Favorita de valor.",
+     mercados:[{m:"Osaka vence",o:"1.50"},{m:"Osaka vence sem perder set",o:"2.00"},{m:"Menos de 21.5 games",o:"1.75"}]},
     {h:"10h00",fav:"Mirra Andreeva",adv:"Magda Linette",torneio:"Wimbledon · 1ª rodada",odd:1.45,prob:69,
-     nota:"Andreeva (cabeça 5, campeã de Roland Garros) está em ascensão e é amplo favoritismo sobre Linette."}
+     nota:"Andreeva (cabeça 5, campeã de Roland Garros) está em ascensão e é favorita clara sobre Linette.",
+     mercados:[{m:"Andreeva vence",o:"1.45"},{m:"Andreeva vence sem perder set",o:"1.80"},{m:"Menos de 20.5 games",o:"1.70"}]}
   ],
   tarde:[
     {h:"13h30",fav:"Jannik Sinner",adv:"Miomir Kecmanovic",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.15,prob:80,
-     nota:"Sinner (nº1, atual campeão) abre o Centre Court defendendo o título. Com Alcaraz fora, é o favoritão. Odd baixa, mas favoritismo enorme."},
-    {h:"14h30",fav:"Aryna Sabalenka",adv:"Teodora Kostovic",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.10,prob:85,
-     nota:"Sabalenka (nº1) contra uma qualifier (Kostovic). Favoritismo pesado — odd baixíssima, vale só em combinada."},
+     nota:"Sinner (nº1, atual campeão) abre o Centre Court defendendo o título. Com Alcaraz desfalcado, é o favoritão.",
+     mercados:[{m:"Sinner vence",o:"1.15"},{m:"Sinner vence sem perder set",o:"1.45"},{m:"Sinner 3-0 em sets",o:"1.70"}]},
+    {h:"14h00",fav:"Coco Gauff",adv:"Tamara Korpatsch",torneio:"Wimbledon · 1ª rodada",odd:1.30,prob:75,
+     nota:"Gauff (cabeça 7) tem velocidade e saque para a grama, ampla favorita sobre a alemã Korpatsch.",
+     mercados:[{m:"Gauff vence",o:"1.30"},{m:"Gauff vence sem perder set",o:"1.65"},{m:"Menos de 19.5 games",o:"1.72"}]},
     {h:"16h00",fav:"Novak Djokovic",adv:"Wu Yibing",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.25,prob:78,
-     nota:"Djokovic (7x campeão, cabeça 7) busca o 25º Slam aos 39 anos. Favorito claro sobre Wu Yibing, mas atenção à idade em jogos longos."}
+     nota:"Djokovic (7x campeão) busca o 25º Slam aos 39 anos. Favorito claro, mas atenção à idade em jogos longos.",
+     mercados:[{m:"Djokovic vence",o:"1.25"},{m:"Djokovic vence sem perder set",o:"1.70"},{m:"Mais de 1.5 sets do Djokovic",o:"1.22"}]},
+    {h:"16h30",fav:"Joao Fonseca",adv:"Roberto Bautista Agut",torneio:"Wimbledon · 1ª rodada",odd:1.55,prob:63,
+     nota:"O brasileiro (cabeça 24) encara o experiente Bautista Agut. Fonseca tem mais potência e está em ascensão — favorito de valor, mas o espanhol é osso duro.",
+     mercados:[{m:"Fonseca vence",o:"1.55"},{m:"Fonseca vence sem perder set",o:"2.40"},{m:"Mais de 36.5 games",o:"1.85"}]}
   ]
 };
 
@@ -1307,10 +1327,14 @@ function renderTenis(){
       </div>
     </div>
     <div class="bloco" style="margin:-8px 0 14px;padding:13px 16px">
-      <div class="ia-linha" style="border:none;padding:0">
+      <div class="ia-linha" style="border:none;padding:0 0 9px">
         <span class="desc">${j.fav} vence${seloRisco(j.odd)}<small>${j.nota}</small></span>
         <span class="ov">${j.odd.toFixed(2)}</span>
       </div>
+      ${j.mercados ? `<div class="ten-mercados">
+        <div class="tm-rotulo">Mercados do jogo</div>
+        ${j.mercados.map(m => `<div class="tm-linha"><span>${m.m}${seloRisco(parseFloat(m.o))}</span><span class="tm-odd">${m.o}</span></div>`).join('')}
+      </div>` : ''}
     </div>`;
   let html = `<div class="promo-titulo">🎾 Tênis — seleção do dia</div>
     <div class="promo" style="margin-bottom:16px"><span class="tagp">${t.data}</span><b>${t.manha.length + t.tarde.length} jogos de maior confiança</b>${t.nota}</div>
