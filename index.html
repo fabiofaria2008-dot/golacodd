@@ -421,6 +421,12 @@
   .mm-selo{font-family:var(--mono);font-size:10px;color:var(--txt-dim);letter-spacing:.05em}
   .mm-selo.fim{color:#4ADE80}
   .mm-selo.hoje{color:var(--amber);font-weight:700}
+  .mm-dica{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+  .mm-dica-topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .mm-dica-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--amber);font-weight:700}
+  .mm-dica-odd{font-family:'Anton',sans-serif;font-size:16px;color:var(--amber)}
+  .mm-dica-txt{font-size:12.5px;color:var(--txt);font-weight:600;margin-bottom:6px}
+  .mm-analise{font-size:11.5px;color:var(--txt-dim);line-height:1.5}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -1306,35 +1312,23 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Terça · 30 de junho",
-  nota:"🎾 Wimbledon — dia 2! 1ª rodada (resto do chaveamento). Confrontos confirmados (ATP/Sky/ESPN). Cada jogo traz mercados extras além do vencedor.",
+  data:"Quarta · 1 de julho",
+  nota:"🎾 Wimbledon — dia 3 (2ª rodada). Confrontos confirmados (ATP/ESPN). Sinner e Sabalenka já venceram cedo; foco nos jogos que ainda vêm.",
   manha:[
-    {h:"07h00",fav:"Ben Shelton",adv:"Otto Virtanen",torneio:"Wimbledon · 1ª rodada",odd:1.30,prob:75,
-     nota:"Shelton (cabeça 4) tem saque canhoto demolidor, arma ideal na grama, contra o finlandês Virtanen. Favoritismo sólido.",
-     mercados:[{m:"Shelton vence",o:"1.30"},{m:"Shelton vence sem perder set",o:"1.70"},{m:"Mais de 1.5 sets do Shelton",o:"1.25"}]},
-    {h:"08h00",fav:"Elina Svitolina",adv:"Daria Snigur",torneio:"Wimbledon · 1ª rodada",odd:1.40,prob:70,
-     nota:"Duelo ucraniano. Svitolina (cabeça 8) é muito mais experiente e ranqueada que a compatriota Snigur. Favorita clara.",
-     mercados:[{m:"Svitolina vence",o:"1.40"},{m:"Svitolina vence sem perder set",o:"1.80"},{m:"Menos de 20.5 games",o:"1.72"}]},
-    {h:"09h00",fav:"Flavio Cobolli",adv:"Mariano Navone",torneio:"Wimbledon · 1ª rodada",odd:1.55,prob:63,
-     nota:"Cobolli (cabeça 9) é mais forte na grama que o argentino Navone, especialista no saibro. Favorito de valor.",
-     mercados:[{m:"Cobolli vence",o:"1.55"},{m:"Cobolli vence sem perder set",o:"2.30"},{m:"Mais de 35.5 games",o:"1.80"}]},
-    {h:"10h00",fav:"Linda Noskova",adv:"Ella Seidel",torneio:"Wimbledon · 1ª rodada",odd:1.45,prob:68,
-     nota:"Noskova (cabeça 9, vinha de final em Berlim) é favorita sobre a alemã Seidel. Boa fase na grama.",
-     mercados:[{m:"Noskova vence",o:"1.45"},{m:"Noskova vence sem perder set",o:"1.85"},{m:"Menos de 21.5 games",o:"1.75"}]}
+    {h:"09h00",fav:"Coco Gauff",adv:"Solana Sierra",torneio:"Wimbledon · 2ª rodada (No.1)",odd:1.30,prob:75,
+     nota:"Gauff (cabeça 7) estreou bem (6-2, 6-1) e é favorita clara sobre a argentina Sierra, que vem do qualifying.",
+     mercados:[{m:"Gauff vence",o:"1.30"},{m:"Gauff vence sem perder set",o:"1.65"},{m:"Menos de 19.5 games",o:"1.72"}]},
+    {h:"10h30",fav:"Felix Auger-Aliassime",adv:"Dino Prizmic",torneio:"Wimbledon · 2ª rodada (No.1)",odd:1.40,prob:70,
+     nota:"FAA (cabeça 3) passou fácil na estreia. Prizmic é jovem e batalhador, mas o canadense tem mais saque e experiência na grama.",
+     mercados:[{m:"Auger-Aliassime vence",o:"1.40"},{m:"FAA vence sem perder set",o:"1.85"},{m:"Mais de 1.5 sets do FAA",o:"1.30"}]}
   ],
   tarde:[
-    {h:"13h00",fav:"Taylor Fritz",adv:"Dusan Lajovic",torneio:"Wimbledon · 1ª rodada (No.1 Court)",odd:1.22,prob:78,
-     nota:"Fritz (cabeça 6, campeão de Halle) tem saque potente e vem embalado da grama, contra o veterano Lajovic. Amplo favoritismo.",
-     mercados:[{m:"Fritz vence",o:"1.22"},{m:"Fritz vence sem perder set",o:"1.55"},{m:"Fritz 3-0 em sets",o:"1.90"}]},
-    {h:"13h30",fav:"Iga Swiatek",adv:"Taylor Townsend",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.25,prob:77,
-     nota:"Swiatek (cabeça 3, campeã de 2025) busca o bi. Townsend é perigosa no saque-e-voleio, mas a polonesa é amplo favoritismo.",
-     mercados:[{m:"Swiatek vence",o:"1.25"},{m:"Swiatek vence sem perder set",o:"1.60"},{m:"Menos de 19.5 games",o:"1.70"}]},
-    {h:"13h30",fav:"Alexander Zverev",adv:"Alexander Blockx",torneio:"Wimbledon · 1ª rodada (Centre Court)",odd:1.20,prob:79,
-     nota:"Zverev (cabeça 2) é muito superior ao jovem belga Blockx. Favoritão, mas o alemão às vezes complica jogos fáceis.",
-     mercados:[{m:"Zverev vence",o:"1.20"},{m:"Zverev vence sem perder set",o:"1.55"},{m:"Mais de 1.5 sets do Zverev",o:"1.20"}]},
-    {h:"13h00",fav:"Elena Rybakina",adv:"Lois Boisson",torneio:"Wimbledon · 1ª rodada (No.1 Court)",odd:1.25,prob:77,
-     nota:"Rybakina (cabeça 2, campeã de Wimbledon 2022) domina na grama com saque pesado, contra a francesa Boisson (mais de saibro). Favorita clara.",
-     mercados:[{m:"Rybakina vence",o:"1.25"},{m:"Rybakina vence sem perder set",o:"1.50"},{m:"Menos de 19.5 games",o:"1.65"}]}
+    {h:"14h00",fav:"Mirra Andreeva",adv:"Barbora Krejcikova",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.65,prob:60,
+     nota:"Jogão! Andreeva (campeã de RG) contra Krejcikova (campeã de Wimbledon 2024). Duelo de campeãs de Slam — valor na jovem russa, mais regular na temporada.",
+     mercados:[{m:"Andreeva vence",o:"1.65"},{m:"Haver 3 sets no jogo",o:"2.30"},{m:"Mais de 20.5 games",o:"1.75"}]},
+    {h:"16h30",fav:"Novak Djokovic",adv:"Stefanos Tsitsipas",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.30,prob:74,
+     nota:"Djokovic (7x campeão) contra Tsitsipas, hoje só o 87º do mundo e em queda. O grego já foi top 5, mas o sérvio é muito favorito na grama.",
+     mercados:[{m:"Djokovic vence",o:"1.30"},{m:"Djokovic vence sem perder set",o:"1.75"},{m:"Mais de 1.5 sets do Djokovic",o:"1.28"}]}
   ]
 };
 
@@ -1381,20 +1375,20 @@ const mataMata = {
     {a:"Costa do Marfim",b:"Noruega",pa:1,pb:2,data:"30/06",status:"fim"},
     {a:"França",b:"Suécia",pa:3,pb:0,data:"30/06",status:"fim"},
     {a:"México",b:"Equador",pa:2,pb:0,data:"30/06",status:"fim"},
-    {a:"Inglaterra",b:"RD Congo",data:"01/07 13h",status:"hoje"},
-    {a:"Bélgica",b:"Senegal",data:"01/07 17h",status:"hoje"},
-    {a:"Estados Unidos",b:"Bósnia",data:"01/07 21h",status:"hoje"},
-    {a:"Espanha",b:"Áustria",data:"02/07 16h",status:"agenda"},
-    {a:"Portugal",b:"Croácia",data:"02/07 20h",status:"agenda"},
-    {a:"Suíça",b:"Argélia",data:"03/07 00h",status:"agenda"},
-    {a:"Austrália",b:"Egito",data:"03/07 15h",status:"agenda"},
-    {a:"Argentina",b:"Cabo Verde",data:"03/07 19h",status:"agenda"},
-    {a:"Colômbia",b:"Gana",data:"03/07 22h30",status:"agenda"}
+    {a:"Inglaterra",b:"RD Congo",data:"01/07 13h",status:"hoje",dica:"Inglaterra vence + menos de 2.5 gols",odd:"1.85",analise:"Inglaterra invicta com Tuchel, só 2 gols sofridos, mas a RD Congo tem defesa sólida (segurou Portugal). Jogo controlado e truncado favorece o placar baixo."},
+    {a:"Bélgica",b:"Senegal",data:"01/07 17h",status:"hoje",dica:"Ambos marcam: Sim",odd:"1.88",analise:"Jogo equilibrado e aberto: 67% dos jogos de cada seleção na Copa teve ambos marcam. Duas frentes de ataque fortes, defesas vulneráveis."},
+    {a:"Estados Unidos",b:"Bósnia",data:"01/07 21h",status:"hoje",dica:"Estados Unidos vencem (mando de casa)",odd:"1.49",analise:"Anfitrião com o apoio da torcida e melhor campanha. A Bósnia surpreendeu ao eliminar a Itália, mas os EUA são favoritos claros em Santa Clara."},
+    {a:"Espanha",b:"Áustria",data:"02/07 16h",status:"agenda",dica:"Espanha vence",odd:"1.35",analise:"Atual campeã europeia, amplo favoritismo. A Áustria de Rangnick é organizada, mas a Espanha tem qualidade técnica muito superior."},
+    {a:"Portugal",b:"Croácia",data:"02/07 20h",status:"agenda",dica:"Ambos marcam: Sim",odd:"1.80",analise:"CR7 em alta (2 gols no último jogo) e a Croácia sempre marca. Duas seleções ofensivas num jogo que promete gols dos dois lados."},
+    {a:"Suíça",b:"Argélia",data:"03/07 00h",status:"agenda",dica:"Suíça vence ou empate (dupla chance)",odd:"1.40",analise:"A Suíça cresceu muito (bateu Bósnia 4×1 e Canadá 2×1). A Argélia se classificou no sufoco. Favoritismo suíço com valor na dupla chance."},
+    {a:"Austrália",b:"Egito",data:"03/07 15h",status:"agenda",dica:"Menos de 2.5 gols",odd:"1.70",analise:"Dois times defensivos e de baixa média de gols. Mata-mata tende a ser truncado — placar baixo é a leitura mais consistente."},
+    {a:"Argentina",b:"Cabo Verde",data:"03/07 19h",status:"agenda",dica:"Argentina vence",odd:"1.30",analise:"Campeã do mundo contra a estreante Cabo Verde. Messi e cia. amplo favoritismo; a diferença técnica é enorme."},
+    {a:"Colômbia",b:"Gana",data:"03/07 22h30",status:"agenda",dica:"Colômbia vence",odd:"1.65",analise:"Colômbia venceu o Grupo K invicta e tem mais qualidade individual. Gana passou como um dos terceiros, mas oscila muito na defesa."}
   ]},
   "oitavas":{titulo:"Oitavas de final",nota:"16 seleções. O Brasil ★ pega a Noruega no domingo.",jogos:[
     {a:"Canadá",b:"Marrocos",data:"04/07 14h",status:"agenda"},
     {a:"Paraguai",b:"França",data:"04/07 18h",status:"agenda"},
-    {a:"Brasil",b:"Noruega",data:"05/07 17h",status:"agenda",destaque:true},
+    {a:"Brasil",b:"Noruega",data:"05/07 17h",status:"agenda",destaque:true,dica:"Brasil vence",odd:"1.75",analise:"Brasil invicto e em 1º do grupo, mas atenção: Haaland está em modo Copa (4 gols no torneio). Jogo mais difícil que parece — a Noruega tem o melhor atacante do mundo em fase. Vini e Cunha decidem pelo lado brasileiro."},
     {a:"Méx/Equador",b:"Ing/RD Congo",data:"05/07 21h",status:"agenda"},
     {a:"Esp/Áustria",b:"Por/Croácia",data:"06/07 16h",status:"agenda"},
     {a:"EUA/Bósnia",b:"Bél/Senegal",data:"06/07 21h",status:"agenda"},
@@ -1441,7 +1435,12 @@ function renderMataMata(){
       </div>`;
     }
     const selo = j.status==='fim' ? '<span class="mm-selo fim">encerrado</span>' : j.status==='hoje' ? '<span class="mm-selo hoje">hoje</span>' : `<span class="mm-selo">${j.data}</span>`;
-    return `<div class="${cls}">${j.destaque?'<span class="mm-br">🇧🇷 BRASIL</span>':''}${placar}<div class="mm-rodape">${selo}</div></div>`;
+    const dicaHTML = j.dica ? `<div class="mm-dica">
+      <div class="mm-dica-topo"><span class="mm-dica-tag">💡 Dica</span><span class="mm-dica-odd">${j.odd}</span></div>
+      <div class="mm-dica-txt">${j.dica}${seloRisco(parseFloat(j.odd))}</div>
+      <div class="mm-analise">${j.analise}</div>
+    </div>` : '';
+    return `<div class="${cls}">${j.destaque?'<span class="mm-br">🇧🇷 BRASIL</span>':''}${placar}<div class="mm-rodape">${selo}</div>${dicaHTML}</div>`;
   };
   sec.innerHTML = `<div class="promo-titulo">Mata-mata da Copa</div>
     ${navHTML}
@@ -1587,9 +1586,14 @@ const historico = [
   {esporte:"tenis",data:"29/06 13h30",dh:2913.5,jogo:"Sinner × Kecmanovic",ind:"Sinner vence",odd:1.15,res:"g",obs:"Venceu em 5 sets (4-6,6-3,6-7,6-2,6-3) com susto e corte no pé — mas avançou"},
   {esporte:"tenis",data:"29/06 10h",dh:2910,jogo:"Andreeva × Linette",ind:"Andreeva vence",odd:1.45,res:"g",obs:"7-5, 6-4 — Andreeva confirmou favoritismo"},
   // ----- Mata-mata terça 30/06 (16-avos) -----
-  {data:"30/06 14h",dh:3014,jogo:"Costa do Marfim × Noruega",ind:"Noruega vence ou empate (dupla chance)",odd:1.45,res:"p",obs:""},
-  {data:"30/06 14h",dh:3014,jogo:"Costa do Marfim × Noruega",ind:"Haaland marca a qualquer momento",odd:2.00,res:"p",obs:""},
-  {data:"30/06 22h",dh:3022,jogo:"México × Equador",ind:"Menos de 2.5 gols",odd:1.70,res:"p",obs:""}
+  {data:"30/06 14h",dh:3014,jogo:"Costa do Marfim × Noruega",ind:"Noruega vence ou empate (dupla chance)",odd:1.45,res:"g",obs:"Noruega 2×1 — venceu com gol decisivo de Haaland"},
+  {data:"30/06 14h",dh:3014,jogo:"Costa do Marfim × Noruega",ind:"Haaland marca a qualquer momento",odd:2.00,res:"g",obs:"Haaland marcou o gol da vitória — segue em modo Copa"},
+  {data:"30/06 22h",dh:3022,jogo:"México × Equador",ind:"Menos de 2.5 gols",odd:1.70,res:"g",obs:"2×0 — 2 gols no jogo, tendência confirmada"},
+  // ----- Mata-mata quarta 01/07 + tênis -----
+  {data:"01/07 13h",dh:3113,jogo:"Inglaterra × RD Congo",ind:"Inglaterra vence + menos de 2.5 gols",odd:1.85,res:"p",obs:""},
+  {data:"01/07 17h",dh:3117,jogo:"Bélgica × Senegal",ind:"Ambos marcam: Sim",odd:1.88,res:"p",obs:""},
+  {data:"01/07 21h",dh:3121,jogo:"Estados Unidos × Bósnia",ind:"Estados Unidos vencem",odd:1.49,res:"p",obs:""},
+  {esporte:"tenis",data:"01/07 16h30",dh:3116.5,jogo:"Djokovic × Tsitsipas",ind:"Djokovic vence",odd:1.30,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
