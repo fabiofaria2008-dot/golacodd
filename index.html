@@ -397,6 +397,30 @@
   .tm-linha{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--txt);padding:5px 0}
   .tm-linha + .tm-linha{border-top:1px solid rgba(255,255,255,.04)}
   .tm-odd{font-family:var(--mono);font-weight:700;color:var(--amber)}
+  /* ============ Mata-mata (chaveamento) ============ */
+  .mm-nav{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+  .mm-tab{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--txt-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;transition:all .12s}
+  .mm-tab:hover{color:var(--txt);border-color:var(--amber)}
+  .mm-tab.ativa{background:var(--amber);border-color:var(--amber);color:var(--bg)}
+  .mm-cabec{display:flex;flex-direction:column;gap:3px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .mm-cabec b{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;text-transform:uppercase;color:var(--amber)}
+  .mm-cabec span{font-size:12px;color:var(--txt-dim)}
+  .mm-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+  .mm-jogo{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 14px;position:relative}
+  .mm-jogo.destaque{border-color:var(--amber);background:linear-gradient(135deg,rgba(240,169,46,.08),var(--panel))}
+  .mm-br{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--amber);margin-bottom:7px;font-weight:700}
+  .mm-placar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .mm-time{font-size:13px;color:var(--txt);flex:1;font-weight:500}
+  .mm-time:last-child{text-align:right}
+  .mm-time.venceu{color:#4ADE80;font-weight:700}
+  .mm-score{font-family:'Anton',sans-serif;font-size:20px;color:var(--txt);display:flex;flex-direction:column;align-items:center;line-height:1;min-width:52px}
+  .mm-score .mm-x{font-size:11px;color:var(--txt-dim);margin:0 4px}
+  .mm-score.futuro{font-size:14px;color:var(--txt-dim)}
+  .mm-pen{font-family:'Inter',sans-serif;font-size:9px;color:var(--amber);margin-top:3px;font-weight:600}
+  .mm-rodape{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);text-align:center}
+  .mm-selo{font-family:var(--mono);font-size:10px;color:var(--txt-dim);letter-spacing:.05em}
+  .mm-selo.fim{color:#4ADE80}
+  .mm-selo.hoje{color:var(--amber);font-weight:700}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -533,11 +557,13 @@
       <button class="subtab ativa" data-sub="r1">1ª Rodada</button>
       <button class="subtab" data-sub="r2">2ª Rodada</button>
       <button class="subtab" data-sub="r3">3ª Rodada</button>
+      <button class="subtab" data-sub="matamata">Mata-mata</button>
       <button class="subtab" data-sub="grupos">Grupos</button>
     </nav>
     <div id="r1" class="subpainel ativa"></div>
     <div id="r2" class="subpainel"></div>
     <div id="r3" class="subpainel"></div>
+    <div id="matamata" class="subpainel"></div>
     <div id="grupos" class="subpainel">
     <div class="promo-titulo">Os 12 grupos</div>
     <div class="grade-grupos">
@@ -1344,6 +1370,86 @@ function renderTenis(){
   sec.innerHTML = html;
 }
 renderTenis();
+
+// ---------- Mata-mata da Copa (chaveamento) ----------
+const mataMata = {
+  "16avos":{titulo:"16-avos de final",nota:"32 seleções · jogo único. Fase inédita na Copa de 48 seleções.",jogos:[
+    {a:"África do Sul",b:"Canadá",pa:0,pb:1,data:"28/06",status:"fim"},
+    {a:"Brasil",b:"Japão",pa:2,pb:1,data:"29/06",status:"fim",destaque:true},
+    {a:"Alemanha",b:"Paraguai",pa:1,pb:1,pen:"3-4",data:"29/06",status:"fim"},
+    {a:"Holanda",b:"Marrocos",pa:1,pb:1,pen:"2-3",data:"29/06",status:"fim"},
+    {a:"Costa do Marfim",b:"Noruega",pa:1,pb:2,data:"30/06",status:"fim"},
+    {a:"França",b:"Suécia",pa:3,pb:0,data:"30/06",status:"fim"},
+    {a:"México",b:"Equador",pa:2,pb:0,data:"30/06",status:"fim"},
+    {a:"Inglaterra",b:"RD Congo",data:"01/07 13h",status:"hoje"},
+    {a:"Bélgica",b:"Senegal",data:"01/07 17h",status:"hoje"},
+    {a:"Estados Unidos",b:"Bósnia",data:"01/07 21h",status:"hoje"},
+    {a:"Espanha",b:"Áustria",data:"02/07 16h",status:"agenda"},
+    {a:"Portugal",b:"Croácia",data:"02/07 20h",status:"agenda"},
+    {a:"Suíça",b:"Argélia",data:"03/07 00h",status:"agenda"},
+    {a:"Austrália",b:"Egito",data:"03/07 15h",status:"agenda"},
+    {a:"Argentina",b:"Cabo Verde",data:"03/07 19h",status:"agenda"},
+    {a:"Colômbia",b:"Gana",data:"03/07 22h30",status:"agenda"}
+  ]},
+  "oitavas":{titulo:"Oitavas de final",nota:"16 seleções. O Brasil ★ pega a Noruega no domingo.",jogos:[
+    {a:"Canadá",b:"Marrocos",data:"04/07 14h",status:"agenda"},
+    {a:"Paraguai",b:"França",data:"04/07 18h",status:"agenda"},
+    {a:"Brasil",b:"Noruega",data:"05/07 17h",status:"agenda",destaque:true},
+    {a:"Méx/Equador",b:"Ing/RD Congo",data:"05/07 21h",status:"agenda"},
+    {a:"Esp/Áustria",b:"Por/Croácia",data:"06/07 16h",status:"agenda"},
+    {a:"EUA/Bósnia",b:"Bél/Senegal",data:"06/07 21h",status:"agenda"},
+    {a:"Arg/Cabo Verde",b:"Aus/Egito",data:"07/07 13h",status:"agenda"},
+    {a:"Suí/Argélia",b:"Col/Gana",data:"07/07 17h",status:"agenda"}
+  ]},
+  "quartas":{titulo:"Quartas de final",nota:"8 seleções. Definidas conforme o mata-mata avança.",jogos:[
+    {a:"A definir",b:"A definir",data:"09/07",status:"agenda"},
+    {a:"A definir",b:"A definir",data:"09/07",status:"agenda"},
+    {a:"A definir",b:"A definir",data:"10/07",status:"agenda"},
+    {a:"A definir",b:"A definir",data:"10/07",status:"agenda"}
+  ]},
+  "semis":{titulo:"Semifinais",nota:"As 4 melhores seleções do mundo.",jogos:[
+    {a:"A definir",b:"A definir",data:"14/07",status:"agenda"},
+    {a:"A definir",b:"A definir",data:"15/07",status:"agenda"}
+  ]},
+  "final":{titulo:"Final",nota:"19 de julho · MetLife Stadium, Nova Jersey.",jogos:[
+    {a:"A definir",b:"A definir",data:"19/07 16h",status:"agenda"}
+  ]}
+};
+
+let faseMata = '16avos';
+function renderMataMata(){
+  const sec = document.getElementById('matamata');
+  const ordem = ['16avos','oitavas','quartas','semis','final'];
+  const nomes = {'16avos':'16-avos','oitavas':'Oitavas','quartas':'Quartas','semis':'Semis','final':'Final'};
+  const navHTML = `<div class="mm-nav">${ordem.map(f => `<button class="mm-tab ${faseMata===f?'ativa':''}" data-fase="${f}">${nomes[f]}</button>`).join('')}</div>`;
+  const fase = mataMata[faseMata];
+  const jogoHTML = j => {
+    const cls = j.destaque ? 'mm-jogo destaque' : 'mm-jogo';
+    let placar;
+    if(j.status === 'fim'){
+      const va = j.pa > j.pb, vb = j.pb > j.pa;
+      placar = `<div class="mm-placar">
+        <span class="mm-time ${va?'venceu':''}">${j.a}</span>
+        <span class="mm-score">${j.pa}<span class="mm-x">×</span>${j.pb}${j.pen?`<span class="mm-pen">(${j.pen} pên)</span>`:''}</span>
+        <span class="mm-time ${vb?'venceu':''}">${j.b}</span>
+      </div>`;
+    } else {
+      placar = `<div class="mm-placar">
+        <span class="mm-time">${j.a}</span>
+        <span class="mm-score futuro">×</span>
+        <span class="mm-time">${j.b}</span>
+      </div>`;
+    }
+    const selo = j.status==='fim' ? '<span class="mm-selo fim">encerrado</span>' : j.status==='hoje' ? '<span class="mm-selo hoje">hoje</span>' : `<span class="mm-selo">${j.data}</span>`;
+    return `<div class="${cls}">${j.destaque?'<span class="mm-br">🇧🇷 BRASIL</span>':''}${placar}<div class="mm-rodape">${selo}</div></div>`;
+  };
+  sec.innerHTML = `<div class="promo-titulo">Mata-mata da Copa</div>
+    ${navHTML}
+    <div class="mm-cabec"><b>${fase.titulo}</b><span>${fase.nota}</span></div>
+    <div class="mm-lista">${fase.jogos.map(jogoHTML).join('')}</div>`;
+  sec.querySelectorAll('.mm-tab').forEach(b => b.addEventListener('click', () => { faseMata = b.dataset.fase; renderMataMata(); }));
+}
+renderMataMata();
 
 function renderNBA(){
   const sec = document.getElementById('nba');
