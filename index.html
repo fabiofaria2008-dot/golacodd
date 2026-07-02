@@ -397,6 +397,9 @@
   .tm-linha{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--txt);padding:5px 0}
   .tm-linha + .tm-linha{border-top:1px solid rgba(255,255,255,.04)}
   .tm-odd{font-family:var(--mono);font-weight:700;color:var(--amber)}
+  .rankchip{font-family:var(--mono);font-size:10px;color:var(--bg);background:linear-gradient(135deg,#9FB0C0,#7A8A9A);border-radius:5px;padding:2px 7px;font-weight:700;letter-spacing:.03em}
+  .pbar{height:5px;background:var(--bg);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+  .pbar-fill{height:100%;background:linear-gradient(90deg,var(--amber),#4ADE80);border-radius:99px}
   /* ============ Mata-mata (chaveamento) ============ */
   .mm-nav{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
   .mm-tab{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--txt-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;transition:all .12s}
@@ -425,8 +428,8 @@
   .mm-dica-topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .mm-dica-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--amber);font-weight:700}
   .mm-dica-odd{font-family:'Anton',sans-serif;font-size:16px;color:var(--amber)}
-  .mm-dica-txt{font-size:12.5px;color:var(--txt);font-weight:600;margin-bottom:6px}
-  .mm-analise{font-size:11.5px;color:var(--txt-dim);line-height:1.5}
+  .mm-dica-txt{font-size:13px;color:var(--txt);font-weight:600;margin-bottom:6px}
+  .mm-analise{font-size:12px;color:var(--txt-dim);line-height:1.6}
   .extras{
     background:var(--bg);border-bottom:1px solid var(--line);
     padding:11px 16px 13px;display:grid;gap:9px;
@@ -1312,23 +1315,41 @@ function nbaRestantes(){
 }
 // ---------- Tênis: seleção curada do dia (melhor valor) ----------
 const tenisData = {
-  data:"Quarta · 1 de julho",
-  nota:"🎾 Wimbledon — dia 3 (2ª rodada). Confrontos confirmados (ATP/ESPN). Sinner e Sabalenka já venceram cedo; foco nos jogos que ainda vêm.",
+  data:"Quinta · 2 de julho",
+  nota:"🎾 Wimbledon — 2ª rodada (dia 4). 10 seleções na faixa de odd 1.30–1.80: cabeças de chave contra adversários de ranking bem inferior — o cenário de favoritismo mais confiável do tênis. Grade oficial confirmada (Wimbledon/ESPN).",
   manha:[
-    {h:"09h00",fav:"Coco Gauff",adv:"Solana Sierra",torneio:"Wimbledon · 2ª rodada (No.1)",odd:1.30,prob:75,
-     nota:"Gauff (cabeça 7) estreou bem (6-2, 6-1) e é favorita clara sobre a argentina Sierra, que vem do qualifying.",
-     mercados:[{m:"Gauff vence",o:"1.30"},{m:"Gauff vence sem perder set",o:"1.65"},{m:"Menos de 19.5 games",o:"1.72"}]},
-    {h:"10h30",fav:"Felix Auger-Aliassime",adv:"Dino Prizmic",torneio:"Wimbledon · 2ª rodada (No.1)",odd:1.40,prob:70,
-     nota:"FAA (cabeça 3) passou fácil na estreia. Prizmic é jovem e batalhador, mas o canadense tem mais saque e experiência na grama.",
-     mercados:[{m:"Auger-Aliassime vence",o:"1.40"},{m:"FAA vence sem perder set",o:"1.85"},{m:"Mais de 1.5 sets do FAA",o:"1.30"}]}
+    {h:"07h00",fav:"Frances Tiafoe",adv:"Jan Choinski",rank:"Nº 17 × Nº 202",torneio:"Wimbledon · 2ª rodada",odd:1.30,prob:75,
+     nota:"Tiafoe (cabeça 17, campeão de Halle na grama há 10 dias) pega o wildcard britânico Choinski, fora do top 200. Diferença técnica enorme e momento excelente do americano.",
+     mercados:[{m:"Tiafoe vence",o:"1.30"},{m:"Tiafoe vence sem perder set",o:"1.75"},{m:"Mais de 1.5 sets do Tiafoe",o:"1.25"}]},
+    {h:"07h00",fav:"Alex de Minaur",adv:"Adrian Mannarino",rank:"Nº 8 × Nº 85",torneio:"Wimbledon · 2ª rodada",odd:1.38,prob:71,
+     nota:"De Minaur (cabeça 5) é muito superior no ranking, mas atenção: o canhoto Mannarino é especialista em grama e o australiano já nos deu zebra em Queen's. Favoritismo real, com respeito ao rival.",
+     mercados:[{m:"De Minaur vence",o:"1.38"},{m:"Haver tie-break no jogo",o:"1.85"},{m:"Mais de 1.5 sets do De Minaur",o:"1.28"}]},
+    {h:"08h30",fav:"Flavio Cobolli",adv:"James Duckworth",rank:"Nº 11 × Nº 130",torneio:"Wimbledon · 2ª rodada",odd:1.45,prob:68,
+     nota:"Cobolli (cabeça 9) sobreviveu a um jogo duro na estreia e pega o veterano australiano Duckworth, fora do top 100. Favorito claro pela diferença de repertório.",
+     mercados:[{m:"Cobolli vence",o:"1.45"},{m:"Cobolli vence sem perder set",o:"2.10"},{m:"Menos de 39.5 games",o:"1.70"}]},
+    {h:"08h30",fav:"Amanda Anisimova",adv:"Sofia Kenin",rank:"Nº 7 × Nº 42",torneio:"Wimbledon · 2ª rodada",odd:1.50,prob:66,
+     nota:"Anisimova (cabeça 6, finalista aqui em 2025) contra a ex-campeã de Slam Kenin, hoje irregular. Potência da linha de base decide — favoritismo de valor.",
+     mercados:[{m:"Anisimova vence",o:"1.50"},{m:"Anisimova vence sem perder set",o:"2.05"},{m:"Mais de 20.5 games",o:"1.75"}]},
+    {h:"09h00",fav:"Madison Keys",adv:"Katie Swan",rank:"Nº 9 × Nº 110",torneio:"Wimbledon · 2ª rodada (No.1)",odd:1.32,prob:74,
+     nota:"Keys (top 10, potência ideal pra grama) contra Katie Swan, a última britânica na chave e fora do top 100. A pressão da casa pesa mais na Swan que na americana.",
+     mercados:[{m:"Keys vence",o:"1.32"},{m:"Keys vence sem perder set",o:"1.72"},{m:"Menos de 21.5 games",o:"1.68"}]}
   ],
   tarde:[
-    {h:"14h00",fav:"Mirra Andreeva",adv:"Barbora Krejcikova",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.65,prob:60,
-     nota:"Jogão! Andreeva (campeã de RG) contra Krejcikova (campeã de Wimbledon 2024). Duelo de campeãs de Slam — valor na jovem russa, mais regular na temporada.",
-     mercados:[{m:"Andreeva vence",o:"1.65"},{m:"Haver 3 sets no jogo",o:"2.30"},{m:"Mais de 20.5 games",o:"1.75"}]},
-    {h:"16h30",fav:"Novak Djokovic",adv:"Stefanos Tsitsipas",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.30,prob:74,
-     nota:"Djokovic (7x campeão) contra Tsitsipas, hoje só o 87º do mundo e em queda. O grego já foi top 5, mas o sérvio é muito favorito na grama.",
-     mercados:[{m:"Djokovic vence",o:"1.30"},{m:"Djokovic vence sem perder set",o:"1.75"},{m:"Mais de 1.5 sets do Djokovic",o:"1.28"}]}
+    {h:"09h30",fav:"Iga Swiatek",adv:"Karolina Pliskova",rank:"Nº 3 × Nº 61",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.30,prob:74,
+     nota:"A atual campeã abre o Centre Court contra a ex-finalista Pliskova, que vive boa fase na grama (semi em Nottingham). Duelo de gerações — Swiatek favorita, mas jogo de respeito.",
+     mercados:[{m:"Swiatek vence",o:"1.30"},{m:"Swiatek vence sem perder set",o:"1.68"},{m:"Menos de 20.5 games",o:"1.75"}]},
+    {h:"10h00",fav:"Jasmine Paolini",adv:"Viktorija Golubic",rank:"Nº 12 × Nº 70",torneio:"Wimbledon · 2ª rodada",odd:1.40,prob:70,
+     nota:"Paolini (cabeça 13, finalista de Wimbledon 2024) contra a suíça Golubic. A italiana tem mais velocidade e regularidade — favoritismo sólido na faixa de valor.",
+     mercados:[{m:"Paolini vence",o:"1.40"},{m:"Paolini vence sem perder set",o:"1.90"},{m:"Menos de 21.5 games",o:"1.72"}]},
+    {h:"10h30",fav:"Karen Khachanov",adv:"Yannick Hanfmann",rank:"Nº 19 × Nº 95",torneio:"Wimbledon · 2ª rodada",odd:1.50,prob:66,
+     nota:"Khachanov (cabeça 19) é mais sólido e ranqueado que o alemão Hanfmann, que prefere o saibro. Jogo de desgaste favorece o russo.",
+     mercados:[{m:"Khachanov vence",o:"1.50"},{m:"Khachanov vence sem perder set",o:"2.15"},{m:"Mais de 38.5 games",o:"1.80"}]},
+    {h:"11h00",fav:"Elise Mertens",adv:"Maria Timofeeva",rank:"Nº 24 × Nº 120",torneio:"Wimbledon · 2ª rodada",odd:1.42,prob:69,
+     nota:"Mertens (cabeça 25) é uma das jogadoras mais regulares do circuito e enfrenta Timofeeva, fora do top 100. Consistência belga contra irregularidade — favoritismo confiável.",
+     mercados:[{m:"Mertens vence",o:"1.42"},{m:"Mertens vence sem perder set",o:"1.88"},{m:"Menos de 21.5 games",o:"1.70"}]},
+    {h:"14h30",fav:"Elena Rybakina",adv:"Caty McNally",rank:"Nº 2 × Nº 105",torneio:"Wimbledon · 2ª rodada (Centre)",odd:1.55,prob:64,
+     nota:"Rybakina (campeã de 2022) fecha o Centre contra McNally. A seca dela paga só 1.18 — a indicação aqui é o mercado 'sem perder set' (1.55), que se apoia no saque devastador da cazaque na grama.",
+     mercados:[{m:"Rybakina vence sem perder set",o:"1.55"},{m:"Rybakina vence",o:"1.18"},{m:"Menos de 20.5 games",o:"1.65"}]}
   ]
 };
 
@@ -1337,7 +1358,7 @@ function renderTenis(){
   const t = tenisData;
   const jogoHTML = j => `<div class="jogo">
       <div class="info">
-        <div class="meta"><span>${j.h}</span><span class="g">${j.torneio}</span></div>
+        <div class="meta"><span>${j.h}</span><span class="g">${j.torneio}</span>${j.rank ? `<span class="rankchip">${j.rank}</span>` : ''}</div>
         <div class="times"><span>${j.fav} <span class="estrela">★</span></span><span>${j.adv}</span></div>
       </div>
       <div class="favchip">
@@ -1347,7 +1368,8 @@ function renderTenis(){
       </div>
     </div>
     <div class="bloco" style="margin:-8px 0 14px;padding:13px 16px">
-      <div class="ia-linha" style="border:none;padding:0 0 9px">
+      <div class="pbar" title="Probabilidade estimada: ${j.prob}%"><div class="pbar-fill" style="width:${j.prob}%"></div></div>
+      <div class="ia-linha" style="border:none;padding:8px 0 9px">
         <span class="desc">${j.fav} vence${seloRisco(j.odd)}<small>${j.nota}</small></span>
         <span class="ov">${j.odd.toFixed(2)}</span>
       </div>
@@ -1593,7 +1615,11 @@ const historico = [
   {data:"01/07 13h",dh:3113,jogo:"Inglaterra × RD Congo",ind:"Inglaterra vence + menos de 2.5 gols",odd:1.85,res:"p",obs:""},
   {data:"01/07 17h",dh:3117,jogo:"Bélgica × Senegal",ind:"Ambos marcam: Sim",odd:1.88,res:"p",obs:""},
   {data:"01/07 21h",dh:3121,jogo:"Estados Unidos × Bósnia",ind:"Estados Unidos vencem",odd:1.49,res:"p",obs:""},
-  {esporte:"tenis",data:"01/07 16h30",dh:3116.5,jogo:"Djokovic × Tsitsipas",ind:"Djokovic vence",odd:1.30,res:"p",obs:""}
+  {esporte:"tenis",data:"01/07 16h30",dh:3116.5,jogo:"Djokovic × Tsitsipas",ind:"Djokovic vence",odd:1.30,res:"p",obs:""},
+  // ----- Tênis quinta 02/07 (Wimbledon 2ª rodada) -----
+  {esporte:"tenis",data:"02/07 07h",dh:3207,jogo:"Tiafoe × Choinski",ind:"Tiafoe vence",odd:1.30,res:"p",obs:""},
+  {esporte:"tenis",data:"02/07 09h",dh:3209,jogo:"Keys × Swan",ind:"Keys vence",odd:1.32,res:"p",obs:""},
+  {esporte:"tenis",data:"02/07 09h30",dh:3209.5,jogo:"Swiatek × Pliskova",ind:"Swiatek vence",odd:1.30,res:"p",obs:""}
 ].sort((a,b) => a.dh - b.dh);
 
 let filtroEsporte = 'todos';
